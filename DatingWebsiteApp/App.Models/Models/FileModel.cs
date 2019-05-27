@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace App.Models
+{
+    public class FileModel
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Path { get; set; }
+
+        public int? PhotoAlbumId { get; set; }
+
+        public int? MessageId { get; set; }
+
+        public virtual PhotoAlbum PhotoAlbum { get; set; }
+
+        public virtual ChatMessage Message { get; set; }
+    }
+}
