@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace App.Models
@@ -12,11 +13,15 @@ namespace App.Models
 
         public DateTime DateSend { get; set; }
 
-        public string UserId { get; set; }
+        [ForeignKey("UserSender")]
+        public string UserSenderId { get; set; }
 
+        [ForeignKey("Chat")]
         public int ChatId { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        public bool IsReaded { get; set; }
+
+        public virtual ApplicationUser UserSender { get; set; }
 
         public virtual Chat Chat { get; set; }
 

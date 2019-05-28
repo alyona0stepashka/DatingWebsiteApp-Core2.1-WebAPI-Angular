@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace App.Models
@@ -8,22 +9,41 @@ namespace App.Models
     {
         public int Id { get; set; }
 
-        public string FamilyStatus { get; set; }  //???
+        [ForeignKey("FamilyStatus")]
+        public int FamilyStatusId { get; set; }  
 
         public double Growth { get; set; }
 
         public double Weight { get; set; }
 
-        public string Education { get; set; }  //???
+        [ForeignKey("Education")]
+        public int EducationId { get; set; }
 
-        public string Nationality { get; set; }  //???
+        [ForeignKey("Nationality")]
+        public int NationalityId { get; set; }
 
-        public string Zodiac { get; set; }  //???
+        [ForeignKey("Zodiac")]
+        public int ZodiacId { get; set; }
 
-        public string Languages { get; set; }  //???
+        [ForeignKey("FinanceStatus")]
+        public int FinanceStatusId { get; set; }  
 
-        public string BadHabits { get; set; }  //???
+        public virtual ApplicationUser User { get; set; }
 
-        public string FinanceStatus { get; set; }  //???
+        public virtual FinanceStatus FinanceStatus { get; set; }
+
+        public virtual FamilyStatus FamilyStatus { get; set; }
+
+        public virtual Education Education { get; set; }
+
+        public virtual Nationality Nationality { get; set; }
+
+        public virtual Zodiac Zodiac { get; set; }
+
+        public virtual List<LanguageUser> Languages { get; set; }
+
+        public virtual List<BadHabitUser> BadHabits { get; set; }
+
+        public virtual List<InterestUser> Interests { get; set; }
     }
 }

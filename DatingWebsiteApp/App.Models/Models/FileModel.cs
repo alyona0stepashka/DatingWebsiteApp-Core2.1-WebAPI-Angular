@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace App.Models
@@ -12,8 +13,10 @@ namespace App.Models
 
         public string Path { get; set; }
 
+        [ForeignKey("PhotoAlbum")]
         public int? PhotoAlbumId { get; set; }
 
+        [ForeignKey("Message")]
         public int? MessageId { get; set; }
 
         public virtual PhotoAlbum PhotoAlbum { get; set; }

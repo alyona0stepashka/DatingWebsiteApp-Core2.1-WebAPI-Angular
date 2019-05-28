@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace App.Models
@@ -11,30 +12,35 @@ namespace App.Models
 
         public DateTime DateBirth { get; set; }
 
-        public string Sex { get; set; }  //???
+        [ForeignKey("Sex")]
+        public int SexId { get; set; }  
 
-        public string MainGoal { get; set; }  //???
-
-        public string Interests { get; set; } //??? like string or table fk
+        public string MainGoal { get; set; }  
 
         public bool IsAnonimus { get; set; }
 
         public int ProfileViewsForMonth { get; set; }
 
-        public double ReplyRate { get; set; }
+        public int IncomingFirstMessageCount { get; set; }
 
+        public int OutgoingFirstMessageCount { get; set; }
+
+        [ForeignKey("Type")]
         public int TypeId { get; set; }
 
+        [ForeignKey("File")]
         public int FileId { get; set; }
+
+        public virtual Sex Sex { get; set; } 
 
         public virtual PersonalType Type { get; set; }
 
         public virtual FileModel File { get; set; }
 
-        public List<Friendship> Friendships { get; set; }
+        public virtual List<Friendship> Friendships { get; set; }
 
-        public List<ChatMessage> ChatMessages { get; set; }
+        public virtual List<ChatMessage> ChatMessages { get; set; }
 
-        public List<Chat> Chats { get; set; }
+        public virtual List<Chat> Chats { get; set; }
     }
 }

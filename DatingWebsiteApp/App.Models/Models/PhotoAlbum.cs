@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace App.Models
@@ -12,6 +13,7 @@ namespace App.Models
 
         public string Description { get; set; }
 
+        [ForeignKey("User")]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
