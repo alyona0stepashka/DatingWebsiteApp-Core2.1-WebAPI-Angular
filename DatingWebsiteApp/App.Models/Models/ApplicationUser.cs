@@ -30,5 +30,11 @@ namespace App.Models
         public virtual PersonalType Type { get; set; }
 
         public virtual FileModel File { get; set; }
+
+        public List<Friendship> Friendships { get; set; }
+
+        public List<ChatMessage> ChatMessages { get; set; }
+
+        public List<Chat> Chats { get; set; }
     }
 }
