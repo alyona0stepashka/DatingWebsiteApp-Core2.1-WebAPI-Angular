@@ -33,5 +33,10 @@ namespace App.BLL.ViewModels
         public double Growth { get; set; }
 
         public double Weight { get; set; }
+
+        public UserInfoEditVM()
+        {
+
+        }
     }
 }

@@ -5,11 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.BLL.Interfaces;
+using App.BLL.Models;
+using App.BLL.Services;
 using App.DAL.Data;
 using App.DAL.Interfaces;
 using App.DAL.Repositories;
-using App.Models;
-using DatingWebsiteApp.Models;
+using App.Models; 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +45,7 @@ namespace DatingWebsiteApp
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>() 
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -53,21 +55,9 @@ namespace DatingWebsiteApp
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
-            }
-            );
+            });
 
-            //var mappingConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new AutoMapperProfile());
-            //});
-            //IMapper mapper = mappingConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
-            services.AddMvc(options =>
-            {
-                //options.Filters.Add(typeof(LogActionFilter));
-                //options.Filters.Add(typeof(LogErrorFilter));
-            }).AddJsonOptions(options =>
+            services.AddMvc().AddJsonOptions(options =>
             {
                 var resolver = options.SerializerSettings.ContractResolver;
                 if (resolver != null)
@@ -89,7 +79,8 @@ namespace DatingWebsiteApp
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => {
+            }).AddJwtBearer(x =>
+            {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
                 x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -100,31 +91,26 @@ namespace DatingWebsiteApp
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
                 };
+            }).AddGoogle("Google", options =>
+            {
+                options.CallbackPath = new PathString("/google-callback");
+                options.ClientId = "405558759348-k906i53f8256bh7qf1ikneve7280s25i.apps.googleusercontent.com";
+                options.ClientSecret = "XqziAwV3i4Hms5k06T00165c";
             });
 
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-            //services.AddScoped<IEmailService, EmailService>();
-            //services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<IProductService, ProductService>();
-            //services.AddScoped<IAccountService, AccountService>();
-            //services.AddScoped<IAdminService, AdminService>();
-            //services.AddScoped<ISessionHelper, SessionHelper>();
-            //services.AddScoped<IOrderService, OrderService>();
-            //services.AddScoped<ICartService, CartService>();
-            //services.AddScoped<IOrderProductService, OrderProductService>();
-            //services.AddScoped<IFileService, FileService>();
-
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "WebAppTest", Description = "Swagger API" });
             });
         }
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env/*, ILoggerFactory loggerFactory*/)
-        {
-            // var connection = Configuration.GetConnectionString("DefaultConnection");
-            //loggerFactory.AddContext(LogLevel.Information, connection);
-
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        { 
             app.Use(async (ctx, next) =>
             {
                 await next();
@@ -202,8 +188,7 @@ namespace DatingWebsiteApp
                     await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "index.html"));
                     //context.Request.Path = "/index.html";
                 }
-            });
-            //CreateUserRoles(services).Wait();
+            }); 
         }
     }
 }

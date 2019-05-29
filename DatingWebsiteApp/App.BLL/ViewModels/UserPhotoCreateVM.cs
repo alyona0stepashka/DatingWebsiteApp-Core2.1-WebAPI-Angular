@@ -9,6 +9,11 @@ namespace App.BLL.ViewModels
     {
         public string Id { get; set; }
 
-        public IFormFile UploadPhoto { get; set; } 
+        public IFormFile UploadPhoto { get; set; }
+
+        public UserPhotoCreateVM()
+        {
+                
+        }
     }
 }

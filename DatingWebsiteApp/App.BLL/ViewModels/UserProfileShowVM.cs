@@ -82,5 +82,9 @@ namespace App.BLL.ViewModels
                 views = views.Value;
             }
         }
+        public UserProfileShowVM()
+        {
+
+        }
     }
 }

@@ -1,11 +1,20 @@
-﻿using App.BLL.Interfaces;
+﻿using App.BLL.Infrastructure;
+using App.BLL.Interfaces;
+using App.BLL.Models;
+using App.BLL.ViewModels;
 using App.DAL.Interfaces;
 using App.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Linq;
 
 namespace App.BLL.Services
 {
@@ -13,15 +22,13 @@ namespace App.BLL.Services
     {
         private IUnitOfWork _db { get; set; }
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ApplicationSettings _applicationSettingsOption;
-        private readonly IFileService _fileService;
-        //private readonly IMapper _mapper;
+        //private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationSettings _applicationSettingsOption; 
         private readonly IEmailService _emailService;
 
         public AccountService(IUnitOfWork uow,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signManager,
+            //SignInManager<ApplicationUser> signManager,
             IOptions<ApplicationSettings> applicationSettingsOption,
             IEmailService emailService,
             //IMapper mapper,
@@ -29,27 +36,20 @@ namespace App.BLL.Services
         {
             _db = uow;
             _userManager = userManager;
-            _signInManager = signManager;
-            _applicationSettingsOption = applicationSettingsOption.Value;
-            //_mapper = mapper;
-            _emailService = emailService;
-            _fileService = fileService;
+           // _signInManager = signManager;
+            _applicationSettingsOption = applicationSettingsOption.Value; 
+            _emailService = emailService; 
         }
 
-        public async Task<object> RegisterUserAsync(UserRegisterVM model, string url)
-        {
-            //var user = _mapper.Map<ApplicationUser>(model);
-            var photo_id = await _fileService.CreatePhotoAsync(model.UploadImage, null);
-            var user = new User
+        public async Task<object> RegisterUserAsync(RegisterVM model, string url)
+        { 
+            var user = new ApplicationUser
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                FileModelId = photo_id,
+                Name = model.Name, 
+                Email = model.Email, 
                 PasswordHash = model.Password,
                 UserName = model.Email
-            };
-            user.DateOfRegisters = DateTime.Now;
+            }; 
             try
             {
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -61,7 +61,7 @@ namespace App.BLL.Services
                     .AppendFormat("/api/account/email")
                     .AppendFormat($"?user_id={user.Id}&code={encode}");
 
-                //await _emailService.SendEmailAsync(user.Email, "Confirm your account",
+                //await _emailService.SendEmailAsync(user.Email, "Confirm your account",   !!!
                 //    $"Confirm the registration by clicking on the link: <a href='{callbackUrl}'>link</a>");
                 return result;
             }
@@ -75,20 +75,10 @@ namespace App.BLL.Services
         {
             var db_user = await _userManager.FindByIdAsync(user_id);
             var success = await _userManager.ConfirmEmailAsync(db_user, code);
-            return success.Succeeded ? new OperationDetails(true, "Success", "") : new OperationDetails(false, "Error", "");
-
-            //try
-            //{
-            //    db_user.EmailConfirmed = true;
-            //    await _db.Users.UpdateAsync(db_user); 
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+            return success.Succeeded ? new OperationDetails(true, "Success", "") : new OperationDetails(false, "Error", ""); 
         }
 
-        public async Task<object> LoginUserAsync(UserLoginVM model)
+        public async Task<object> LoginUserAsync(LoginVM model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
@@ -100,8 +90,7 @@ namespace App.BLL.Services
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserID", user.Id),
-                        new Claim(options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault()),
+                        new Claim("UserID", user.Id), 
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials =
@@ -116,29 +105,7 @@ namespace App.BLL.Services
             }
             else
                 return null;
-        }
-
-        public async Task<UserEditOrShowVM> GetUserAsync(string user_id)
-        {
-            var db_user = await GetDbUserAsync(user_id);
-            if (db_user == null)
-            {
-                return null;
-            }
-            //var user = _mapper.Map<UserEditOrShowVM>(db_user);
-            var user = new UserEditOrShowVM(db_user);
-            return user;
-        }
-
-        public async Task<ApplicationUser> GetDbUserAsync(string user_id)
-        {
-            var db_user = await _userManager.FindByIdAsync(user_id);
-            if (db_user == null)
-            {
-                return null;
-            }
-            return db_user;
-        }
+        } 
 
         public void Dispose()
         {

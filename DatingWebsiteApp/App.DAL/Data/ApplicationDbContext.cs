@@ -41,20 +41,36 @@ namespace App.DAL.Data
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Friendship>().HasOne(m=>m.)
-
-
-
+        { 
             modelBuilder.Entity<Friendship>()
                 .HasOne(a => a.UserFrom)
-                .WithMany(b => b.Friendships)
+                .WithMany(b => b.FriendshipsFrom)
                 .HasForeignKey(c => c.UserFromId);
 
-            modelBuilder.Entity<UsersRelationship>()
-                .HasRequired(a => a.RequestedTo)
-                .WithMany(b => b.ReceievedFriendRequests)
-                .HasForeignKey(c => c.RequestedToId);
+            modelBuilder.Entity<Friendship>()
+                .HasOne(a => a.UserTo)
+                .WithMany(b => b.FriendshipsTo)
+                .HasForeignKey(c => c.UserToId);
+
+            modelBuilder.Entity<Chat>()
+                .HasOne(a => a.UserFrom)
+                .WithMany(b => b.ChatsFrom)
+                .HasForeignKey(c => c.UserFromId);
+
+            modelBuilder.Entity<Chat>()
+                .HasOne(a => a.UserTo)
+                .WithMany(b => b.ChatsTo)
+                .HasForeignKey(c => c.UserToId);
+
+            modelBuilder.Entity<BlackList>()
+                .HasOne(a => a.UserFrom)
+                .WithMany(b => b.BlackListsFrom)
+                .HasForeignKey(c => c.UserFromId);
+
+            modelBuilder.Entity<BlackList>()
+                .HasOne(a => a.UserTo)
+                .WithMany(b => b.BlackListsTo)
+                .HasForeignKey(c => c.UserToId);
 
             base.OnModelCreating(modelBuilder);
         }

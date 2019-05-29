@@ -76,5 +76,9 @@ namespace App.BLL.ViewModels
                 Interests.Add(lang.Interest.Value);
             }
         }
+        public UserShowVM()
+        {
+
+        }
     }
 }
