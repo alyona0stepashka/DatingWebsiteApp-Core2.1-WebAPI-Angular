@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace App.DAL.Interfaces
 {
-    public interface IStaticRepository<TEntity,TKey> 
+    public interface IStaticRepository<TEntity> 
     {
         Task<IQueryable<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(TKey id);
+        Task<TEntity> GetByIdAsync(int id);
         Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
         //Task<TEntity> CreateAsync(TEntity item);
         //Task<TEntity> UpdateAsync(TEntity item);

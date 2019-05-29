@@ -5,9 +5,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class ChatMessage
+    public class ChatMessage : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public string Text { get; set; }
 

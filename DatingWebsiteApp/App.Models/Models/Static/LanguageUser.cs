@@ -5,9 +5,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class LanguageUser
+    public class LanguageUser : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [ForeignKey("PersonalType")]
         public string PersonalTypeId { get; set; }

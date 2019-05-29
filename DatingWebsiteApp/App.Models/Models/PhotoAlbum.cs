@@ -5,9 +5,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class PhotoAlbum
+    public class PhotoAlbum : EntityBase
     {
-        public int Id { get; set; }
+       // public int Id { get; set; }
 
         public string Name { get; set; }
 

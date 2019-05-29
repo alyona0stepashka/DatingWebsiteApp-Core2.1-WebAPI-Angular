@@ -4,9 +4,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class Language
+    public class Language : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public string Value { get; set; } 
 

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class BlackList
+    public class BlackList: EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [ForeignKey("UserFrom")]
         public string UserFromId { get; set; }

@@ -40,23 +40,23 @@ namespace App.DAL.Data
                 .UseLazyLoadingProxies();
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    //modelBuilder.Entity<Friendship>() 
-                
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Friendship>().HasOne(m=>m.)
 
 
-        //    //modelBuilder.Entity<UsersRelationship>()
-        //    //    .HasRequired(a => a.RequestedBy)
-        //    //    .WithMany(b => b.SentFriendRequests)
-        //    //    .HasForeignKey(c => c.RequestedById);
 
-        //    //modelBuilder.Entity<UsersRelationship>()
-        //    //    .HasRequired(a => a.RequestedTo)
-        //    //    .WithMany(b => b.ReceievedFriendRequests)
-        //    //    .HasForeignKey(c => c.RequestedToId);
+            modelBuilder.Entity<Friendship>()
+                .HasOne(a => a.UserFrom)
+                .WithMany(b => b.Friendships)
+                .HasForeignKey(c => c.UserFromId);
 
-        //    //base.OnModelCreating(modelBuilder);
-        //}
+            modelBuilder.Entity<UsersRelationship>()
+                .HasRequired(a => a.RequestedTo)
+                .WithMany(b => b.ReceievedFriendRequests)
+                .HasForeignKey(c => c.RequestedToId);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

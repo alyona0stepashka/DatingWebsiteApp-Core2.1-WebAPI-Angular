@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace App.DAL.Repositories
 {
-    public class StaticRepository<TEntity, TKey> : IStaticRepository<TEntity,TKey> where TEntity:class
+    public class StaticRepository<TEntity> : IStaticRepository<TEntity> where TEntity:EntityBase
     {
         private readonly ApplicationDbContext _db;
 
@@ -18,7 +18,7 @@ namespace App.DAL.Repositories
         {
             _db = context;
         } 
-        public async Task<TEntity> GetByIdAsync(TKey id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _db.Set<TEntity>()
                  .AsNoTracking()

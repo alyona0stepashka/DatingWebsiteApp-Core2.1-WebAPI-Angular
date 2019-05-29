@@ -4,9 +4,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class BadHabit
+    public class BadHabit : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public string Value { get; set; } 
 

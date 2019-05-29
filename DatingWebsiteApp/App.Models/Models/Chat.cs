@@ -5,9 +5,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class Chat
+    public class Chat : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public bool Status { get; set; }
 

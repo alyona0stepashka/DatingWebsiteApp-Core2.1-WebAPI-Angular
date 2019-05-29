@@ -4,9 +4,9 @@ using System.Text;
 
 namespace App.Models
 {
-    public class FamilyStatus
+    public class FamilyStatus : EntityBase
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public string Value { get; set; } 
 

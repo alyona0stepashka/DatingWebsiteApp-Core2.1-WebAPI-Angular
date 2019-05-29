@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace App.DAL.Repositories
 {
-    public class Repository<TEntity, TKey> : IRepository<TEntity,TKey> where TEntity:class  //StaticRepository<TEntity,TKey> where TEntity:class ???
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity:EntityBase  //StaticRepository<TEntity,TKey> where TEntity:class ???
     {
         private readonly ApplicationDbContext _db;
 
@@ -18,7 +18,7 @@ namespace App.DAL.Repositories
         {
             _db = context;
         } 
-        public async Task<TEntity> GetByIdAsync(TKey id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _db.Set<TEntity>()
                  .AsNoTracking()
@@ -30,6 +30,13 @@ namespace App.DAL.Repositories
             await _db.SaveChangesAsync();
             return _db.Set<TEntity>().AsNoTracking();
         }
+
+        public async Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            await _db.SaveChangesAsync();
+            return _db.Set<TEntity>().Where(predicate);
+        }
+
         public async Task<TEntity> CreateAsync(TEntity entity)
         {
             await _db.Set<TEntity>().AddAsync(entity);
@@ -44,18 +51,12 @@ namespace App.DAL.Repositories
             return entity;
         }
 
-        public async Task<TEntity> DeleteAsync(TKey id)
+        public async Task<TEntity> DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
             _db.Set<TEntity>().Remove(entity);
             await _db.SaveChangesAsync();
             return entity;
         }  
-
-        public async Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            await _db.SaveChangesAsync();
-            return _db.Set<TEntity>().Where(predicate);
-        }
     }
 }
