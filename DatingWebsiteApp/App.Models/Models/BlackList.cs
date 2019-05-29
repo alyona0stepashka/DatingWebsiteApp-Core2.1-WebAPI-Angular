@@ -9,10 +9,10 @@ namespace App.Models
     {
         //public int Id { get; set; }
 
-        [ForeignKey("UserFrom")]
+        //[ForeignKey("UserFrom")]
         public string UserFromId { get; set; }
 
-        [ForeignKey("UserTo")]
+        //[ForeignKey("UserTo")]
         public string UserToId { get; set; }
 
         public virtual ApplicationUser UserFrom { get; set; }

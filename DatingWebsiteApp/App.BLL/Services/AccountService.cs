@@ -80,7 +80,7 @@ namespace App.BLL.Services
 
         public async Task<object> LoginUserAsync(LoginVM model)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var role = await _userManager.GetRolesAsync(user);

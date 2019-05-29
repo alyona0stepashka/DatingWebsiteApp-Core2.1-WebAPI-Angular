@@ -8,9 +8,7 @@ namespace App.Models
     {
         //public int Id { get; set; }
 
-        public string Value { get; set; }
-
-        public virtual ApplicationUser Users { get; set; }
+        public string Value { get; set; } 
 
     }
 }

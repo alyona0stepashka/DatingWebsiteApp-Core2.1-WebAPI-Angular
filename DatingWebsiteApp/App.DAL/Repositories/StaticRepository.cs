@@ -25,23 +25,22 @@ namespace App.DAL.Repositories
                  .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<IQueryable<TEntity>> GetAllAsync()
-        {
-            await _db.SaveChangesAsync();
+        public IQueryable<TEntity> GetAllAsync()
+        { 
             return _db.Set<TEntity>().AsNoTracking();
         }
 
-        public async Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            await _db.SaveChangesAsync();
+        public IQueryable<TEntity> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        { 
             return _db.Set<TEntity>().Where(predicate);
         }
-        //public async Task<TEntity> CreateAsync(TEntity entity)
-        //{
-        //    await _db.Set<TEntity>().AddAsync(entity);
-        //    await _db.SaveChangesAsync();
-        //    return entity;
-        //}  
+
+        public async Task<TEntity> CreateAsync(TEntity entity)
+        {
+            await _db.Set<TEntity>().AddAsync(entity);
+            await _db.SaveChangesAsync();
+            return entity;
+        }
 
         //public async Task<TEntity> UpdateAsync(TEntity entity)
         //{

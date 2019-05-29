@@ -13,10 +13,10 @@ namespace App.Models
 
         public string Path { get; set; }
 
-        [ForeignKey("PhotoAlbum")]
+        //[ForeignKey("PhotoAlbum")]
         public int? PhotoAlbumId { get; set; }
 
-        [ForeignKey("Message")]
+       // [ForeignKey("Message")]
         public int? MessageId { get; set; }
 
         public virtual PhotoAlbum PhotoAlbum { get; set; }

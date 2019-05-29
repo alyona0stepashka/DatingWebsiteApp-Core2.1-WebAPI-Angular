@@ -12,11 +12,15 @@ namespace App.BLL.ViewModels
 
         public DateTime DateBirth { get; set; }
 
+        public bool? IsAnonimus { get; set; }
+
         public string Sex { get; set; }
 
         public string  MainGoal { get; set; }
 
         public string FamilyStatus { get; set; }
+
+        public string FinanceStatus { get; set; }
 
         public string Education { get; set; }
 
@@ -30,9 +34,9 @@ namespace App.BLL.ViewModels
 
         public List<string> Interest { get; set; }
 
-        public double Growth { get; set; }
+        public double? Growth { get; set; }
 
-        public double Weight { get; set; }
+        public double? Weight { get; set; }
 
         public UserInfoEditVM()
         {

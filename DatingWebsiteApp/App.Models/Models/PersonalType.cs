@@ -9,23 +9,23 @@ namespace App.Models
     {
         //public int Id { get; set; }
 
-        [ForeignKey("FamilyStatus")]
+        //[ForeignKey("FamilyStatus")]
         public int FamilyStatusId { get; set; }  
 
         public double Growth { get; set; }
 
         public double Weight { get; set; }
 
-        [ForeignKey("Education")]
+        //[ForeignKey("Education")]
         public int EducationId { get; set; }
 
-        [ForeignKey("Nationality")]
+        //[ForeignKey("Nationality")]
         public int NationalityId { get; set; }
 
-        [ForeignKey("Zodiac")]
+        //[ForeignKey("Zodiac")]
         public int ZodiacId { get; set; }
 
-        [ForeignKey("FinanceStatus")]
+        //[ForeignKey("FinanceStatus")]
         public int FinanceStatusId { get; set; }  
 
         public virtual ApplicationUser User { get; set; }

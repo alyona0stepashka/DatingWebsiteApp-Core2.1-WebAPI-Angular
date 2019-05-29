@@ -13,7 +13,7 @@ namespace App.Models
 
         public string Description { get; set; }
 
-        [ForeignKey("User")]
+        //[ForeignKey("User")]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

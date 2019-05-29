@@ -25,6 +25,8 @@ namespace App.BLL.ViewModels
 
         public string FamilyStatus { get; set; }
 
+        public string FinanceStatus { get; set; }
+
         public string Education { get; set; }
 
         public string Nationality { get; set; }
@@ -52,6 +54,7 @@ namespace App.BLL.ViewModels
             Sex = user.Sex.Value;
             MainGoal = user.MainGoal;
             FamilyStatus = user.Type.FamilyStatus.Value;
+            FinanceStatus = user.Type.FinanceStatus.Value;
             Education = user.Type.Education.Value;
             Nationality = user.Type.Nationality.Value;
             Zodiac = user.Type.Zodiac.Value;

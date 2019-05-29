@@ -9,10 +9,10 @@ namespace App.Models
     {
         //public int Id { get; set; }
 
-        [ForeignKey("PersonalType")]
+        //[ForeignKey("PersonalType")]
         public string PersonalTypeId { get; set; }
 
-        [ForeignKey("BadHabit")]
+        //[ForeignKey("BadHabit")]
         public int BadHabitId { get; set; }
 
         public virtual PersonalType PersonalType { get; set; }

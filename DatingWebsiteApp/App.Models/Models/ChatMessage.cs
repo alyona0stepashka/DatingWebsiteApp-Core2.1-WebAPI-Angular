@@ -13,10 +13,10 @@ namespace App.Models
 
         public DateTime DateSend { get; set; }
 
-        [ForeignKey("UserSender")]
+        //[ForeignKey("UserSender")]
         public string UserSenderId { get; set; }
 
-        [ForeignKey("Chat")]
+       // [ForeignKey("Chat")]
         public int ChatId { get; set; }
 
         public bool IsReaded { get; set; }
