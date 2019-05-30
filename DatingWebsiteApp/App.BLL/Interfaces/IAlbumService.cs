@@ -15,5 +15,6 @@ namespace App.BLL.Interfaces
         Task<AlbumShowVM> AddPhotoAsync(AlbumAddPhotoVM model);
         Task<AlbumShowVM> DeletePhotoAsync(AlbumDeletePhotoVM model);
         Task<AlbumShowVM> DeleteAlbumAsync(int album_id);
+        Task<AlbumShowVM> CreateAlbumAsync(AlbumShowVM model, string user_id);
     }
 }

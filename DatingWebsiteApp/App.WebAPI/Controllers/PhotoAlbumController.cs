@@ -23,7 +23,7 @@ namespace App.WebAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetAlbumsForCurrentUser()
+        public async Task<IActionResult> GetMyAlbums()
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
             var albums = await _albumService.GetAllAlbumsByUserIdAsync(user_id);
@@ -99,9 +99,10 @@ namespace App.WebAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateAlbum(int id)
+        public async Task<IActionResult> CreateAlbum([FromBody]AlbumShowVM model)
         {
-            var album = await _albumService.DeleteAlbumAsync(id);
+            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            var album = await _albumService.CreateAlbumAsync(model, user_id);
             if (album == null)
             {
                 return NotFound(new { message = "Album not found by id." });

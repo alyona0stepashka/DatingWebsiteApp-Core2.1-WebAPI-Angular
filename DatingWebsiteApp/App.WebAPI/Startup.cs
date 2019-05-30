@@ -104,6 +104,8 @@ namespace App.WebAPI
             services.AddScoped<IPersonalTypeService, PersonalTypeService>();
             services.AddScoped<ISearchService, SearchService>();
             services.AddScoped<IAlbumService, AlbumService>();
+            services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IBlackListService, BlackListService>();
 
             services.AddSwaggerGen(c =>
             {

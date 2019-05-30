@@ -27,7 +27,7 @@ namespace App.WebAPI.Controllers
         [HttpGet]
         [Route("current")]
         [Authorize]
-        public async Task<IActionResult> GetCurrentUserProfile()
+        public async Task<IActionResult> GetMyUserProfile()
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userService.GetVMUserAsync(user_id);
@@ -53,7 +53,7 @@ namespace App.WebAPI.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> EditUserInformation([FromBody] UserInfoEditVM editUser)
+        public async Task<IActionResult> EditMyUserInformation([FromBody] UserInfoEditVM editUser)
         {
             if (editUser == null)
                 return BadRequest(new { message = "editUser param is null." });
@@ -71,7 +71,7 @@ namespace App.WebAPI.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> EditUserPhoto([FromBody] UserPhotoCreateVM editUser)
+        public async Task<IActionResult> EditMyUserPhoto([FromBody] UserPhotoCreateVM editUser)
         {
             if (editUser == null)
                 return BadRequest(new { message = "editUser param is null." });

@@ -97,5 +97,17 @@ namespace App.BLL.Services
             var ret_album = new AlbumShowVM(album);
             return ret_album;
         }
+
+        public async Task<AlbumShowVM> CreateAlbumAsync(AlbumShowVM model, string user_id)
+        { 
+            var album = await _db.PhotoAlbums.CreateAsync(new PhotoAlbum
+            {
+                Name=model.Name,
+                Description = model.Description,
+                UserId = user_id 
+            });
+            var ret_album = new AlbumShowVM(album);
+            return ret_album;
+        }
     }
 }
