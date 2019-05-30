@@ -20,5 +20,10 @@ namespace App.Models
         public virtual ApplicationUser UserFrom { get; set; }
 
         public virtual ApplicationUser UserTo { get; set; }
+        //public Chat()
+        //{
+        //    UserFrom = new ApplicationUser();
+        //    UserTo = new ApplicationUser();
+        //}
     }
 }

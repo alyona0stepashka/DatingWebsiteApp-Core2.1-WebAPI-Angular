@@ -50,5 +50,19 @@ namespace App.Models
         public virtual List<BlackList> BlackListsFrom { get; set; }
 
         public virtual List<BlackList> BlackListsTo { get; set; }
+
+        //public ApplicationUser()
+        //{
+        //    Sex = new Sex();
+        //    Type = new PersonalType();
+        //    File = new FileModel();
+        //    FriendshipsTo = new List<Friendship>();
+        //    FriendshipsFrom = new List<Friendship>();
+        //    ChatMessages = new List<ChatMessage>();
+        //    ChatsFrom = new List<Chat>();
+        //    ChatsTo = new List<Chat>();
+        //    BlackListsFrom = new List<BlackList>();
+        //    BlackListsTo = new List<BlackList>();
+        //} 
     }
 }

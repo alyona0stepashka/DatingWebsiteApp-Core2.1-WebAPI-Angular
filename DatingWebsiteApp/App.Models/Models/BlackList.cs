@@ -18,5 +18,10 @@ namespace App.Models
         public virtual ApplicationUser UserFrom { get; set; }
 
         public virtual ApplicationUser UserTo { get; set; }
+        //public BlackList()
+        //{
+        //    UserFrom = new ApplicationUser();
+        //    UserTo = new ApplicationUser();
+        //}
     }
 }

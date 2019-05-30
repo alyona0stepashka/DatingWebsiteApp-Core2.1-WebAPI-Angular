@@ -1,4 +1,5 @@
 ﻿using App.BLL.Interfaces;
+using App.BLL.ViewModels;
 using App.DAL.Interfaces;
 using App.Models;
 using Microsoft.AspNetCore.Identity;
@@ -22,34 +23,33 @@ namespace App.BLL.Services
             _db = uow;
             _userManager = userManager; 
         }
-        public async Task<PersonalType> CreateDbAsync(PersonalType entity)
-        {
-            return await _db.PersonalTypes.CreateAsync(entity);
-        }
 
-        public async Task<PersonalType> DeleteDbAsync(int id)
+        public async Task<PersonalType> EditTypeAsync(PersonalType type, UserInfoEditVM model)
         {
-            return await _db.PersonalTypes.DeleteAsync(id);
-        }
-
-        public IQueryable<PersonalType> GetDbAll()
-        {
-            return _db.PersonalTypes.GetAll();
-        }
-
-        public async Task<PersonalType> GetDbByIdAsync(int id)
-        {
-            return await _db.PersonalTypes.GetByIdAsync(id);
-        }
-
-        public IQueryable<PersonalType> GetDbWhere(Expression<Func<PersonalType, bool>> predicate)
-        {
-            return _db.PersonalTypes.GetWhere(predicate);
-        }
-
-        public async Task<PersonalType> UpdateDbAsync(PersonalType entity)
-        {
-            return await _db.PersonalTypes.UpdateAsync(entity);
+            if (model.Growth != null) { type.Growth = model.Growth.Value; }
+            if (model.Weight != null) { type.Weight = model.Weight.Value; }
+            if (model.Education != null)
+            {
+                type.EducationId = (_db.Educations.GetWhere(m => m.Value == model.Education)).FirstOrDefault().Id;
+            }
+            if (model.Nationality != null)
+            {
+                type.NationalityId = (_db.Nationalities.GetWhere(m => m.Value == model.Nationality)).FirstOrDefault().Id;
+            }
+            if (model.Zodiac != null)
+            {
+                type.ZodiacId = (_db.Zodiacs.GetWhere(m => m.Value == model.Zodiac)).FirstOrDefault().Id;
+            }
+            if (model.FinanceStatus != null)
+            {
+                type.FinanceStatusId = (_db.FinanceStatuses.GetWhere(m => m.Value == model.FinanceStatus)).FirstOrDefault().Id;
+            }
+            if (model.FamilyStatus != null)
+            {
+                type.FamilyStatusId = (_db.FamilyStatuses.GetWhere(m => m.Value == model.FamilyStatus)).FirstOrDefault().Id;
+            }
+            var new_type = await _db.PersonalTypes.UpdateAsync(type);
+            return type;
         }
     }
 }

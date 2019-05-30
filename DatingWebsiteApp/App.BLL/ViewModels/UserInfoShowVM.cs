@@ -5,11 +5,15 @@ using System.Text;
 
 namespace App.BLL.ViewModels
 {
-    public class UserProfileShowVM
+    public class UserInfoShowVM
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public bool IsAnonimus { get; set; }
 
         public string PhotoPath { get; set; }
 
@@ -20,6 +24,8 @@ namespace App.BLL.ViewModels
         public string MainGoal { get; set; }
 
         public string FamilyStatus { get; set; }
+
+        public string FinanceStatus { get; set; }
 
         public string Education { get; set; }
 
@@ -37,14 +43,17 @@ namespace App.BLL.ViewModels
 
         public double Weight { get; set; }
 
-        public double ReplyRate { get; set; }
+        public UserInfoShowVM()
+        {
 
-        public int ViewsCount { get; set; }
+        }
 
-        public UserProfileShowVM(ApplicationUser user, double? replyRate, int? views)
+        public UserInfoShowVM(ApplicationUser user)
         {
             Id = user.Id;
-            Name = user.Name; 
+            Name = user.Name;
+            Email = user.Email;
+            IsAnonimus = user.IsAnonimus;
             if (user.File != null)
             {
                 PhotoPath = user.File.Path;
@@ -60,7 +69,11 @@ namespace App.BLL.ViewModels
                 if (user.Type.FamilyStatus != null)
                 {
                     FamilyStatus = user.Type.FamilyStatus.Value;
-                } 
+                }
+                if (user.Type.FinanceStatus != null)
+                {
+                    FinanceStatus = user.Type.FinanceStatus.Value;
+                }
                 if (user.Type.Education != null)
                 {
                     Education = user.Type.Education.Value;
@@ -109,18 +122,6 @@ namespace App.BLL.ViewModels
                     }
                 }
             }
-            if (replyRate != null)
-            {
-                ReplyRate = replyRate.Value;
-            }
-            if (views != null)
-            {
-                views = views.Value;
-            }
-        }
-        public UserProfileShowVM()
-        {
-
         }
     }
 }

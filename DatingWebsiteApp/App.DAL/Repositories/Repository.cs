@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace App.DAL.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity:EntityBase  //StaticRepository<TEntity,TKey> where TEntity:class ???
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity: EntityBase  /*StaticRepository<TEntity> where TEntity:EntityBase*/ 
     {
         private readonly ApplicationDbContext _db;
 

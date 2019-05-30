@@ -9,10 +9,10 @@ namespace App.BLL.Interfaces
 {
     public interface IUserService
     {
-        Task<UserShowVM> GetVMUserAsync(string user_id);
+        Task<UserInfoShowVM> GetVMUserAsync(string user_id);
         Task<ApplicationUser> GetDbUserAsync(string user_id);
-        Task<UserShowVM> EditUserPhoto(UserPhotoCreateVM model);
-        Task<UserShowVM> EditUserInfo(UserInfoEditVM model);
+        Task<UserInfoShowVM> EditUserPhoto(UserPhotoCreateVM model);
+        Task<UserInfoShowVM> EditUserInfo(UserInfoEditVM model);
 
     }
 }

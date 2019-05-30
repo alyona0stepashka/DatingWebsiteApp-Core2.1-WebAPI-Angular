@@ -26,5 +26,6 @@ namespace App.Models
         public virtual Chat Chat { get; set; }
 
         public virtual List<FileModel> Files { get; set; }
+         
     }
 }
