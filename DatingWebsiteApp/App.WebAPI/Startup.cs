@@ -103,6 +103,7 @@ namespace App.WebAPI
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPersonalTypeService, PersonalTypeService>();
             services.AddScoped<ISearchService, SearchService>();
+            services.AddScoped<IAlbumService, AlbumService>();
 
             services.AddSwaggerGen(c =>
             {

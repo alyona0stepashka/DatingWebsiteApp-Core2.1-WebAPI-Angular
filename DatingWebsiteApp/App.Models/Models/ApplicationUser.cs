@@ -51,6 +51,8 @@ namespace App.Models
 
         public virtual List<BlackList> BlackListsTo { get; set; }
 
+        public virtual List<PhotoAlbum> PhotoAlbums { get; set; }
+
         //public ApplicationUser()
         //{
         //    Sex = new Sex();

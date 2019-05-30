@@ -78,6 +78,19 @@ namespace App.BLL.Services
             } 
             return id;
         }
+        public async Task<int?> DeletePhotoForAlbumAsync(string file_path, int album_id)
+        {
+            var file = _db.FileModels.GetWhere(m => m.Path == file_path).First();
+            if (file==null)
+            {
+                return null;
+            }
+            else
+            {
+                await _db.FileModels.DeleteAsync(file.Id);
+                return 0;
+            } 
+        }
 
         public async Task<int> CreatePhotoForMessageAsync(IFormFile photo, ChatMessage message)
         {
