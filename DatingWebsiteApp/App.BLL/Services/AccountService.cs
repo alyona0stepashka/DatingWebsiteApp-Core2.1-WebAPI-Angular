@@ -25,35 +25,38 @@ namespace App.BLL.Services
         //private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationSettings _applicationSettingsOption; 
         private readonly IEmailService _emailService;
+        private readonly IFileService _fileService;
 
         public AccountService(IUnitOfWork uow,
             UserManager<ApplicationUser> userManager,
             //SignInManager<ApplicationUser> signManager,
             IOptions<ApplicationSettings> applicationSettingsOption,
-            IEmailService emailService,
-            //IMapper mapper,
+            IEmailService emailService, 
             IFileService fileService)
         {
             _db = uow;
             _userManager = userManager;
            // _signInManager = signManager;
             _applicationSettingsOption = applicationSettingsOption.Value; 
-            _emailService = emailService; 
+            _emailService = emailService;
+            _fileService = fileService;
         }
 
         public async Task<object> RegisterUserAsync(RegisterVM model, string url)
-        { 
+        {
+            var file_id = await _fileService.CreatePhotoAsync(null); 
             var user = new ApplicationUser
             {
                 Name = model.Name, 
                 Email = model.Email, 
                 PasswordHash = model.Password,
-                UserName = model.Email
+                UserName = model.Email,
+                FileId = file_id,
+                Type = new PersonalType()
             }; 
             try
             {
-                var result = await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "user");
+                var result = await _userManager.CreateAsync(user, model.Password); 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var encode = HttpUtility.UrlEncode(code);
                 var callbackUrl = new StringBuilder("https://")
@@ -82,8 +85,7 @@ namespace App.BLL.Services
         {
             var user = await _userManager.FindByNameAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-            {
-                var role = await _userManager.GetRolesAsync(user);
+            { 
                 var options = new IdentityOptions();
 
                 var tokenDescriptor = new SecurityTokenDescriptor

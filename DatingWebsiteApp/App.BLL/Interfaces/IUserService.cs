@@ -11,6 +11,8 @@ namespace App.BLL.Interfaces
     {
         Task<UserShowVM> GetVMUserAsync(string user_id);
         Task<ApplicationUser> GetDbUserAsync(string user_id);
+        Task<UserShowVM> EditUserPhoto(UserPhotoCreateVM model);
+        Task<UserShowVM> EditUserInfo(UserInfoEditVM model);
 
     }
 }

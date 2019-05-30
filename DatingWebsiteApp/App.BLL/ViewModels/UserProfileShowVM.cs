@@ -53,8 +53,8 @@ namespace App.BLL.ViewModels
             Education = user.Type.Education.Value;
             Nationality = user.Type.Nationality.Value;
             Zodiac = user.Type.Zodiac.Value;
-            Growth = user.Type.Growth;
-            Weight = user.Type.Weight;
+            Growth = user.Type.Growth.Value;
+            Weight = user.Type.Weight.Value;
             Languages = new List<string>();
             var db_langs = user.Type.Languages;
             foreach (var lang in db_langs)

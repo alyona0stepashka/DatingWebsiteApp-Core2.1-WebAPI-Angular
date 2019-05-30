@@ -43,7 +43,7 @@ namespace App.BLL.Services
             }
             else  //если не загрузили фото
             {
-                var photo_no_image = (_db.FileModels.GetWhereAsync(m => m.Name == "no-image.jpg")).FirstOrDefault();  //ищем фото-заглушку
+                var photo_no_image = (_db.FileModels.GetWhere(m => m.Name == "no-image.jpg")).FirstOrDefault();  //ищем фото-заглушку
                 if (photo_no_image == null)  //если ее нет в бд - создаем
                 {
                     photo_no_image = await _db.FileModels.CreateAsync(new FileModel

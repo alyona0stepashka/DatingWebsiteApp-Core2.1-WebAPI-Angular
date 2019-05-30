@@ -25,12 +25,12 @@ namespace App.DAL.Repositories
                  .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public IQueryable<TEntity> GetAllAsync()
+        public IQueryable<TEntity> GetAll()
         { 
             return _db.Set<TEntity>().AsNoTracking();
         }
 
-        public IQueryable<TEntity> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate)
         { 
             return _db.Set<TEntity>().Where(predicate);
         }

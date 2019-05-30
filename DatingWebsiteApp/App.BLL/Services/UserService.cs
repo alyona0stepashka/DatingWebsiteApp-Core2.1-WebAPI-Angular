@@ -54,35 +54,37 @@ namespace App.BLL.Services
             if (db_user == null)
             {
                 return null;
-            }
+            } 
+
             if (model.Name != null) { db_user.Name = model.Name; }
             if (model.MainGoal != null) { db_user.MainGoal = model.MainGoal; }
             if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
+            if (model.Sex != null)
+            {
+                db_user.SexId = (_db.Sexes.GetWhere(m => m.Value == model.Sex)).FirstOrDefault().Id;
+            }
+
             if (model.Growth != null) { db_user.Type.Growth = model.Growth.Value; }
             if (model.Weight != null) { db_user.Type.Weight = model.Weight.Value; }
             if (model.Education != null)
             {
-                db_user.Type.EducationId = (_db.Educations.GetWhereAsync(m => m.Value == model.Education)).FirstOrDefault().Id;
+                db_user.Type.EducationId = (_db.Educations.GetWhere(m => m.Value == model.Education)).FirstOrDefault().Id;
             }
             if (model.Nationality != null)
             {
-                db_user.Type.NationalityId = (_db.Nationalities.GetWhereAsync(m => m.Value == model.Nationality)).FirstOrDefault().Id;
+                db_user.Type.NationalityId = (_db.Nationalities.GetWhere(m => m.Value == model.Nationality)).FirstOrDefault().Id;
             }
             if (model.Zodiac != null)
             {
-                db_user.Type.ZodiacId = (_db.Zodiacs.GetWhereAsync(m => m.Value == model.Zodiac)).FirstOrDefault().Id;
+                db_user.Type.ZodiacId = (_db.Zodiacs.GetWhere(m => m.Value == model.Zodiac)).FirstOrDefault().Id;
             }
             if (model.FinanceStatus != null)
             {
-                db_user.Type.FinanceStatusId = (_db.FinanceStatuses.GetWhereAsync(m => m.Value == model.FinanceStatus)).FirstOrDefault().Id;
-            }
-            if (model.Sex != null)
-            { 
-                db_user.SexId = (_db.Sexes.GetWhereAsync(m => m.Value == model.Sex)).FirstOrDefault().Id;
+                db_user.Type.FinanceStatusId = (_db.FinanceStatuses.GetWhere(m => m.Value == model.FinanceStatus)).FirstOrDefault().Id;
             }
             if (model.FamilyStatus != null)
             {
-                db_user.Type.FamilyStatusId = (_db.FamilyStatuses.GetWhereAsync(m => m.Value == model.FamilyStatus)).FirstOrDefault().Id;
+                db_user.Type.FamilyStatusId = (_db.FamilyStatuses.GetWhere(m => m.Value == model.FamilyStatus)).FirstOrDefault().Id;
             }
             await _db.PersonalTypes.UpdateAsync(db_user.Type);
             await _userManager.UpdateAsync(db_user);

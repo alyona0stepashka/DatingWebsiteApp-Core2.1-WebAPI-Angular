@@ -13,7 +13,7 @@ namespace App.Models
         public DateTime DateBirth { get; set; }
 
         //[ForeignKey("Sex")]
-        public int SexId { get; set; }  
+        public int? SexId { get; set; }  
 
         public string MainGoal { get; set; }  
 
@@ -26,10 +26,10 @@ namespace App.Models
         public int OutgoingFirstMessageCount { get; set; }
 
         //[ForeignKey("Type")]
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
 
         //[ForeignKey("File")]
-        public int FileId { get; set; }
+        public int? FileId { get; set; }
 
         public virtual Sex Sex { get; set; } 
 

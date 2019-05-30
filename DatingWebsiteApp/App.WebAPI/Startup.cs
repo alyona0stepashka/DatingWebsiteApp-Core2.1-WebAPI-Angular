@@ -101,6 +101,7 @@ namespace App.WebAPI
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPersonalTypeService, PersonalTypeService>();
 
             services.AddSwaggerGen(c =>
             {

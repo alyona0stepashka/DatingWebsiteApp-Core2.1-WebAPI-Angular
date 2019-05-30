@@ -14,7 +14,8 @@ namespace App.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099");
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("App.Models.ApplicationUser", b =>
                 {
@@ -33,7 +34,7 @@ namespace App.DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int>("FileId");
+                    b.Property<int?>("FileId");
 
                     b.Property<int>("IncomingFirstMessageCount");
 
@@ -65,11 +66,11 @@ namespace App.DAL.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int>("SexId");
+                    b.Property<int?>("SexId");
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("TypeId");
+                    b.Property<int?>("TypeId");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -346,19 +347,19 @@ namespace App.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("EducationId");
+                    b.Property<int?>("EducationId");
 
-                    b.Property<int>("FamilyStatusId");
+                    b.Property<int?>("FamilyStatusId");
 
-                    b.Property<int>("FinanceStatusId");
+                    b.Property<int?>("FinanceStatusId");
 
-                    b.Property<double>("Growth");
+                    b.Property<double?>("Growth");
 
-                    b.Property<int>("NationalityId");
+                    b.Property<int?>("NationalityId");
 
-                    b.Property<double>("Weight");
+                    b.Property<double?>("Weight");
 
-                    b.Property<int>("ZodiacId");
+                    b.Property<int?>("ZodiacId");
 
                     b.HasKey("Id");
 
@@ -532,18 +533,15 @@ namespace App.DAL.Migrations
                 {
                     b.HasOne("App.Models.FileModel", "File")
                         .WithMany()
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FileId");
 
                     b.HasOne("App.Models.Sex", "Sex")
                         .WithMany()
-                        .HasForeignKey("SexId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SexId");
 
                     b.HasOne("App.Models.PersonalType", "Type")
                         .WithOne("User")
-                        .HasForeignKey("App.Models.ApplicationUser", "TypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("App.Models.ApplicationUser", "TypeId");
                 });
 
             modelBuilder.Entity("App.Models.BadHabitUser", b =>
@@ -642,28 +640,23 @@ namespace App.DAL.Migrations
                 {
                     b.HasOne("App.Models.Education", "Education")
                         .WithMany()
-                        .HasForeignKey("EducationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EducationId");
 
                     b.HasOne("App.Models.FamilyStatus", "FamilyStatus")
                         .WithMany()
-                        .HasForeignKey("FamilyStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FamilyStatusId");
 
                     b.HasOne("App.Models.FinanceStatus", "FinanceStatus")
                         .WithMany()
-                        .HasForeignKey("FinanceStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FinanceStatusId");
 
                     b.HasOne("App.Models.Nationality", "Nationality")
                         .WithMany()
-                        .HasForeignKey("NationalityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("NationalityId");
 
                     b.HasOne("App.Models.Zodiac", "Zodiac")
                         .WithMany()
-                        .HasForeignKey("ZodiacId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ZodiacId");
                 });
 
             modelBuilder.Entity("App.Models.PhotoAlbum", b =>

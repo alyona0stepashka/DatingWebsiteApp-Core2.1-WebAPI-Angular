@@ -14,7 +14,8 @@ namespace App.DAL.Data
         public static async Task InitializeAsync(IUnitOfWork db, UserManager<ApplicationUser> userManager)
         {
             //-------------------
-            if (!db.Zodiacs.GetAllAsync().Any())
+            var zodiac_id = 0;
+            if (!db.Zodiacs.GetAll().Any())
             {
                 var list = new List<Zodiac>()
                 {
@@ -34,10 +35,12 @@ namespace App.DAL.Data
                 foreach (var z in list)
                 {
                     await db.Zodiacs.CreateAsync(z);
+                    zodiac_id = z.Id;
                 }
             }
             //-------------------
-            if (!db.Sexes.GetAllAsync().Any())
+            var sex_id = 0;
+            if (!db.Sexes.GetAll().Any())
             {
                 var list = new List<Sex>()
                 {
@@ -48,11 +51,13 @@ namespace App.DAL.Data
                 foreach (var z in list)
                 {
                     await db.Sexes.CreateAsync(z);
+                    sex_id = z.Id;
                 }
 
             }
             //-------------------
-            if (!db.Nationalities.GetAllAsync().Any())
+            var nat_id = 0;
+            if (!db.Nationalities.GetAll().Any())
             {
                 var list = new List<Nationality>()
                 {
@@ -66,10 +71,11 @@ namespace App.DAL.Data
                 foreach (var z in list)
                 {
                     await db.Nationalities.CreateAsync(z);
+                    nat_id = z.Id;
                 }
             }
-            //-------------------
-            if (!db.Languages.GetAllAsync().Any())
+            //------------------- 
+            if (!db.Languages.GetAll().Any())
             {
                 var list = new List<Language>()
                 {
@@ -86,7 +92,7 @@ namespace App.DAL.Data
                 }
             }
             //-------------------
-            if (!db.Interests.GetAllAsync().Any())
+            if (!db.Interests.GetAll().Any())
             {
                 var list = new List<Interest>()
                 {
@@ -103,7 +109,8 @@ namespace App.DAL.Data
                 }
             }
             //-------------------
-            if (!db.FinanceStatuses.GetAllAsync().Any())
+            var fin_id = 0;
+            if (!db.FinanceStatuses.GetAll().Any())
             {
                 var list = new List<FinanceStatus>()
                 {
@@ -114,10 +121,12 @@ namespace App.DAL.Data
                 foreach (var z in list)
                 {
                     await db.FinanceStatuses.CreateAsync(z);
+                    fin_id = z.Id;
                 }
             }
             //-------------------
-            if (!db.FamilyStatuses.GetAllAsync().Any())
+            var fam_id = 0;
+            if (!db.FamilyStatuses.GetAll().Any())
             {
                 var list = new List<FamilyStatus>()
                 {
@@ -130,10 +139,12 @@ namespace App.DAL.Data
                 foreach (var z in list)
                 {
                     await db.FamilyStatuses.CreateAsync(z);
+                    fam_id = z.Id;
                 }
             }
             //-------------------
-            if (!db.Educations.GetAllAsync().Any())
+            var educ_id = 0;
+            if (!db.Educations.GetAll().Any())
             {
                 var list = new List<Education>()
                 {
@@ -144,10 +155,11 @@ namespace App.DAL.Data
                 foreach (var z in list)
                 {
                     await db.Educations.CreateAsync(z);
+                    educ_id = z.Id;
                 }
             }
             //-------------------
-            if (!db.BadHabits.GetAllAsync().Any())
+            if (!db.BadHabits.GetAll().Any())
             {
                 var list = new List<BadHabit>()
                 {
@@ -160,6 +172,16 @@ namespace App.DAL.Data
                     await db.BadHabits.CreateAsync(z);
                 }
             }
+            //--------------------- 
+            var photo_no_image = (db.FileModels.GetWhere(m => m.Name == "no-image.jpg")).FirstOrDefault();  //ищем фото-заглушку
+            if (photo_no_image == null)  //если ее нет в бд - создаем
+            {
+                photo_no_image = await db.FileModels.CreateAsync(new FileModel
+                {
+                    Name = "no-image.jpg",
+                    Path = "/Images/App/no-image.jpg"
+                });
+            } 
             //---------------------
             if (!userManager.Users.Any())
             {
@@ -168,7 +190,19 @@ namespace App.DAL.Data
                     Email="user@mail.ru",
                     UserName = "user@mail.ru",
                     Name = "TestUser",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    FileId = photo_no_image.Id,
+                    SexId = sex_id,
+                    Type = new PersonalType
+                    {
+                        Growth=1.67,
+                        Weight=54,
+                        EducationId = educ_id,
+                        FamilyStatusId = fam_id,
+                        FinanceStatusId = fin_id,
+                        NationalityId = nat_id,
+                        ZodiacId = zodiac_id
+                    }
                 };
                 await userManager.CreateAsync(new_user, "Parol_01");
             }

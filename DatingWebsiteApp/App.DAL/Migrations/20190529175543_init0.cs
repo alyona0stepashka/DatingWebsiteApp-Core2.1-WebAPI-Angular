@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.DAL.Migrations
@@ -26,7 +27,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -39,7 +40,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -52,7 +53,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -65,7 +66,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -78,7 +79,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -91,7 +92,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -104,7 +105,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -117,7 +118,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -130,7 +131,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -143,7 +144,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -164,7 +165,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FamilyStatusId = table.Column<int>(nullable: false),
                     Growth = table.Column<double>(nullable: false),
                     Weight = table.Column<double>(nullable: false),
@@ -213,7 +214,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PersonalTypeId = table.Column<string>(nullable: true),
                     BadHabitId = table.Column<int>(nullable: false),
                     PersonalTypeId1 = table.Column<int>(nullable: true)
@@ -240,7 +241,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PersonalTypeId = table.Column<string>(nullable: true),
                     InterestId = table.Column<int>(nullable: false),
                     PersonalTypeId1 = table.Column<int>(nullable: true)
@@ -267,7 +268,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PersonalTypeId = table.Column<string>(nullable: true),
                     LanguageId = table.Column<int>(nullable: false),
                     PersonalTypeId1 = table.Column<int>(nullable: true)
@@ -312,7 +313,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -355,7 +356,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserFromId = table.Column<string>(nullable: true),
                     UserToId = table.Column<string>(nullable: true)
                 },
@@ -369,12 +370,12 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Text = table.Column<string>(nullable: true),
                     DateSend = table.Column<DateTime>(nullable: false),
                     UserSenderId = table.Column<string>(nullable: true),
                     ChatId = table.Column<int>(nullable: false),
-                    IsReaded = table.Column<short>(nullable: false)
+                    IsReaded = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -386,8 +387,8 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Status = table.Column<short>(nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Status = table.Column<bool>(nullable: false),
                     UserFromId = table.Column<string>(nullable: true),
                     UserToId = table.Column<string>(nullable: true)
                 },
@@ -401,8 +402,8 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Status = table.Column<short>(nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Status = table.Column<bool>(nullable: false),
                     UserFromId = table.Column<string>(nullable: true),
                     UserToId = table.Column<string>(nullable: true)
                 },
@@ -416,7 +417,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
@@ -431,7 +432,7 @@ namespace App.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Path = table.Column<string>(nullable: true),
                     PhotoAlbumId = table.Column<int>(nullable: true),
@@ -463,21 +464,21 @@ namespace App.DAL.Migrations
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<short>(nullable: false),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<short>(nullable: false),
-                    TwoFactorEnabled = table.Column<short>(nullable: false),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<short>(nullable: false),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     DateBirth = table.Column<DateTime>(nullable: false),
                     SexId = table.Column<int>(nullable: false),
                     MainGoal = table.Column<string>(nullable: true),
-                    IsAnonimus = table.Column<short>(nullable: false),
+                    IsAnonimus = table.Column<bool>(nullable: false),
                     ProfileViewsForMonth = table.Column<int>(nullable: false),
                     IncomingFirstMessageCount = table.Column<int>(nullable: false),
                     OutgoingFirstMessageCount = table.Column<int>(nullable: false),
