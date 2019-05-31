@@ -23,18 +23,18 @@ table tr:hover{
 }
 
 
-::placeholder {
+/* ::placeholder {
     color: rgb(207, 199, 199);
-    opacity: 1; /* Firefox */
+    opacity: 1;  
   }
   
-  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  :-ms-input-placeholder {  
    color: #fff;
   }
   
-  ::-ms-input-placeholder { /* Microsoft Edge */
+  ::-ms-input-placeholder {  
    color: #fff;
-  }
+  } */
 
 .mynav-cirlce{    
     -webkit-border-radius: 10px 10px 10px 10px;
