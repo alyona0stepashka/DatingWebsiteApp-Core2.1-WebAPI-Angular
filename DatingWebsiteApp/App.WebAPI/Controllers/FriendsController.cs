@@ -62,24 +62,34 @@ namespace App.WebAPI.Controllers
             return Ok(request_friends);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         [Authorize]
         public async Task<IActionResult> CreateRequest (string id)  //friend_id
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            if (user_id == id)
+            {
+                return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+            }
             var new_friend = await _friendService.CreateFriendRequestAsync(user_id, id);
             if (new_friend == null)
             {
-                return NotFound(new { message = "User not found by id." });
+                return NotFound(new { message = "User not found by id (or user_in_friend_list already exist)." });
             }
             return Ok(new_friend);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteRequest(string id)  //friend_id
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            if (user_id == id)
+            {
+                return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+            }
             var friend = await _friendService.DeleteFriendRequestAsync(user_id, id);
             if (friend == null)
             {
@@ -88,26 +98,34 @@ namespace App.WebAPI.Controllers
             return Ok(friend);
         }
 
-        [HttpGet("{id}")]
-        [Route("confirmation")]
+        [HttpGet]
+        [Route("confirmation/{id}")]
         [Authorize]
         public async Task<IActionResult> ConfirmRequest(string id)  //friend_id
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            if (user_id == id)
+            {
+                return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+            }
             var friend = await _friendService.ConfirmFriendRequestAsync(user_id, id);
             if (friend == null)
             {
-                return NotFound(new { message = "User not found by id." });
+                return NotFound(new { message = "User not found by id (or this user is already being your friend)." });
             }
             return Ok(friend);
         }
 
-        [HttpGet("{id}")]
-        [Route("delete")]  //??? name route
+        [HttpGet]
+        [Route("delete/{id}")]  //??? name route
         [Authorize]
         public async Task<IActionResult> DeleteFriend(string id)  //friend_id
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            if (user_id == id)
+            {
+                return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+            }
             var friend = await _friendService.DeleteFriendAsync(user_id, id);
             if (friend == null)
             {

@@ -21,13 +21,13 @@ namespace App.DAL.Repositories
         public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _db.Set<TEntity>()
-                 .AsNoTracking()
+                 //.AsNoTracking()
                  .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public IQueryable<TEntity> GetAll()
         { 
-            return _db.Set<TEntity>().AsNoTracking();
+            return _db.Set<TEntity>()/*.AsNoTracking()*/;
         }
 
         public IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate)

@@ -22,13 +22,16 @@ namespace App.BLL.ViewModels
             Name = album.Name;
             Description = album.Description;
             FilePathes = new List<string>();
-            if (album.Files.Any())
+            if (album.Files != null)
             {
-                foreach(var file in album.Files)
+                if (album.Files.Any())
                 {
-                    FilePathes.Add(file.Path);
+                    foreach (var file in album.Files)
+                    {
+                        FilePathes.Add(file.Path);
+                    }
                 }
-            } 
+            }
         }
     }
 }

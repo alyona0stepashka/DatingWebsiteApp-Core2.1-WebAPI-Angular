@@ -28,12 +28,17 @@ namespace App.BLL.Services
 
         public BlackList GetBlackFor(string user_id, string bad_guy_id)
         {
-            var black = _db.BlackLists.GetWhere(m => (m.UserFromId == user_id && m.UserToId == bad_guy_id)).First();
+            var black = _db.BlackLists.GetWhere(m => (m.UserFromId == user_id && m.UserToId == bad_guy_id));
             if (black == null)
             {
                 return null;
             }
-            return black;
+            var one_black = black.FirstOrDefault();
+            if (one_black == null)
+            {
+                return null;
+            }
+            return one_black;
         }
 
         public async Task<List<UserTabVM>> GetMyBlackListAsync(string user_id)
@@ -74,7 +79,12 @@ namespace App.BLL.Services
             if (bad_guy == null)
             {
                 return null;
-            } 
+            }
+            var is_exist = GetBlackFor(user_id, bad_guy_id);
+            if (is_exist != null)
+            {
+                return null;
+            }
             await _db.BlackLists.CreateAsync(new BlackList
             {
                 UserFromId=user_id,

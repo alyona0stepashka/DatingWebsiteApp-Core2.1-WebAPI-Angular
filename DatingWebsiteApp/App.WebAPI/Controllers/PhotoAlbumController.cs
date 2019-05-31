@@ -34,8 +34,7 @@ namespace App.WebAPI.Controllers
             return Ok(albums);
         }
 
-        [HttpGet("{id}")]
-        [Route("user")]
+        [HttpGet, Route("user/{id}")]        
         [Authorize]
         public async Task<IActionResult> GetAlbumsByUserId(string id)
         {

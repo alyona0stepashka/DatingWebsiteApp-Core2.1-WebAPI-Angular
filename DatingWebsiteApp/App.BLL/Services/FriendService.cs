@@ -24,9 +24,24 @@ namespace App.BLL.Services
             _userService = userService;
         }
 
+        public Friendship GetFriendshipFor(string user_id, string friend_id)
+        {
+            var friendship = _db.Friendships.GetWhere(m => (m.UserFromId == user_id && m.UserToId == friend_id) || (m.UserFromId == friend_id && m.UserToId == user_id));
+            if (friendship == null)
+            {
+                return null;
+            }
+            var one_friend = friendship.FirstOrDefault();
+            if (one_friend == null)
+            {
+                return null;
+            }
+            return one_friend;
+        }
+
         public async Task<List<UserTabVM>> GetIncomingsAsync(string user_id)
         {
-            var me = await _userService.GetDbUserAsync(user_id);
+            var me = await _userService.GetDbUserAsync(user_id); 
             var friendships = me.FriendshipsTo.Where(m=>m.Status==false);
             if (friendships == null)
             {
@@ -81,20 +96,15 @@ namespace App.BLL.Services
             return friend_list;
         }
 
-        public Friendship GetFriendshipFor(string user_id, string friend_id)
-        {
-            var friendship = _db.Friendships.GetWhere(m => (m.UserFromId == user_id && m.UserToId == friend_id) || (m.UserFromId == friend_id && m.UserToId == user_id)).First();
-            if (friendship == null)
-            {
-                return null;
-            }
-            return friendship;
-        } 
-
         public async Task<UserTabVM> CreateFriendRequestAsync(string user_id, string friend_id)
         {
             var friend = await _userService.GetDbUserAsync(friend_id);
             if (friend == null)
+            {
+                return null;
+            }
+            var is_exist = GetFriendshipFor(user_id, friend_id);
+            if (is_exist != null)
             {
                 return null;
             }
@@ -134,6 +144,10 @@ namespace App.BLL.Services
             }
             var friendship = GetFriendshipFor(user_id, friend_id);
             if (friendship == null)
+            {
+                return null;
+            }
+            if (friendship.Status)
             {
                 return null;
             }
