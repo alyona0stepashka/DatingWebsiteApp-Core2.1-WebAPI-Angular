@@ -15,11 +15,12 @@ const routes: Routes = [
       {path:'register', component:RegisterComponent}
     ]
   },
-  {path:'search', component: SearchComponent,canActivate:[AuthGuard]}
+  {path:'search', component: SearchComponent,canActivate:[AuthGuard]},
+  {path:'profile/:id', component: SearchComponent,canActivate:[AuthGuard]} 
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { } 

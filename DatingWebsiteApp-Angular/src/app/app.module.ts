@@ -15,6 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HomeComponent } from './components/home/home.component';
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from './components/home/search/search.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { SearchComponent } from './components/home/search/search.component';
     RegisterComponent,
     AuthComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

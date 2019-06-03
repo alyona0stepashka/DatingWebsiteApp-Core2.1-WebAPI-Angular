@@ -10,6 +10,14 @@ export class SearchComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // this.userService.getUserProfile().subscribe(
+    //   res => {
+    //     this.userDetails = res as UserDetail; 
+    //   },
+    //   err => {
+    //     console.log(err);
+    //   },
+    // );
   }
 
 }
