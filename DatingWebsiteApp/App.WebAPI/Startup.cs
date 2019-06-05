@@ -153,10 +153,10 @@ namespace App.WebAPI
             //                        .AllowAnyMethod()
             //);
             app.UseCors("MyAllowSpecificOrigins");
-            app.UseHttpsRedirection(); 
-             
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
+            app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -20,6 +20,13 @@ import { AuthInterceptor } from './guards/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccountComponent } from './components/home/settings/account/account.component';
 import { MyProfileComponent } from './components/home/settings/my-profile/my-profile.component';
+import { FriendsComponent } from './components/home/friends/friends.component';
+import { MyFriendsComponent } from './components/home/friends/my-friends/my-friends.component';
+import { OutgoingFriendsComponent } from './components/home/friends/outgoing-friends/outgoing-friends.component';
+import { IncomingFriendsComponent } from './components/home/friends/incoming-friends/incoming-friends.component';
+import { BlackComponent } from './components/home/black/black.component';
+import { OutgoingBlackComponent } from './components/home/black/outgoing-black/outgoing-black.component';
+import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +39,14 @@ import { MyProfileComponent } from './components/home/settings/my-profile/my-pro
     ProfileComponent,
     SettingsComponent,
     AccountComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    FriendsComponent,
+    MyFriendsComponent,
+    OutgoingFriendsComponent,
+    IncomingFriendsComponent,
+    BlackComponent,
+    OutgoingBlackComponent,
+    IncomingBlackComponent
   ],
   imports: [
     BrowserModule,

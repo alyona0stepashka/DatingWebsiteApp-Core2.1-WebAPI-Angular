@@ -29,6 +29,21 @@ namespace App.BLL.Services
             _personalTypeService = personalTypeService;
         }
 
+        public List<UserTabVM> GetAllUsers()
+        {
+            var db_users = _userManager.Users.Where(m=>!m.IsAnonimus);
+            if (db_users == null)
+            {
+                return null;
+            }
+            var retList = new List<UserTabVM>();
+            foreach(var user in db_users)
+            {
+                retList.Add(new UserTabVM(user));
+            } 
+            return retList;
+        }
+
         public async Task<UserInfoShowVM> GetVMUserAsync(string user_id)
         {
             var db_user = await GetDbUserAsync(user_id);

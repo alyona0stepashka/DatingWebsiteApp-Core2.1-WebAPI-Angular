@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserProfile } from 'src/app/models/user-profile.model';
 import { UserService } from 'src/app/services/user.service';
+import { FriendshipService } from 'src/app/services/friendship.service';
+import { ToastrComponentlessModule, ToastrService } from 'ngx-toastr';
+import { BlackListService } from 'src/app/services/black-list.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,38 +13,67 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit {
 
-  public userId:any;
+  public userId:any; 
   public userProfile: UserProfile;
-  private baseURL = 'localhost:44394';
+  private baseURL = 'https://localhost:44394';
 
   constructor(private service: UserService,
-    private activateRoute: ActivatedRoute) { }
+    private toastr: ToastrService,
+    private blackService: BlackListService,
+    private friendService: FriendshipService,
+    private activateRoute: ActivatedRoute,
+    private router:Router) { }
 
   async ngOnInit() {
     await this.activateRoute.params.subscribe(params => this.userId = params['id']);
     if (this.userId==0){
-      this.userProfile = this.service.getMyProfile();
-      // this.service.getMyProfile().subscribe(
-      //   (res: any) => {
-      //     this.userProfile = res.data;
-      //     //this.userProfile.PhotoPath = this.baseURL+this.userProfile.PhotoPath;
-      //   },
-      //   err => { 
-      //       console.log(err);
-      //   }
-      // );
+      this.service.getMyProfile().subscribe(
+        res => {
+          this.userProfile = res as UserProfile; 
+          this.userProfile.PhotoPath = this.baseURL+this.userProfile.PhotoPath;
+        },
+        err => {
+          console.log(err);
+        }
+      ); 
     } 
     else{
       this.service.getUserProfileById(this.userId).subscribe(
-            (res: any) => {
-              this.userProfile = res.data;
-              this.userProfile.PhotoPath = this.baseURL+this.userProfile.PhotoPath;
-            },
-            err => { 
-                console.log(err);
-            }
+        res => {
+          this.userProfile = res as UserProfile; 
+          this.userProfile.PhotoPath = this.baseURL+this.userProfile.PhotoPath;
+        },
+        err => {
+          console.log(err);
+        }
           );
     }    
+  }
+
+  goToChat(){ 
+    this.router.navigate(['/home/chats/details/'+this.userId]); 
+  }
+
+  sendFriendRequest(){
+    this.friendService.sendRequest(this.userId).subscribe(
+    res => {
+      this.toastr.success('Success send request', 'Sending request');
+    },
+    err => {
+      console.log(err);
+    }
+  );     
+  }
+  
+  addToBlackList(){
+    this.blackService.sendRequest(this.userId).subscribe(
+      res => {
+        this.toastr.success('Added to BlackList', 'Sending request');
+      },
+      err => {
+        console.log(err);
+      }
+    ); 
   }
 
 }

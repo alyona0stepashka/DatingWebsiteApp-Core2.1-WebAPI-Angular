@@ -179,7 +179,7 @@ namespace App.DAL.Data
                 photo_no_image = await db.FileModels.CreateAsync(new FileModel
                 {
                     Name = "no-image.png",
-                    Path = "/Images/App/no-image.png"
+                    Path = "/Images/General/no-image.png"
                 });
             } 
             //---------------------

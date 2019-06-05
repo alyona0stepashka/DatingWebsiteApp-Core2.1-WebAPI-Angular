@@ -13,6 +13,7 @@ namespace App.BLL.Interfaces
         Task<ApplicationUser> GetDbUserAsync(string user_id);
         Task<UserInfoShowVM> EditUserPhoto(UserPhotoCreateVM model);
         Task<UserInfoShowVM> EditUserInfo(UserInfoEditVM model);
+        List<UserTabVM> GetAllUsers();
 
     }
 }

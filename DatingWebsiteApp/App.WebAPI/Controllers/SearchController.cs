@@ -24,6 +24,18 @@ namespace App.WebAPI.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult FirstSearch()
+        {
+            var search_result_list = _userService.GetAllUsers();
+            if (search_result_list == null)
+            {
+                return NotFound(new { message = "Users not found (error from service)." });
+            }
+            return Ok(search_result_list);
+        }
+
         [HttpPost]
         [Authorize]
         public IActionResult StartSearch([FromBody]SearchVM model)

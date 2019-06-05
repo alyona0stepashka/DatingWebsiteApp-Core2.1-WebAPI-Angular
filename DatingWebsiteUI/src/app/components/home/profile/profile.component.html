@@ -1,25 +1,41 @@
 
- <div> 
-  <img src="{{(userProfile| async)?.PhotoPath}}" style="max-width: 150; max-height: 150"><br>
-  <div>Name: {{(userProfile| async)?.Name}}</div><br>
-    <div>Email: {{(userProfile| async)?.Email}}</div><br>
-    <div>Sex: {{(userProfile| async)?.Sex}}</div><br>
-    <div>MainGoal: {{(userProfile| async)?.MainGoal}}</div><br>
-    <div>FamilyStatus: {{(userProfile| async)?.FamilyStatus}}</div><br>
-    <div>FinanceStatus: {{(userProfile| async)?.FinanceStatus}}</div><br>
-    <div>Education: {{(userProfile| async)?.Education}}</div><br>
-    <div>Nationality: {{(userProfile| async)?.Nationality}}</div><br>
-    <div>Zodiac: {{(userProfile| async)?.Zodiac}}</div><br>
-    <div>Growth: {{(userProfile| async)?.Growth}}</div><br>
-    <div>Weight: {{(userProfile| async)?.Weight}}</div><br>
+ <div class="jumbotron" style="height: 100%;">
+    <div class="container"> 
+ <div class="form-row" style="margin:20px"> 
+   <div class="col-md-4 text-center" style="margin:0 0 0 15px">
+  <img src="{{userProfile.PhotoPath}}" style="max-width: 200px; max-height: 200px;"><br/>  
+  <!-- <button *ngIf="userId!=0" class="col-md-12 " type="button" (click)="goToChat()">Go to chat</button><br/> -->
+  <div class="text-center" style="margin:5px 10px 5px 10px">
+  <button class="col-md-4 " type="button" (click)="goToChat()"><i class="fas fa-comment-dots"></i></button>
+  <button class="col-md-4 " type="button" (click)="sendFriendRequest()"><i class="fas fa-user-plus"></i></button>
+  <button class="col-md-4 " type="button" (click)="addToBlackList()"><i class="fas fa-lock"></i></button><br/><br/><br/>
+  <div></div>
+  </div>
+   </div>
+
+   <div class="col-md-5 offset-md-1">
+  <div>Name: {{userProfile.Name}}</div><br>
+    <div>Email: {{userProfile.Email}}</div><br>
+    <div>Sex: {{userProfile.Sex}}</div><br>
+    <div>MainGoal: {{userProfile.MainGoal}}</div><br>
+    <div>FamilyStatus: {{userProfile.FamilyStatus}}</div><br>
+    <div>FinanceStatus: {{userProfile.FinanceStatus}}</div><br>
+    <div>Education: {{userProfile.Education}}</div><br>
+    <div>Nationality: {{userProfile.Nationality}}</div><br>
+    <div>Zodiac: {{userProfile.Zodiac}}</div><br>
+    <div>Growth: {{userProfile.Growth}}</div><br>
+    <div>Weight: {{userProfile.Weight}}</div><br>
     <div> Languages: 
-      <div *ngFor="let lang of (userProfile| async)?.Languages">{{lang}}</div><br>
+      <div *ngFor="let lang of userProfile.Languages">{{lang}}</div><br>
     </div>
     <div> BadHabits: 
-      <div *ngFor="let b of (userProfile| async)?.BadHabits">{{b}}</div><br>
+      <div *ngFor="let b of userProfile.BadHabits">{{b}}</div><br>
     </div>
     <div> Interests: 
-      <div *ngFor="let i of (userProfile| async)?.Interests">{{i}}</div><br>
-    </div> 
-</div> 
+      <div *ngFor="let i of userProfile.Interests">{{i}}</div><br>
+    </div>
+   </div>
+</div>
+</div>
+</div>
   
