@@ -27,6 +27,8 @@ import { IncomingFriendsComponent } from './components/home/friends/incoming-fri
 import { BlackComponent } from './components/home/black/black.component';
 import { OutgoingBlackComponent } from './components/home/black/outgoing-black/outgoing-black.component';
 import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
+import { AlbumComponent } from './components/home/album/album.component';
+import { AlbumDetailComponent } from './components/home/album-detail/album-detail.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { IncomingBlackComponent } from './components/home/black/incoming-black/i
     IncomingFriendsComponent,
     BlackComponent,
     OutgoingBlackComponent,
-    IncomingBlackComponent
+    IncomingBlackComponent,
+    AlbumComponent,
+    AlbumDetailComponent
   ],
   imports: [
     BrowserModule,

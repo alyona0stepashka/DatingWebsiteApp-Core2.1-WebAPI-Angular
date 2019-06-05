@@ -1,0 +1,24 @@
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 270px);
+    grid-row-gap: 30px;
+    grid-column-gap: 10px;
+    width: 90%;
+    margin: 0 auto;
+    list-style: none;
+    padding-left:0; 
+  }
+  
+  .container>.item {
+    padding: 12px;
+    background-color: #ffff;
+    align-content:center;
+  }
+  
+  .avatar {
+    object-fit: cover;
+    border-radius:50%;
+    width: 100px;
+    height: 100px;
+  }

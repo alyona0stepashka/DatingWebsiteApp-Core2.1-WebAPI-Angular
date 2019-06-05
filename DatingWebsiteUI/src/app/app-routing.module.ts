@@ -17,6 +17,8 @@ import { IncomingFriendsComponent } from './components/home/friends/incoming-fri
 import { BlackComponent } from './components/home/black/black.component';
 import { OutgoingBlackComponent } from './components/home/black/outgoing-black/outgoing-black.component';
 import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
+import { AlbumComponent } from './components/home/album/album.component';
+import { AlbumDetailComponent } from './components/home/album-detail/album-detail.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/auth/login', pathMatch:'full'},
@@ -51,7 +53,9 @@ const routes: Routes = [
           {path:'outgoing', component: OutgoingBlackComponent},
           {path:'incoming', component: IncomingBlackComponent}
         ]
-      } 
+      },
+      {path:'album/:id', component: AlbumComponent,canActivate:[AuthGuard]},
+      {path:'album-details/:id', component: AlbumDetailComponent,canActivate:[AuthGuard]}
     ]
   },
 ];
