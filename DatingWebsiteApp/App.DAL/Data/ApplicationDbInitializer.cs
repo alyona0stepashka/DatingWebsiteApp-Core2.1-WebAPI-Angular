@@ -173,13 +173,13 @@ namespace App.DAL.Data
                 }
             }
             //--------------------- 
-            var photo_no_image = (db.FileModels.GetWhere(m => m.Name == "no-image.jpg")).FirstOrDefault();  //ищем фото-заглушку
+            var photo_no_image = (db.FileModels.GetWhere(m => m.Name == "no-image.png")).FirstOrDefault();  //ищем фото-заглушку
             if (photo_no_image == null)  //если ее нет в бд - создаем
             {
                 photo_no_image = await db.FileModels.CreateAsync(new FileModel
                 {
-                    Name = "no-image.jpg",
-                    Path = "/Images/App/no-image.jpg"
+                    Name = "no-image.png",
+                    Path = "/Images/App/no-image.png"
                 });
             } 
             //---------------------

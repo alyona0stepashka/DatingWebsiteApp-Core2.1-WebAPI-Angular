@@ -1,0 +1,25 @@
+
+ <div> 
+  <img src="{{(userProfile| async)?.PhotoPath}}" style="max-width: 150; max-height: 150"><br>
+  <div>Name: {{(userProfile| async)?.Name}}</div><br>
+    <div>Email: {{(userProfile| async)?.Email}}</div><br>
+    <div>Sex: {{(userProfile| async)?.Sex}}</div><br>
+    <div>MainGoal: {{(userProfile| async)?.MainGoal}}</div><br>
+    <div>FamilyStatus: {{(userProfile| async)?.FamilyStatus}}</div><br>
+    <div>FinanceStatus: {{(userProfile| async)?.FinanceStatus}}</div><br>
+    <div>Education: {{(userProfile| async)?.Education}}</div><br>
+    <div>Nationality: {{(userProfile| async)?.Nationality}}</div><br>
+    <div>Zodiac: {{(userProfile| async)?.Zodiac}}</div><br>
+    <div>Growth: {{(userProfile| async)?.Growth}}</div><br>
+    <div>Weight: {{(userProfile| async)?.Weight}}</div><br>
+    <div> Languages: 
+      <div *ngFor="let lang of (userProfile| async)?.Languages">{{lang}}</div><br>
+    </div>
+    <div> BadHabits: 
+      <div *ngFor="let b of (userProfile| async)?.BadHabits">{{b}}</div><br>
+    </div>
+    <div> Interests: 
+      <div *ngFor="let i of (userProfile| async)?.Interests">{{i}}</div><br>
+    </div> 
+</div> 
+  

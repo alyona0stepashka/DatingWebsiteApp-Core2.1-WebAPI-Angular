@@ -63,12 +63,19 @@ namespace App.WebAPI
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-            services.AddCors();
-
-            services.AddSession(opts =>
+            //services.AddCors();
+            services.AddCors(options =>
             {
-                opts.Cookie.IsEssential = true;
+                options.AddPolicy("MyAllowSpecificOrigins",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
             });
+
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
 
@@ -106,6 +113,7 @@ namespace App.WebAPI
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IBlackListService, BlackListService>();
+            services.AddScoped<IStaticService, StaticService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -134,16 +142,21 @@ namespace App.WebAPI
                 app.UseHsts();
             }
 
+
+            //app.UseCors(options =>
+            //options.AllowAnyOrigin()
+            //.AllowAnyMethod()
+            //.AllowAnyHeader());
+            //app.UseCors(builder => builder
+            //                        .WithOrigins("http://localhost:4200")
+            //                        .AllowAnyHeader()
+            //                        .AllowAnyMethod()
+            //);
+            app.UseCors("MyAllowSpecificOrigins");
             app.UseHttpsRedirection(); 
-
-            app.UseCors(options =>
-            options.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
-
-            app.UseSession();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+             
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -155,34 +168,34 @@ namespace App.WebAPI
 
             app.UseMvc();
 
-            app.Use(async (context, next) =>
-            {
-                await next();
+            //app.Use(async (context, next) =>
+            //{
+            //    await next();
 
-                context.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-                context.Response.Headers.Add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
+            //    context.Response.Headers.Add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            //    context.Response.Headers.Add("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
 
-                if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Origin"))
-                {
-                    context.Response.Headers["Access-Control-Allow-Origin"] = "*";
-                }
+            //    if (!context.Response.Headers.ContainsKey("Access-Control-Allow-Origin"))
+            //    {
+            //        context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+            //    }
 
-                if (context.Request.Method?.ToUpperInvariant() == "OPTIONS")
-                {
-                    context.Response.StatusCode = 200;
-                    await context.Response.WriteAsync("");
-                }
-                else
-                if (context.Response.StatusCode == 404 &&
-                    !Path.HasExtension(context.Request.Path.Value) &&
-                    !context.Request.Path.Value.StartsWith("/api/"))
-                {
-                    context.Response.StatusCode = 200;
-                    context.Response.ContentType = "text/html";
-                    await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "index.html"));
-                    //context.Request.Path = "/index.html";
-                }
-            });
+            //    if (context.Request.Method?.ToUpperInvariant() == "OPTIONS")
+            //    {
+            //        context.Response.StatusCode = 200;
+            //        await context.Response.WriteAsync("");
+            //    }
+            //    else
+            //    if (context.Response.StatusCode == 404 &&
+            //        !Path.HasExtension(context.Request.Path.Value) &&
+            //        !context.Request.Path.Value.StartsWith("/api/"))
+            //    {
+            //        context.Response.StatusCode = 200;
+            //        context.Response.ContentType = "text/html";
+            //        await context.Response.SendFileAsync(Path.Combine(env.WebRootPath, "index.html"));
+            //        //context.Request.Path = "/index.html";
+            //    }
+            //});
         }
     }
 }

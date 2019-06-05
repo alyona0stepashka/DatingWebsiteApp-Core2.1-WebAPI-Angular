@@ -27,8 +27,17 @@ namespace App.BLL.Services
         {
             var id = 0;
             if (photo != null) //если загрузили фото 
-            {
+            { 
                 var path = "/Images/General/" + photo.FileName;
+                //string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images");
+                //if (!Directory.Exists(directory))
+                //{
+                //    Directory.CreateDirectory(directory);
+                //}
+                //if (!Directory.Exists(directory+"\\General"))
+                //{
+                //    Directory.CreateDirectory(directory + "\\General");
+                //}
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await photo.CopyToAsync(fileStream);
@@ -43,13 +52,14 @@ namespace App.BLL.Services
             }
             else  //если не загрузили фото
             {
-                var photo_no_image = (_db.FileModels.GetWhere(m => m.Name == "no-image.jpg")).FirstOrDefault();  //ищем фото-заглушку
+                var photo_no_image = (_db.FileModels.GetWhere(m => m.Name == "no-image.png")).FirstOrDefault();  //ищем фото-заглушку
                 if (photo_no_image == null)  //если ее нет в бд - создаем
                 {
+                    var path = "/Images/General/no-image.png"; 
                     photo_no_image = await _db.FileModels.CreateAsync(new FileModel
                     {
-                        Name = "no-image.jpg",
-                        Path = "/Images/App/no-image.jpg"
+                        Name = "no-image.png",
+                        Path = path
                     });
                 } 
                 id = photo_no_image.Id;
@@ -63,6 +73,23 @@ namespace App.BLL.Services
             if (photo != null) //если загрузили фото 
             {
                 var path = "/Images/Users/" + album.UserId + "/Albums/"+ album.Id + "/" + photo.FileName;
+                string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images"); 
+                if (!Directory.Exists(directory + "\\Users"))
+                {
+                    Directory.CreateDirectory(directory + "\\Users");
+                }
+                if (!Directory.Exists(directory + "\\Users\\" + album.UserId))
+                {
+                    Directory.CreateDirectory(directory + "\\Users\\" + album.UserId);
+                }
+                if (!Directory.Exists(directory + "\\Users\\" + album.UserId + "\\Albums"))
+                {
+                    Directory.CreateDirectory(directory + "\\Users\\" + album.UserId + "\\Albums");
+                }
+                if (!Directory.Exists(directory + "\\Users\\" + album.UserId + "\\Albums" + album.Id))
+                {
+                    Directory.CreateDirectory(directory + "\\Users\\" + album.UserId + "\\Albums" + album.Id);
+                }
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await photo.CopyToAsync(fileStream);
@@ -98,6 +125,15 @@ namespace App.BLL.Services
             if (photo != null) //если загрузили фото 
             {
                 var path = "/Images/Chats/" + message.ChatId + "/" + photo.FileName;
+                string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images"); 
+                if (!Directory.Exists(directory + "\\Chats"))
+                {
+                    Directory.CreateDirectory(directory + "\\Chats");
+                }
+                if (!Directory.Exists(directory + "\\Chats\\" + message.ChatId))
+                {
+                    Directory.CreateDirectory(directory + "\\Chats\\" + message.ChatId);
+                }
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await photo.CopyToAsync(fileStream);

@@ -1,3 +1,7 @@
+/* *{
+	filter: invert(100%);
+} */
+
 input.ng-touched.ng-invalid{
     border-color: #dc3545;
 }
@@ -23,18 +27,18 @@ table tr:hover{
 }
 
 
-/* ::placeholder {
+::placeholder {
     color: rgb(207, 199, 199);
-    opacity: 1;  
+    opacity: 1; /* Firefox */
   }
   
-  :-ms-input-placeholder {  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
    color: #fff;
   }
   
-  ::-ms-input-placeholder {  
+  ::-ms-input-placeholder { /* Microsoft Edge */
    color: #fff;
-  } */
+  }
 
 .mynav-cirlce{    
     -webkit-border-radius: 10px 10px 10px 10px;
@@ -57,7 +61,7 @@ table{
 }
 
 body{
-    background-color: #ffe9b8;;
+    background-color: #04c582;;
 }
 
 input.form-control,input.form-control:focus{
@@ -150,3 +154,4 @@ div.form-group.required>label:first-child:after{
     text-transform: uppercase;
     font-size: 0.9rem;
  }
+

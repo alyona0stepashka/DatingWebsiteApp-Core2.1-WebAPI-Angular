@@ -1,0 +1,110 @@
+
+/*ÑÑ‚Ð¸Ð»Ð¸Ð·ÑƒÐµÐ¼ Ð¼ÐµÐ½ÑŽÑˆÐºÑƒ*/
+.hidden-menu {
+    display: block;
+    position: fixed;
+    list-style:none;
+    padding: 10px;
+    margin: 0;
+    box-sizing: border-box;
+    width: 200px;
+    background-color: #2b343c;
+    height: 100%;
+    top: 0;
+    left: -200px;
+    transition: left .2s;
+    z-index: 2;
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+  }
+  
+  .hidden-menu li a {text-decoration: none; color:#cacaca;}
+  .hidden-menu li a:hover {color:#fff;}
+  /*ÑÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼ Ð¸Ð½Ð¿ÑƒÑ‚ Ñ‡ÐµÐºÐ±Ð¾ÐºÑ*/
+  .hidden-menu-ticker {
+    display: none;
+  }
+  /*Ð¾Ð±Ñ‰Ð¸Ðµ ÑÑ‚Ð¸Ð»Ð¸ Ð·Ð½Ð°Ñ‡ÐºÐ°-Ð³Ð°Ð¼Ð±ÑƒÑ€Ð³ÐµÑ€Ð°, ÑÐ°Ð¼Ð¾Ð³Ð¾ Ð»ÑÐ¹Ð±Ð»Ð°*/
+  .btn-menu {
+    color: #fff;
+    background-color: #fff;
+    padding: 2px;
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+    transition: left .23s;
+    z-index: 3;
+    width: 20px;
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+  }
+  /*Ð¾Ð±Ñ‰Ð¸Ðµ ÑÑ‚Ð¸Ð»Ð¸ Ð¿Ð¾Ð»Ð¾ÑÐ¾Ðº*/
+  .btn-menu span {
+    display: block;
+    height: 2px;
+    background-color: #2b343c;
+    margin: 5px 0 0;
+    transition: all .1s linear .23s;
+    position: relative;
+  }
+  /*Ð¿Ñ€Ð¸Ð±Ð¸Ð²Ð°ÐµÐ¼ Ðº Ð²ÐµÑ€Ñ…Ñƒ Ð»ÑÐ¹Ð±Ð»Ð° Ð¿ÐµÑ€Ð²ÑƒÑŽ Ð¿Ð¾Ð»Ð¾ÑÐºÑƒ*/
+  .btn-menu span.first {
+    margin-top: 0;
+  }
+  /*Ð¿Ñ€Ð¸ Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ð¸ Ð½Ð° Ð±ÑƒÑ€Ð³ÐµÑ€ Ð´Ð²Ð¸Ð³Ð°ÐµÐ¼ ÐµÐ³Ð¾ Ð¸ Ð´ÐµÐ»Ð°ÐµÐ¼ Ð´Ñ€ÑƒÐ³Ð¾Ð¹ Ñ„Ð¾Ð½ Ð±ÑƒÑ€Ð³ÐµÑ€Ñƒ*/
+  .hidden-menu-ticker:checked ~ .btn-menu {
+    left: 160px;
+    background-color: #2b343c;
+  }
+  /*Ð¸ Ð´Ð°Ð»ÑŒÑˆÐµ ÑÑ‚Ð¸Ð»Ð¸ Ð¼ÐµÐ½ÑÑŽÑ‰Ð¸Ðµ Ð±ÑƒÑ€Ð³ÐµÑ€, Ð´Ð²Ð¸Ð³Ð°ÑŽÑ‰Ð¸Ðµ Ð¼ÐµÐ½ÑŽÑˆÐºÑƒ Ð¿Ð¾ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸ÑŽ - Ð½Ð°Ð¶Ð°Ñ‚Ð¸Ðµ Ð½Ð° Ð·Ð½Ð°Ñ‡ÐµÐº Ð±ÑƒÑ€Ð³ÐµÑ€Ð°*/
+  .hidden-menu-ticker:checked ~ .hidden-menu {
+    left: 0;
+  }
+  .hidden-menu-ticker:checked ~ .btn-menu span.first {
+    -webkit-transform: rotate(45deg);
+    top: 7px;
+    background-color: #fff;
+  }
+  .hidden-menu-ticker:checked ~ .btn-menu span.second {
+    opacity: 0;
+  }
+  
+  .hidden-menu-ticker:checked ~ .btn-menu span.third {
+    -webkit-transform: rotate(-45deg);
+    top: -7px;
+    background-color: #fff;
+  }
+  /*Ð½Ñƒ Ð° Ñ‚ÑƒÑ‚ Ñ‚Ð°ÐºÐ¾Ðµ, ÑÑ‚Ð¸Ð»ÑŒ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²ÐºÐ°, ÑˆÐ¾Ð± ÑÐ¸Ð¼Ð¿Ð¾Ñ‚Ð¸Ñ‡Ð½ÐµÐµ Ð±Ñ‹Ð»Ð¾ :)*/
+  header {
+    background-color: #fff;
+    color: #2487ca;
+    text-align: center;
+    padding: 5px;
+  }
+  
+  h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 17px;
+    font-weight: normal;
+  }
+
+  /*
+
+  <!-- input Ð½ÑƒÐ¶ÐµÐ½ Ð´Ð»Ñ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾ Ð±Ñ‹ Ð² Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¼ Ð·Ð°Ð´Ð°Ñ‚ÑŒ ÑÑ‚Ð¸Ð»Ð¸ Ð¸ÐºÐ¾Ð½ÐºÐµ â˜° Ð¿Ð¾ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸ÑŽ checked, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ÐºÐ¾Ð³Ð´Ð° Ð¼ÐµÐ½ÑŽ Ð±ÑƒÐ´ÐµÐ¼ Ð¾Ñ‚ÐºÑ€Ñ‹Ð°Ñ‚ÑŒ Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ð°Ñ‚ÑŒ -->
+<input type="checkbox" id="hmt" class="hidden-menu-ticker">
+<!-- Ð”Ð°Ð»ÐµÐµ Ð²Ñ‘Ñ€ÑÑ‚ÐºÐ° ÑÐ°Ð¼Ð¾Ð¹ Ð¸ÐºÐ¾Ð½ÐºÐ¸. Ð Ð°Ð·Ð´ÐµÐ»ÐµÐ½Ð° Ð½Ð° ÑÐ¿Ð°Ð½Ñ‹, Ñ‡Ñ‚Ð¾ Ð±Ñ‹ ÐºÑ€Ð°ÑÐ¸Ð²Ð¾ Ð¿Ñ€ÐµÐ²Ñ€Ð°Ñ‰Ð°Ñ‚ÑŒ Ð² ÐºÑ€ÐµÑÑ‚Ð¸Ðº Ð¿Ñ€Ð¸ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ð¸ (Ð¿Ð¾Ñ‡Ñ‚Ð¸ ÐºÐ°Ðº Ð² Ð¢ÐµÐ»ÐµÐ³Ñ€Ð°Ð¼Ðµ :) -->
+<label class="btn-menu" for="hmt">
+  <span class="first"></span>
+  <span class="second"></span>
+  <span class="third"></span>
+</label>
+<!-- ÐœÐµÐ½ÑŽÑˆÐºÐ° Ñ€Ð°ÑÐºÑ€Ñ‹Ð²Ð°ÑŽÑ‰Ð°ÑÑÑ Ð¸ ÑÐºÑ€Ñ‹Ð²Ð°ÑŽÑ‰Ð°ÑÑÑ -->
+<ul class="hidden-menu">
+  <li><a href="">HOME</a></li>  
+  <li><a href="">ABOUT</a></li>
+  <li><a href="">CONTACTS</a></li>  
+</ul>
+
+*/
