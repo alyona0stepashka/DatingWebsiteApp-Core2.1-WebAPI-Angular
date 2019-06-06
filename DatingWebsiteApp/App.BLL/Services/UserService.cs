@@ -74,7 +74,10 @@ namespace App.BLL.Services
             }
             if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth; }
             if (model.Name != null) { db_user.Name = model.Name; }
-            if (model.MainGoal != null) { db_user.MainGoal = model.MainGoal; }
+            if (model.MainGoal != null)
+            {
+                db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
+            }
             if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
             if (model.Sex != null)
             {

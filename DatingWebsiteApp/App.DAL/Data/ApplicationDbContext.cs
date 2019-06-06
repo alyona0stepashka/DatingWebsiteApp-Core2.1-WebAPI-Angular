@@ -27,6 +27,7 @@ namespace App.DAL.Data
         public DbSet<LanguageUser> LanguageUsers { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<Sex> Sexes { get; set; }
+        public DbSet<MainGoal> MainGoals { get; set; }
         public DbSet<Zodiac> Zodiacs { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options)

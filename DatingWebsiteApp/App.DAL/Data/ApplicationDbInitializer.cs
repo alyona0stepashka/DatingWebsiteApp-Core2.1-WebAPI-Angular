@@ -19,6 +19,7 @@ namespace App.DAL.Data
             {
                 var list = new List<Zodiac>()
                 {
+                    new Zodiac{Value="Not Defined"},
                     new Zodiac{Value="Aries"},
                     new Zodiac{Value="Taurus"},
                     new Zodiac{Value="Gemini"},
@@ -44,6 +45,7 @@ namespace App.DAL.Data
             {
                 var list = new List<Sex>()
                 {
+                    new Sex{Value="Not Defined"},
                     new Sex{Value="Male"},
                     new Sex{Value="Female"},
                     //new Sex{Value="Bi"}
@@ -61,6 +63,7 @@ namespace App.DAL.Data
             {
                 var list = new List<Nationality>()
                 {
+                    new Nationality{Value="Not Defined"},
                     new Nationality{Value="Chinese"},
                     new Nationality{Value="Arab"},
                     new Nationality{Value="American"}, 
@@ -79,6 +82,7 @@ namespace App.DAL.Data
             {
                 var list = new List<Language>()
                 {
+                    new Language{Value="Not Defined"},
                     new Language{Value="Chinese"},
                     new Language{Value="Arab"},
                     new Language{Value="English"},
@@ -96,6 +100,7 @@ namespace App.DAL.Data
             {
                 var list = new List<Interest>()
                 {
+                    new Interest{Value="Not Defined"},
                     new Interest{Value="IT"},
                     new Interest{Value="Swimming"},
                     new Interest{Value="Gaming"},
@@ -114,6 +119,7 @@ namespace App.DAL.Data
             {
                 var list = new List<FinanceStatus>()
                 {
+                    new FinanceStatus{Value="Not Defined"},
                     new FinanceStatus{Value="Poor"},
                     new FinanceStatus{Value="Standart"},
                     new FinanceStatus{Value="Rich"} 
@@ -125,11 +131,29 @@ namespace App.DAL.Data
                 }
             }
             //-------------------
+            var main_id = 0;
+            if (!db.MainGoals.GetAll().Any())
+            {
+                var list = new List<MainGoal>()
+                {
+                    new MainGoal{Value="Not Defined"},
+                    new MainGoal{Value="Relationship"},
+                    new MainGoal{Value="Temporary"},
+                    new MainGoal{Value="Sponsor"}
+                };
+                foreach (var z in list)
+                {
+                    await db.MainGoals.CreateAsync(z);
+                    main_id = z.Id;
+                }
+            }
+            //-------------------
             var fam_id = 0;
             if (!db.FamilyStatuses.GetAll().Any())
             {
                 var list = new List<FamilyStatus>()
                 {
+                    new FamilyStatus{Value="Not Defined"},
                     new FamilyStatus{Value="In active search"},
                     new FamilyStatus{Value="Divorsed"},
                     new FamilyStatus{Value="Widow"},
@@ -148,6 +172,7 @@ namespace App.DAL.Data
             {
                 var list = new List<Education>()
                 {
+                    new Education{Value="Not Defined"},
                     new Education{Value="None"},
                     new Education{Value="Secondary"},
                     new Education{Value="Higher"}
@@ -163,6 +188,7 @@ namespace App.DAL.Data
             {
                 var list = new List<BadHabit>()
                 {
+                    new BadHabit{Value="Not Defined"},
                     new BadHabit{Value="Smoking"},
                     new BadHabit{Value="Drinking"},
                     new BadHabit{Value="Drugs"}
@@ -187,16 +213,41 @@ namespace App.DAL.Data
             {
                 var new_user = new ApplicationUser
                 {
-                    Email="user@mail.ru",
+                    Email = "user@mail.ru",
                     UserName = "user@mail.ru",
                     Name = "TestUser",
                     EmailConfirmed = true,
                     FileId = photo_no_image.Id,
                     SexId = sex_id,
+                    DateBirth = new DateTime(1999, 5, 4),
+                    IsAnonimus = false,
+                    MainGoalId = main_id,
                     Type = new PersonalType
                     {
-                        Growth=1.67,
-                        Weight=54,
+                        Growth = 1.67,
+                        Weight = 54,
+                        EducationId = educ_id,
+                        FamilyStatusId = fam_id,
+                        FinanceStatusId = fin_id,
+                        NationalityId = nat_id,
+                        ZodiacId = zodiac_id
+                    }
+                };
+                var new_user2 = new ApplicationUser
+                {
+                    Email = "user2@mail.ru",
+                    UserName = "user2@mail.ru",
+                    Name = "TestUser2",
+                    EmailConfirmed = true,
+                    FileId = photo_no_image.Id,
+                    SexId = sex_id,
+                    DateBirth = new DateTime(1994, 10, 4),
+                    IsAnonimus = false,
+                    MainGoalId = main_id,
+                    Type = new PersonalType
+                    {
+                        Growth = 1.79,
+                        Weight = 73,
                         EducationId = educ_id,
                         FamilyStatusId = fam_id,
                         FinanceStatusId = fin_id,
@@ -205,6 +256,7 @@ namespace App.DAL.Data
                     }
                 };
                 await userManager.CreateAsync(new_user, "Parol_01");
+                await userManager.CreateAsync(new_user2, "Parol_01");
             }
         }
     }

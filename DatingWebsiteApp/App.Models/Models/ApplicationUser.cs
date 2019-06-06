@@ -6,7 +6,7 @@ using System.Text;
 
 namespace App.Models
 {
-    public class ApplicationUser:IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
 
@@ -15,7 +15,7 @@ namespace App.Models
         //[ForeignKey("Sex")]
         public int? SexId { get; set; }  
 
-        public string MainGoal { get; set; }  
+        public int? MainGoalId { get; set; }  
 
         public bool IsAnonimus { get; set; }
 
@@ -31,11 +31,13 @@ namespace App.Models
         //[ForeignKey("File")]
         public int? FileId { get; set; }
 
-        public virtual Sex Sex { get; set; } 
+        public virtual FileModel File { get; set; }
+
+        public virtual Sex Sex { get; set; }
 
         public virtual PersonalType Type { get; set; }
 
-        public virtual FileModel File { get; set; }
+        public virtual MainGoal MainGoal { get; set; }
 
         public virtual List<Friendship> FriendshipsFrom { get; set; }
 

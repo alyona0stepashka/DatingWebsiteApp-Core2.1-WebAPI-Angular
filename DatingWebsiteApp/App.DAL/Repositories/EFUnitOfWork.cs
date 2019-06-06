@@ -28,6 +28,7 @@ namespace App.DAL.Repositories
         private Repository<LanguageUser> _languageUsers;
         private StaticRepository<Nationality> _nationalities;
         private StaticRepository<Sex> _sexes;
+        private StaticRepository<MainGoal> _mainGoals;
         private StaticRepository<Zodiac> _zodiacs; 
 
         public EfUnitOfWork(DbContextOptions options)
@@ -53,6 +54,7 @@ namespace App.DAL.Repositories
         public IRepository<LanguageUser> LanguageUsers => _languageUsers ?? (_languageUsers = new Repository<LanguageUser>(_db));
         public IStaticRepository<Nationality> Nationalities => _nationalities ?? (_nationalities = new StaticRepository<Nationality>(_db));
         public IStaticRepository<Sex> Sexes => _sexes ?? (_sexes = new StaticRepository<Sex>(_db));
+        public IStaticRepository<MainGoal> MainGoals => _mainGoals ?? (_mainGoals = new StaticRepository<MainGoal>(_db));
         public IStaticRepository<Zodiac> Zodiacs => _zodiacs ?? (_zodiacs = new StaticRepository<Zodiac>(_db));
 
         

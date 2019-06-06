@@ -32,7 +32,10 @@ namespace App.BLL.ViewModels
             {
                 Sex = user.Sex.Value;
             }
-            MainGoal = user.MainGoal;
+            if (user.MainGoal != null)
+            {
+                MainGoal = user.MainGoal.Value;
+            }
             //if (user.Type != null)
             //{
             //    if (user.Type.FamilyStatus != null)

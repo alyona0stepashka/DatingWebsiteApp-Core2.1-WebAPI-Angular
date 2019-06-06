@@ -24,6 +24,7 @@ namespace App.DAL.Interfaces
         IRepository<LanguageUser> LanguageUsers { get; }
         IStaticRepository<Nationality> Nationalities { get; }
         IStaticRepository<Sex> Sexes { get; }
+        IStaticRepository<MainGoal> MainGoals { get; }
         IStaticRepository<Zodiac> Zodiacs { get; } 
         Task SaveAsync();
     }

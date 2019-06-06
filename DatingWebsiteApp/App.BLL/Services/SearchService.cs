@@ -42,7 +42,7 @@ namespace App.BLL.Services
             }
             if (search.MainGoal != null)
             {
-                user_list = user_list.Where(m => m.MainGoal == search.MainGoal);
+                user_list = user_list.Where(m => m.MainGoal.Value == search.MainGoal);
             }
             if (search.Sex != null)
             {

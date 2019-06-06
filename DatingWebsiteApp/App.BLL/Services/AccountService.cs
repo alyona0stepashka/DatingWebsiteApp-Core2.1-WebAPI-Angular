@@ -52,7 +52,18 @@ namespace App.BLL.Services
                 PasswordHash = model.Password,
                 UserName = model.Email,
                 FileId = file_id,
-                Type = new PersonalType()
+                EmailConfirmed =false,
+                IsAnonimus = false,
+                SexId = _db.Sexes.GetAll().FirstOrDefault().Id,
+                MainGoalId = _db.MainGoals.GetAll().FirstOrDefault().Id,
+                Type = new PersonalType
+                { 
+                    EducationId = _db.Educations.GetAll().FirstOrDefault().Id,
+                    FamilyStatusId = _db.FamilyStatuses.GetAll().FirstOrDefault().Id,
+                    FinanceStatusId = _db.FinanceStatuses.GetAll().FirstOrDefault().Id,
+                    NationalityId = _db.Nationalities.GetAll().FirstOrDefault().Id,
+                    ZodiacId = _db.Zodiacs.GetAll().FirstOrDefault().Id,
+                }
             }; 
             try
             {
