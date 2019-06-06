@@ -1,0 +1,18 @@
+li.nav-item{
+    color: #545d6a; 
+}
+
+a.navbar-brand{
+    color: #545d6a;
+    font-size: 110%;
+}
+
+a.navbar-brand.active{ 
+    color: #fff;
+    font-size: 115%!important;
+}
+
+a.navbar-brand.main-logo{ 
+    color: #ffff;
+    font-size: 115%!important;
+} 

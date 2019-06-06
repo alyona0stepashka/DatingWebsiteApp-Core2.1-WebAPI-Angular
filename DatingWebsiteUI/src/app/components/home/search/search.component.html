@@ -6,6 +6,11 @@
 </label>
 
  <div class="hidden-menu"> 
+     <div>
+         <select>
+             <option></option>
+         </select>
+     </div>
   <!-- <form (ngSubmit)="onSubmit()">  
        <div class="form-group">
           <label>Sex:</label> 
@@ -15,19 +20,19 @@
 </div>  
  
 <!-- <img src="https://www.conweso.de/wp-content/uploads/2016/07/arrow-24916_1280.png" style="position: relative; transform: rotate(-120deg); top:-150px; left:-50px; max-height: 200px; max-width: 75px"> -->
-<div class="jumbotron" style="height: 100%;">  
+<div class="jumbotron" style="height: 100%; padding-top: 5%">  
                      
 <h2>Founded {{userList?.length}} user(s)</h2>
-<div class="container">
+<div style="margin-top: 1%" class="container">
  <div *ngFor="let user of userList" class="item" (click)="goToProfile(user.Id)">
    <div class="row">
      <div class="col-sm-4">
         <img class="avatar" src="{{user.PhotoPath}}"/>
      </div>
-     <div class="col-sm-8">
+     <div class="col-sm-7">
         <h1>{{user.Name}}, {{user.Age}}</h1><br/>
-         <p><i class="fas fa-venus-mars"></i> {{user.Sex}}</p>
-         <p><i class="fas fa-search"></i> {{user.MainGoal}}</p>
+         <div style="margin-left: 10px"><i class="fas fa-venus-mars"></i> {{user.Sex}}</div>
+         <div style="margin-left: 10px"><i class="fas fa-search"></i> {{user.MainGoal}}</div>
      </div>
    </div>
 </div>

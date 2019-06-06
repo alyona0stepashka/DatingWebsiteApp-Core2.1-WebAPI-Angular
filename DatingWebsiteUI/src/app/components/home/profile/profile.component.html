@@ -3,7 +3,7 @@
     <div class="container"> 
  <div class="form-row" style="margin:20px"> 
    <div class="col-md-4 text-center" style="margin:0 0 0 15px">
-  <img src="{{userProfile.PhotoPath}}" style="max-width: 200px; max-height: 200px;"><br/>  
+  <img src="{{userProfile.PhotoPath}}" style="max-width: 215px; max-height: 215px;"><br/>  
   <!-- <button *ngIf="userId!=0" class="col-md-12 " type="button" (click)="goToChat()">Go to chat</button><br/> -->
   <div class="text-center" style="margin:5px 10px 5px 10px">
   <button class="col-md-4 " type="button" (click)="goToChat()" [disabled]="userId==0"><i class="fas fa-comment-dots"></i></button>
@@ -14,25 +14,25 @@
    </div>
 
    <div class="col-md-5 offset-md-1">
-  <div>Name: {{userProfile.Name}}</div><br>
-    <div>Email: {{userProfile.Email}}</div><br>
-    <div>Sex: {{userProfile.Sex}}</div><br>
-    <div>MainGoal: {{userProfile.MainGoal}}</div><br>
-    <div>FamilyStatus: {{userProfile.FamilyStatus}}</div><br>
-    <div>FinanceStatus: {{userProfile.FinanceStatus}}</div><br>
-    <div>Education: {{userProfile.Education}}</div><br>
-    <div>Nationality: {{userProfile.Nationality}}</div><br>
-    <div>Zodiac: {{userProfile.Zodiac}}</div><br>
-    <div>Growth: {{userProfile.Growth}}</div><br>
-    <div>Weight: {{userProfile.Weight}}</div><br>
-    <div> Languages: 
-      <div *ngFor="let lang of userProfile.Languages">{{lang}}</div><br>
+  <div><h2>{{userProfile.Name}}</h2></div> 
+    <!-- <div>Email: {{userProfile.Email}}</div>  -->
+    <div *ngIf="userProfile.Sex!=null" >Sex: {{userProfile.Sex}}</div> 
+    <div *ngIf="userProfile.MainGoal!=null">MainGoal: {{userProfile.MainGoal}}</div> 
+    <div *ngIf="userProfile.FamilyStatus!=null">FamilyStatus: {{userProfile.FamilyStatus}}</div> 
+    <div *ngIf="userProfile.FinanceStatus!=null">FinanceStatus: {{userProfile.FinanceStatus}}</div> 
+    <div *ngIf="userProfile.Education!=null">Education: {{userProfile.Education}}</div> 
+    <div *ngIf="userProfile.Nationality!=null">Nationality: {{userProfile.Nationality}}</div> 
+    <div *ngIf="userProfile.Zodiac!=null">Zodiac: {{userProfile.Zodiac}}</div> 
+    <div *ngIf="userProfile.Growth!=null">Growth: {{userProfile.Growth}}</div> 
+    <div *ngIf="userProfile.Weight!=null">Weight: {{userProfile.Weight}}</div> 
+    <div *ngIf="userProfile.Languages!=null"> Languages: 
+      <div *ngFor="let lang of userProfile.Languages">{{lang}}</div> 
     </div>
-    <div> BadHabits: 
-      <div *ngFor="let b of userProfile.BadHabits">{{b}}</div><br>
+    <div *ngIf="userProfile.BadHabits!=null"> BadHabits: 
+      <div *ngFor="let b of userProfile.BadHabits">{{b}}</div> 
     </div>
-    <div> Interests: 
-      <div *ngFor="let i of userProfile.Interests">{{i}}</div><br>
+    <div *ngIf="userProfile.Interests!=null"> Interests: 
+      <div *ngFor="let i of userProfile.Interests">{{i}}</div> 
     </div>
    </div>
 </div>

@@ -1,12 +1,45 @@
  
-<nav class="navbar navbar-dark bg-dark mynav-cirlce" style="width: 100%; border-top-left-radius: 0%; border-top-right-radius: 0%">
+<!-- <nav class="navbar navbar-dark bg-dark mynav-cirlce" style="width: 100%; border-top-left-radius: 0%; border-top-right-radius: 0%">
   <a class="navbar-brand text-white" routerLink='/home/search' routerLinkActive='active'><img src="https://cdn.pixabay.com/photo/2017/09/23/16/33/pixel-heart-2779422_960_720.png" style="max-height: 50px; max-width: 75px">DatingWebsiteApp</a> 
   <a class="navbar-brand text-white" routerLink='/home/profile/0' routerLinkActive='active'>My Profile</a> 
   <a class="navbar-brand text-white" routerLink='/home/search' routerLinkActive='active'>Search</a> 
   <a class="navbar-brand text-white" routerLink='/home/friends' routerLinkActive='active'>Friends</a> 
   <a class="navbar-brand text-white" routerLink='/home/black' routerLinkActive='active'>BlackList</a> 
   <a class="navbar-brand text-white" routerLink='/home/settings' routerLinkActive='active'>Settings</a> 
-  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button> </nav>
+  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button> </nav> -->
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mynav-cirlce" style="width: 100%; border-top-left-radius: 0%; border-top-right-radius: 0%">
+      <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a class="navbar-brand main-logo" routerLink='/home/search' routerLinkActive='active'>DatingWebsiteApp</a> 
+              </li>
+              <li class="nav-item">
+                  <a class="navbar-brand" routerLink='/home/profile/0' routerLinkActive='active'>My Profile</a> 
+              </li>
+              <li class="nav-item">                 
+                  <a class="navbar-brand" routerLink='/home/search' routerLinkActive='active'>Search</a> 
+              </li>
+              <li class="nav-item">
+                  <a class="navbar-brand" routerLink='/home/friends' routerLinkActive='active'>Friends</a> 
+              </li>
+              <li class="nav-item">
+                  <a class="navbar-brand" routerLink='/home/black' routerLinkActive='active'>BlackList</a> 
+              </li>
+              <li class="nav-item">
+                  <a class="navbar-brand" routerLink='/home/settings' routerLinkActive='active'>Settings</a> 
+              </li>
+          </ul>
+      </div> 
+      <div class="navbar-collapse collapse dual-collapse2">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button>
+              </li> 
+          </ul>
+      </div>
+  </nav>
+
 <div class="wrapper">
   <div class="wrapped-div"> 
     <div class="row">

@@ -8,7 +8,7 @@ namespace App.BLL.ViewModels
     {
         public int? AgeFrom { get; set; }
         public int? AgeTo { get; set; }
-        public string  Sex { get; set; }
+        public string Sex { get; set; }
         public string FamilyStatus { get; set; }
         public string MainGoal { get; set; }
 
