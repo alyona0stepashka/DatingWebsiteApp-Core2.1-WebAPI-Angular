@@ -29,6 +29,7 @@ import { OutgoingBlackComponent } from './components/home/black/outgoing-black/o
 import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
 import { AlbumComponent } from './components/home/album/album.component';
 import { AlbumDetailComponent } from './components/home/album-detail/album-detail.component';
+import { FirstLoginComponent } from './components/home/first-login/first-login.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { AlbumDetailComponent } from './components/home/album-detail/album-detai
     OutgoingBlackComponent,
     IncomingBlackComponent,
     AlbumComponent,
-    AlbumDetailComponent
+    AlbumDetailComponent,
+    FirstLoginComponent
   ],
   imports: [
     BrowserModule,
