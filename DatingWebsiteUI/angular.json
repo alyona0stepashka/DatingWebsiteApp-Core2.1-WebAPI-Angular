@@ -26,7 +26,9 @@
               "src/styles.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js"],
             "es5BrowserSupport": true
           },
           "configurations": {

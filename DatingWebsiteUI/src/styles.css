@@ -1,6 +1,9 @@
 /* *{
 	filter: invert(100%);
 } */
+/* 
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/bootstrap-select/dist/css/bootstrap-select.css"; */
 
 input.ng-touched.ng-invalid{
     border-color: #dc3545;

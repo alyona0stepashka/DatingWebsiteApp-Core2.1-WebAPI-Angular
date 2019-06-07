@@ -40,7 +40,7 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public IActionResult StartSearch([FromBody]SearchVM model)
         {
-            var search_result_list = _searchService.StartSearch(model);
+            var search_result_list = _searchService.StartSearchAsync(model);
             if (search_result_list == null)
             {
                 return NotFound(new { message = "Users not found (error from service)." });

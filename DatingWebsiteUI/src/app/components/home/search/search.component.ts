@@ -13,17 +13,17 @@ import { StaticService } from 'src/app/services/static.service';
 })
 export class SearchComponent implements OnInit {
 
-  public searchData: UserSearch;
+  public searchData = new UserSearch();
   public userList: UserTab[];
-  public staticInfo: Static; 
+  public staticInfo = new Static(); 
   private baseURL = 'https://localhost:44394';
 
   constructor(private searchService: SearchService,
     private staticService: StaticService,
     private router:Router) { }
 
-  ngOnInit() {
-    this.searchService.getAll().subscribe(
+  async ngOnInit() {
+    await this.searchService.getAll().subscribe(
       res => {
         this.userList = res as UserTab[];  
         this.userList.forEach(element => {
@@ -34,7 +34,7 @@ export class SearchComponent implements OnInit {
         console.log(err);
       }
     ); 
-    this.staticService.getAll().subscribe(
+    await this.staticService.getAll().subscribe(
       res => {
         this.staticInfo = res as Static; 
       },
@@ -46,6 +46,17 @@ export class SearchComponent implements OnInit {
 
   goToProfile(id: string){
     this.router.navigate(['/home/profile/'+ id]); 
+  }
+
+  async onSearch(){
+    await this.searchService.getSearchResult(this.searchData).subscribe(
+      res => {
+        this.userList = res as UserTab[]; 
+      },
+      err => {
+        console.log(err);
+      }
+    ); 
   }
 
 }

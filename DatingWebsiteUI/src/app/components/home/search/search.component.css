@@ -90,10 +90,37 @@
     font-style: italic;
   }
 
+  h1.menu {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    font-style: italic;
+  }
+
   p{
     font-size: 12px;
     font-weight: normal;
   }
+
+  p.my-menu-label{
+    font-size: 100%;
+    font-weight: normal;
+  }
+
+  .row{
+    margin: 2% 0%;
+  }
+
+  select{    
+    font-size: 64%;
+    height: 100%;
+  }
+  input{    
+    font-size: 64%;
+    height: 100%;
+    margin-bottom: 2%;
+  }
+
   /*
 
   <!-- input Ð½ÑƒÐ¶ÐµÐ½ Ð´Ð»Ñ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾ Ð±Ñ‹ Ð² Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¼ Ð·Ð°Ð´Ð°Ñ‚ÑŒ ÑÑ‚Ð¸Ð»Ð¸ Ð¸ÐºÐ¾Ð½ÐºÐµ â˜° Ð¿Ð¾ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸ÑŽ checked, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ÐºÐ¾Ð³Ð´Ð° Ð¼ÐµÐ½ÑŽ Ð±ÑƒÐ´ÐµÐ¼ Ð¾Ñ‚ÐºÑ€Ñ‹Ð°Ñ‚ÑŒ Ð¸ Ð·Ð°ÐºÑ€Ñ‹Ð°Ñ‚ÑŒ -->

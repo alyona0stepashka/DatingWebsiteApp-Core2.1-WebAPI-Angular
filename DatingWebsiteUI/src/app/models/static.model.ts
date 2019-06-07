@@ -11,4 +11,16 @@ export class Static {
     Nationalities: StaticBase[];
     Sexes: StaticBase[];
     Zodiacs: StaticBase[];
+    constructor(){        
+    this.BadHabits = []; 
+    this.Educations = [];
+    this.FamilyStatuses = [];
+    this.FinanceStatuses = [];
+    this.Interests = [];
+    this.Languages = [];
+    this.MainGoals = [];
+    this.Nationalities = [];
+    this.Sexes = [];
+    this.Zodiacs = [];
+    }
 }

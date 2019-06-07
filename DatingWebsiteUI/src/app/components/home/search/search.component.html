@@ -6,11 +6,79 @@
 </label>
 
  <div class="hidden-menu"> 
-     <div>
-         <select>
-             <option></option>
+   <h2 style="color:#ffff">Search filters </h2>
+   <div class="row">
+      <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
+       <!-- <p class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">Age:   </p>  -->
+        <input [(ngModel)]="searchData.AgeFrom" type="text" class="form-control form-control-sm" placeholder="AgeFrom"/>
+        <input  [(ngModel)]="searchData.AgeTo" placeholder="AgeTo" class="form-control form-control-sm" type="text"/>
+  </div> 
+     <div class="row">
+         <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
+          <!-- <p class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">Sex:   </p>  -->
+          <!-- <ng-select [(ngModel)]="searchData.Sex" [items]="staticInfo.Sexes" bindLabel="type"
+             placeholder="Sex..."></ng-select>  -->
+          <select  [(ngModel)]="searchData.Sex"  class="form-control form-control-sm" title="Sex...">
+             <option *ngFor="let item of staticInfo.Sexes" [value]="item.Id">{{item.Value}}</option>
          </select>
-     </div>
+     </div>  
+     <div class="row"> 
+          <!-- <p  class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">BadHabits:   </p>  -->
+           <select [(ngModel)]="searchData.BadHabit"   class="form-control form-control-sm" title="BadHabits...">
+             <option *ngFor="let item of staticInfo.BadHabits" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>  
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Education:   </p>  -->
+           <select  [(ngModel)]="searchData.Education"    class="form-control form-control-sm" title="Education...">
+             <option *ngFor="let item of staticInfo.Educations" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>  
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">FamilyStatus:   </p>  -->
+           <select [(ngModel)]="searchData.FamilyStatus"     class="form-control form-control-sm" title="FamilyStatus...">
+             <option *ngFor="let item of staticInfo.FamilyStatuses" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>  
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">FinanceStatus:   </p>  -->
+           <select [(ngModel)]="searchData.FinanceStatus"     class="form-control form-control-sm" title="FinanceStatus...">
+             <option *ngFor="let item of staticInfo.FinanceStatuses" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>   
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Interests:   </p>  -->
+           <select  [(ngModel)]="searchData.Interest"    class="form-control form-control-sm" title="Interest...">
+             <option *ngFor="let item of staticInfo.Interests" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>   
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Languages:   </p>  -->
+           <select [(ngModel)]="searchData.Language"     class="form-control form-control-sm" title="Language...">
+             <option *ngFor="let item of staticInfo.Languages" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>    
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">MainGoals:   </p>  -->
+           <select  [(ngModel)]="searchData.MainGoal"    class="form-control form-control-sm" title="MainGoal...">
+             <option *ngFor="let item of staticInfo.MainGoals" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>    
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Nationalities:   </p>  -->
+           <select  [(ngModel)]="searchData.Nationality"    class="form-control form-control-sm" title="Nationality...">
+             <option *ngFor="let item of staticInfo.Nationalities" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div>  
+     <div class="row"> 
+          <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Zodiacs:   </p>  -->
+           <select  [(ngModel)]="searchData.Zodiac"    class="form-control form-control-sm" title="Zodiac...">
+             <option *ngFor="let item of staticInfo.Zodiacs" [value]="item.Id">{{item.Value}}</option>
+         </select>
+     </div> 
+     <div class="row"> 
+        <button style="width: 100%" type="button" (click)="onSearch()"><i class="fas fa-search"></i></button>
+     </div> 
   <!-- <form (ngSubmit)="onSubmit()">  
        <div class="form-group">
           <label>Sex:</label> 

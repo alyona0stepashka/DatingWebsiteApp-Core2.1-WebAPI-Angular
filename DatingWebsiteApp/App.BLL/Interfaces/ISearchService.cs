@@ -8,6 +8,6 @@ namespace App.BLL.Interfaces
 {
     public interface ISearchService
     {
-        List<UserTabVM> StartSearch(SearchVM search);
+        Task<List<UserTabVM>> StartSearchAsync(SearchVM search);
     }
 }
