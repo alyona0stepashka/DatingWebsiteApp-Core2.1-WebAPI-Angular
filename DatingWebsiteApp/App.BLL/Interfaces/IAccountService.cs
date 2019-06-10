@@ -12,6 +12,7 @@ namespace App.BLL.Interfaces
         Task<object> RegisterUserAsync(RegisterVM model, string url);
         Task<OperationDetails> ConfirmEmailAsync(string user_id, string code);
         Task<object> LoginUserAsync(LoginVM model);
+        Task<object> EditAccountInfo(UserAccountInfoEditVM model);
         //Task<UserShowVM> GetUserAsync(string user_id);
         //Task<ApplicationUser> GetDbUserAsync(string user_id);
         void Dispose();

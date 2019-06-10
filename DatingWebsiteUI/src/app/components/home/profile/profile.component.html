@@ -3,7 +3,7 @@
     <div class="container"> 
  <div class="form-row" style="margin:20px"> 
    <div class="col-md-4 text-center" style="margin:0 0 0 15px">
-  <img src="{{userProfile.PhotoPath}}" style="max-width: 215px; max-height: 215px;"><br/>  
+  <img src="https://localhost:44394{{userProfile.PhotoPath}}" style="max-width: 215px; max-height: 215px;"><br/>  
   <!-- <button *ngIf="userId!=0" class="col-md-12 " type="button" (click)="goToChat()">Go to chat</button><br/> -->
   <div class="text-center" style="margin:5px 10px 5px 10px">
   <button class="col-md-4 " type="button" (click)="goToChat()" [disabled]="userId==0"><i class="fas fa-comment-dots"></i></button>
@@ -26,13 +26,13 @@
     <div *ngIf="userProfile.Growth!=null">Growth: {{userProfile.Growth}}</div> 
     <div *ngIf="userProfile.Weight!=null">Weight: {{userProfile.Weight}}</div> 
     <div *ngIf="userProfile.Languages!=null"> Languages: 
-      <div *ngFor="let lang of userProfile.Languages">{{lang}}</div> 
+      <div *ngFor="let lang of userProfile.Languages">{{lang.Value}}</div> 
     </div>
     <div *ngIf="userProfile.BadHabits!=null"> BadHabits: 
-      <div *ngFor="let b of userProfile.BadHabits">{{b}}</div> 
+      <div *ngFor="let b of userProfile.BadHabits">{{b.Value}}</div> 
     </div>
     <div *ngIf="userProfile.Interests!=null"> Interests: 
-      <div *ngFor="let i of userProfile.Interests">{{i}}</div> 
+      <div *ngFor="let i of userProfile.Interests">{{i.Value}}</div> 
     </div>
    </div>
 </div>

@@ -15,8 +15,7 @@ export class SearchComponent implements OnInit {
 
   public searchData = new UserSearch();
   public userList: UserTab[];
-  public staticInfo = new Static();
-  private baseURL = 'https://localhost:44394';
+  public staticInfo = new Static(); 
 
   constructor(private searchService: SearchService,
               private staticService: StaticService,
@@ -25,10 +24,7 @@ export class SearchComponent implements OnInit {
   async ngOnInit() {
     await this.searchService.getAll().subscribe(
       res => {
-        this.userList = res as UserTab[];
-        this.userList.forEach(element => {
-          element.PhotoPath = this.baseURL + element.PhotoPath;
-        });
+        this.userList = res as UserTab[]; 
       },
       err => {
         console.log(err);

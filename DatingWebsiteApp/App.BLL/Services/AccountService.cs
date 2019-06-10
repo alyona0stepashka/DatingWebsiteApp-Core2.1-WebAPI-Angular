@@ -118,7 +118,62 @@ namespace App.BLL.Services
             }
             else
                 return null;
-        } 
+        }
+
+        public async Task<object> EditAccountInfo(UserAccountInfoEditVM model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (model.NewPassword != null && model.OldPassword != null)
+            { 
+                if (user != null && await _userManager.CheckPasswordAsync(user, model.OldPassword))
+                {
+                    string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var result = await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
+
+                    if (result.Succeeded)
+                    {
+                        var options = new IdentityOptions();
+
+                        var tokenDescriptor = new SecurityTokenDescriptor
+                        {
+                            Subject = new ClaimsIdentity(new Claim[]
+                            {
+                            new Claim("UserID", user.Id),
+                            }),
+                            Expires = DateTime.UtcNow.AddDays(1),
+                            SigningCredentials =
+                                new SigningCredentials(
+                                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
+                                    SecurityAlgorithms.HmacSha256Signature)
+                        };
+                        var tokenHandler = new JwtSecurityTokenHandler();
+                        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                        var token = tokenHandler.WriteToken(securityToken);
+                        return token;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            if (model.Name != null) { user.Name = model.Name; }
+            if (model.IsAnonimus!=null) { user.IsAnonimus = model.IsAnonimus.Value; }
+            var edit_result = await _userManager.UpdateAsync(user);
+            if (edit_result.Succeeded)
+            {
+                return new UserInfoShowVM(user);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
 
         public void Dispose()
         {

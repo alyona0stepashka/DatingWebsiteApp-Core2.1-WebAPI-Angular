@@ -32,11 +32,11 @@ namespace App.BLL.ViewModels
 
         public double? Weight { get; set; }
 
-        public List<string> Languages { get; set; }
+        public List<int> Languages { get; set; }
 
-        public List<string> BadHabits { get; set; }
+        public List<int> BadHabits { get; set; }
 
-        public List<string> Interest { get; set; }
+        public List<int> Interests { get; set; }
 
         public UserInfoEditVM()
         {

@@ -11,47 +11,51 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private router:Router,
-    private service : UserService,
-    private formBuilder : FormBuilder, 
-    private toastr : ToastrService) { }
+  constructor(private router: Router,
+              private service: UserService,
+              private formBuilder: FormBuilder,
+              private toastr: ToastrService) { }
 
     registerForm: FormGroup;
     submitted = false;
+    userId = 0;
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({ 
+    this.registerForm = this.formBuilder.group({
       Name: ['', [Validators.required]],
         Email: ['', [Validators.required, Validators.email]],
         Password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-  
+
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
-    this.submitted = true; 
+    this.submitted = true;
 
     if (this.registerForm.invalid) {
         return null;
-    } 
+    }
 
     this.service.register(this.registerForm).subscribe(
-      (res: any) => { 
+      (res: any) => {
           this.resetForm();
           this.toastr.success('New user created!', 'Registration successful.');
-          this.router.navigate(['/auth/first']); 
       },
       err => {
         console.log(err);
       }
     );
-    
+
+    if (this.userId != 0) {
+          this.router.navigate(['/auth/first']);
+    }
+
 }
 
-    resetForm() { 
-      this.registerForm.value.Name ='';
-      this.registerForm.value.Email ='';
-      this.registerForm.value.Password ='';      
-      } 
+    resetForm() {
+      this.registerForm.value.Name = '';
+      this.registerForm.value.Email = '';
+      this.registerForm.value.Password = '';
+      }
     }

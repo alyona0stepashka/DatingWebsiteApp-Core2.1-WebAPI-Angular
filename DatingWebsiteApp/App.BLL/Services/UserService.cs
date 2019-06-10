@@ -67,35 +67,47 @@ namespace App.BLL.Services
 
         public async Task<UserInfoShowVM> EditUserInfo(UserInfoEditVM model)
         {
-            var db_user = await GetDbUserAsync(model.Id);
-            if (db_user == null)
+            try
+            {
+                var db_user = await GetDbUserAsync(model.Id);
+                if (db_user == null)
+                {
+                    return null;
+                }
+                if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth; }
+                if (model.Name != null) { db_user.Name = model.Name; }
+                if (model.MainGoal != null)
+                {
+                    // db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
+                    db_user.MainGoalId = model.MainGoal.Value;
+                }
+                db_user.MainGoal = null;
+                if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
+                if (model.Sex != null)
+                {
+                    //db_user.SexId = (_db.Sexes.GetWhere(m => m.Value == model.Sex)).FirstOrDefault().Id;
+                    db_user.SexId = model.Sex.Value;
+                }
+                db_user.Sex = null;
+                if (db_user.Type != null)
+                {
+                    //db_user.TypeId = (await _personalTypeService.EditTypeAsync(db_user.Type, model)).Id;
+                    await _personalTypeService.EditTypeAsync(db_user.Type, model);
+                    db_user.Type = null;
+                }
+                else
+                {
+                    db_user.Type = new PersonalType();
+                }
+                db_user.File = null;
+                await _userManager.UpdateAsync(db_user);
+                var user = new UserInfoShowVM(db_user);
+                return user;
+            }
+            catch(Exception e)
             {
                 return null;
             }
-            if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth; }
-            if (model.Name != null) { db_user.Name = model.Name; }
-            if (model.MainGoal != null)
-            {
-                // db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
-                db_user.MainGoalId = model.MainGoal.Value;
-            }
-            if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
-            if (model.Sex != null)
-            {
-                //db_user.SexId = (_db.Sexes.GetWhere(m => m.Value == model.Sex)).FirstOrDefault().Id;
-                db_user.SexId = model.Sex.Value;
-            }
-            if (db_user.Type != null)
-            {
-                await _personalTypeService.EditTypeAsync(db_user.Type, model);
-            } 
-            else
-            {
-                db_user.Type = new PersonalType();
-            }
-            await _userManager.UpdateAsync(db_user);
-            var user = new UserInfoShowVM(db_user);
-            return user;
         }
         public async Task<UserInfoShowVM> EditUserPhoto(UserPhotoCreateVM model)
         {

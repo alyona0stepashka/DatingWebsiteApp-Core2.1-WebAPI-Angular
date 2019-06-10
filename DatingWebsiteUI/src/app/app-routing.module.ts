@@ -22,43 +22,43 @@ import { AlbumDetailComponent } from './components/home/album-detail/album-detai
 import { FirstLoginComponent } from './components/auth/first-login/first-login.component';
 
 const routes: Routes = [
-  {path:'',redirectTo:'/auth/login', pathMatch:'full'},
-  //{ path: '**', redirectTo: 'home' },
+  {path: '', redirectTo: '/auth/login', pathMatch: 'full'},
+  // { path: '**', redirectTo: 'home' },
   {
-    path:'auth', component: AuthComponent,
-    children:[
-      {path:'login', component:LoginComponent},
-      {path:'register', component:RegisterComponent},
-      {path:'first', component:FirstLoginComponent}
+    path: 'auth', component: AuthComponent,
+    children: [
+      {path: 'login', component: LoginComponent},
+      {path: 'register', component: RegisterComponent},
+      {path: 'first', component: FirstLoginComponent}
     ]
   },
   {
-    path:'home', component: HomeComponent,
-    children:[
-      {path:'search', component: SearchComponent,canActivate:[AuthGuard]},
-      {path:'profile/:id', component: ProfileComponent,canActivate:[AuthGuard]} ,
-      //{path:'profile', component: ProfileComponent,canActivate:[AuthGuard]} ,
-      {path:'settings', component: SettingsComponent,canActivate:[AuthGuard],
-        children:[
-          {path:'profile', component:MyProfileComponent},
-          {path:'account', component:AccountComponent}
+    path: 'home', component: HomeComponent,
+    children: [
+      {path: 'search', component: SearchComponent, canActivate: [AuthGuard]},
+      {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]} ,
+      // {path:'profile', component: ProfileComponent,canActivate:[AuthGuard]} ,
+      {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
+        children: [
+          {path: 'profile', component: MyProfileComponent},
+          {path: 'account', component: AccountComponent}
         ]
       },
-      {path:'friends', component: FriendsComponent,canActivate:[AuthGuard],
-        children:[
-          {path:'my', component: MyFriendsComponent},
-          {path:'outgoing', component: OutgoingFriendsComponent},
-          {path:'incoming', component: IncomingFriendsComponent}
+      {path: 'friends', component: FriendsComponent, canActivate: [AuthGuard],
+        children: [
+          {path: 'my', component: MyFriendsComponent},
+          {path: 'outgoing', component: OutgoingFriendsComponent},
+          {path: 'incoming', component: IncomingFriendsComponent}
         ]
       },
-      {path:'black', component: BlackComponent,canActivate:[AuthGuard],
-        children:[ 
-          {path:'outgoing', component: OutgoingBlackComponent},
-          {path:'incoming', component: IncomingBlackComponent}
+      {path: 'black', component: BlackComponent, canActivate: [AuthGuard],
+        children: [
+          {path: 'outgoing', component: OutgoingBlackComponent},
+          {path: 'incoming', component: IncomingBlackComponent}
         ]
       },
-      {path:'album/:id', component: AlbumComponent,canActivate:[AuthGuard]},
-      {path:'album-details/:id', component: AlbumDetailComponent,canActivate:[AuthGuard]}
+      {path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard]},
+      {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
     ]
   },
 ];

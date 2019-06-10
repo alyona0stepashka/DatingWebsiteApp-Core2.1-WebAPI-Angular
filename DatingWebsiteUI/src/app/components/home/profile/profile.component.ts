@@ -14,7 +14,7 @@ import { BlackListService } from 'src/app/services/black-list.service';
 export class ProfileComponent implements OnInit {
 
   public userId: any;
-  public userProfile: UserProfile;
+  public userProfile = new UserProfile();
   private baseURL = 'https://localhost:44394';
 
   constructor(private service: UserService,
@@ -26,11 +26,10 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit() {
     await this.activateRoute.params.subscribe(params => this.userId = params.id);
-    if (this.userId === 0) {
+    if (this.userId == 0) {
       this.service.getMyProfile().subscribe(
         res => {
-          this.userProfile = res as UserProfile;
-          this.userProfile.PhotoPath = this.baseURL + this.userProfile.PhotoPath;
+          this.userProfile = res as UserProfile; 
         },
         err => {
           console.log(err);
@@ -39,8 +38,7 @@ export class ProfileComponent implements OnInit {
     } else {
       this.service.getUserProfileById(this.userId).subscribe(
         res => {
-          this.userProfile = res as UserProfile;
-          this.userProfile.PhotoPath = this.baseURL + this.userProfile.PhotoPath;
+          this.userProfile = res as UserProfile; 
         },
         err => {
           console.log(err);

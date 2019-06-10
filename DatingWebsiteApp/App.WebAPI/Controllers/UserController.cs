@@ -71,9 +71,9 @@ namespace App.WebAPI.Controllers
             return Ok(user);
         }
 
-        [HttpPut]
+        [HttpPut, Route("avatar")]
         [Authorize]
-        public async Task<IActionResult> EditMyUserPhoto([FromBody] UserPhotoCreateVM editUser)
+        public async Task<IActionResult> EditMyUserPhoto(/*[FromBody] UserPhotoCreateVM editUser*/)
         {
             //if (editUser == null)
             //    return BadRequest(new { message = "editUser param is null." });
@@ -88,15 +88,19 @@ namespace App.WebAPI.Controllers
             //}
             //return Ok(user);
 
-            if (editUser.UploadPhoto == null) return BadRequest("Null File");
-            if (editUser.UploadPhoto.Length == 0)
+            var UploadPhoto = HttpContext.Request.Form.Files[0];
+
+            if (UploadPhoto == null) return BadRequest("Null File");
+            if (UploadPhoto.Length == 0)
             {
                 return BadRequest("Empty File");
             }
-            if (editUser.UploadPhoto.Length > 10 * 1024 * 1024) return BadRequest("Max file size exceeded.");
-            if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(editUser.UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
+            if (UploadPhoto.Length > 10 * 1024 * 1024) return BadRequest("Max file size exceeded.");
+            if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
 
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+
+            var editUser = new UserPhotoCreateVM() { Id=user_id, UploadPhoto = UploadPhoto };
             editUser.Id = user_id;
 
             var user = await _userService.EditUserPhoto(editUser);

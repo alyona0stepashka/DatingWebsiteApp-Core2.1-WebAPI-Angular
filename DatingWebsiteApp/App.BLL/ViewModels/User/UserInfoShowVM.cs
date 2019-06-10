@@ -33,11 +33,11 @@ namespace App.BLL.ViewModels
 
         public string Zodiac { get; set; }
 
-        public List<string> Languages { get; set; }
+        public List<Language> Languages { get; set; }
 
-        public List<string> BadHabits { get; set; }
+        public List<BadHabit> BadHabits { get; set; }
 
-        public List<string> Interests { get; set; }
+        public List<Interest> Interests { get; set; }
 
         public double Growth { get; set; }
 
@@ -99,29 +99,29 @@ namespace App.BLL.ViewModels
                 }
                 if (user.Type.Languages != null)
                 {
-                    Languages = new List<string>();
+                    Languages = new List<Language>();
                     var db_langs = user.Type.Languages;
                     foreach (var lang in db_langs)
                     {
-                        Languages.Add(lang.Language.Value);
+                        Languages.Add(lang.Language);
                     }
                 }
                 if (user.Type.BadHabits != null)
                 {
-                    BadHabits = new List<string>();
+                    BadHabits = new List<BadHabit>();
                     var db_habitss = user.Type.BadHabits;
                     foreach (var lang in db_habitss)
                     {
-                        BadHabits.Add(lang.BadHabit.Value);
+                        BadHabits.Add(lang.BadHabit);
                     }
                 }
                 if (user.Type.Interests != null)
                 {
-                    Interests = new List<string>();
+                    Interests = new List<Interest>();
                     var db_interests = user.Type.Interests;
                     foreach (var lang in db_interests)
                     {
-                        Interests.Add(lang.Interest.Value);
+                        Interests.Add(lang.Interest);
                     }
                 }
             }

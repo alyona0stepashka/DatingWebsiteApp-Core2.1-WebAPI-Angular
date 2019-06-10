@@ -1,3 +1,5 @@
+import { StaticBase } from './static-base.model';
+
 export class UserProfile {
     Id: string;
     Name: string;
@@ -5,16 +7,16 @@ export class UserProfile {
     IsAnonimus: boolean;
     PhotoPath: string;
     DateBirth: Date;
-    Sex: string;
-    MainGoal: string;
-    FamilyStatus: string;
-    FinanceStatus: string;
-    Education: string;
-    Nationality: string;
-    Zodiac: string;
+    Sex: StaticBase;
+    MainGoal: StaticBase;
+    FamilyStatus: StaticBase;
+    FinanceStatus: StaticBase;
+    Education: StaticBase;
+    Nationality: StaticBase;
+    Zodiac: StaticBase;
     Growth: number;
     Weight: number;
-    Languages: string[];
-    BadHabits: string[];
-    Interests: string[]; 
+    Languages: StaticBase[];
+    BadHabits: StaticBase[];
+    Interests: StaticBase[];
 }

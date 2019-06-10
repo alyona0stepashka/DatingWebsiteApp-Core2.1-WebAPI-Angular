@@ -253,7 +253,8 @@ namespace App.DAL.Data
                         FinanceStatusId = fin_id,
                         NationalityId = nat_id,
                         ZodiacId = zodiac_id
-                    }
+                    },
+                   // PhotoAlbums = new List<PhotoAlbum> { new PhotoAlbum { Name="Page Photo", Description=DateTime.Now.ToString()} }
                 };
                 await userManager.CreateAsync(new_user, "Parol_01");
                 await userManager.CreateAsync(new_user2, "Parol_01");

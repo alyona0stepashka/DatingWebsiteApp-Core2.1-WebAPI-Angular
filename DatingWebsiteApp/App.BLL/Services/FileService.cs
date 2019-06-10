@@ -28,7 +28,7 @@ namespace App.BLL.Services
             var id = 0;
             if (photo != null) //если загрузили фото 
             { 
-                var path = "/Images/General/" + photo.FileName;
+                var path = "/Images/Users/" + photo.FileName;
                 //string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images");
                 //if (!Directory.Exists(directory))
                 //{

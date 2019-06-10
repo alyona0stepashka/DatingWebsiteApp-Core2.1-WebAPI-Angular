@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { StaticService } from 'src/app/services/static.service';
+import { Static } from 'src/app/models/static.model';
+import { UserProfile } from 'src/app/models/user-profile.model';
 
 @Component({
   selector: 'app-my-profile',
@@ -11,47 +14,95 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MyProfileComponent implements OnInit {
 
-  constructor(private router:Router,
-    private service:UserService,
-    private formBuilder: FormBuilder, 
-    private toastr: ToastrService) { }
+  constructor(private router: Router,
+              private service: UserService,
+              private formBuilder: FormBuilder,
+              private toastr: ToastrService,
+              private staticService: StaticService) { }
 
-    editForm: FormGroup;
-    submitted = false;
+  UploadFile: File = null;
+  editInfoForm: FormGroup;
+  submitted = false;
+  imageUrl = 'https://localhost:44394';
+  userProfile = new UserProfile();
+  public staticInfo = new Static();
 
-  ngOnInit() { 
-    this.editForm = this.formBuilder.group({  
-        Email: ['', [Validators.required, Validators.email]],
-        Password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+  async ngOnInit() {
+    await this.service.getMyProfile().subscribe(
+    res => {
+      this.userProfile = res as UserProfile;
+      this.editInfoForm = this.formBuilder.group({
+        DateBirth: [this.userProfile.DateBirth, [Validators.required]],
+        // Name: [this.userProfile.Name, [Validators.required]],
+        // OldPassword: [''],
+        // NewPassword: [''],
+        // IsAnonimus: [this.userProfile.IsAnonimus, [Validators.required]],
+        Sex: [this.userProfile.Sex.Id, [Validators.required]],
+        MainGoal: [this.userProfile.MainGoal.Id, [Validators.required]],
+        FamilyStatus: [this.userProfile.FamilyStatus.Id, [Validators.required]],
+        FinanceStatus: [this.userProfile.FinanceStatus.Id, [Validators.required]],
+        Education: [this.userProfile.Education.Id, [Validators.required]],
+        Nationality: [this.userProfile.Nationality.Id, [Validators.required]],
+        Zodiac: [this.userProfile.Zodiac.Id, [Validators.required]],
+        Growth: [this.userProfile.Growth, [Validators.required]],
+        Weight: [this.userProfile.Weight, [Validators.required]],
+        Photo: [null, [Validators.required]],
+        BadHabits: [null, [Validators.required]],
+        Interests: [null, [Validators.required]],
+        Languages: [null, [Validators.required]],
+      });
+      this.imageUrl = this.imageUrl + this.userProfile.PhotoPath;
+    },
+    err => {
+      console.log(err);
+    }
+  );
+    await this.staticService.getAll().subscribe(
+    res => {
+      this.staticInfo = res as Static;
+    },
+    err => {
+      console.log(err);
+    }
+    );
   }
-  
-  get f() { return this.editForm.controls; }
+
+  get f() { return this.editInfoForm.controls; }
 
   onSubmit() {
-    this.submitted = true; 
+    this.submitted = true;
+    if (this.editInfoForm.invalid) {
+      return null;
+    }
 
-    if (this.editForm.invalid) {
-        return null;
-    } 
-
-    this.service.editUserInfo(this.editForm).subscribe(
+    this.service.editUserInfo(this.editInfoForm).subscribe(
       (res: any) => {
-        this.toastr.success('Success editInfo', 'Edit User Info.');
+        this.toastr.success('New user created!', 'Registration successful.');
+        this.router.navigate(['/home/search']);
       },
       err => {
-        if (err.status == 400)
-          this.toastr.error('Incorrect username or password.', 'Authentication failed.');
-        else
-          console.log(err);
+        console.log(err);
       }
     );
-    
-}
+  }
 
-    resetForm() { 
-      this.editForm.value.Name = '';
-      this.editForm.value.Email= '';
-      this.editForm.value.Password = ''; 
-      } 
-    }
+  uploadPhoto(file: FileList) {
+    this.UploadFile = file.item(0);
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl = event.target.result;
+    };
+    reader.readAsDataURL(this.UploadFile);
+
+    this.service.editUserPhoto(this.UploadFile).subscribe(
+      (res: any) => {
+          this.toastr.success('New photo created!', 'Registration successful.');
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+
+}

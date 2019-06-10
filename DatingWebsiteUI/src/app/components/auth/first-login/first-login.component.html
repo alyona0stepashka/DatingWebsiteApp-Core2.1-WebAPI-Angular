@@ -5,6 +5,10 @@
                             <form [formGroup]="firstLoginForm" (ngSubmit)="onSubmit()"> 
                 <fieldset>
     <h2>Main Info</h2>
+    <div class="form-group"> 
+        <img [src]="imageUrl" style="max-height: 100%; max-width: 100%">
+        <input type="file" formControlName="Photo" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." /> 
+    </div>
     <div class="form-group">
         <input type="date" formControlName="DateBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.DateBirth.errors }" placeholder="DateBirth..." />
         <div *ngIf="submitted && f.DateBirth.errors" class="invalid-feedback">
@@ -17,6 +21,18 @@
         </select>
         <div *ngIf="submitted && f.Sex.errors" class="invalid-feedback">
             <div *ngIf="f.Sex.errors.required">Sex is required</div> 
+        </div>
+    </div>
+    <div class="form-group"> 
+        <input type="text" formControlName="Weight" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Weight.errors }" placeholder="Weight, kg..." />
+        <div *ngIf="submitted && f.Weight.errors" class="invalid-feedback">
+            <div *ngIf="f.Weight.errors.required">Weight is required</div> 
+        </div>
+    </div>
+    <div class="form-group"> 
+        <input type="text" formControlName="Growth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Growth.errors }" placeholder="Growth, m..." />
+        <div *ngIf="submitted && f.Growth.errors" class="invalid-feedback">
+            <div *ngIf="f.Growth.errors.required">Growth is required</div> 
         </div>
     </div>
     <div class="form-group">                       
@@ -45,7 +61,7 @@
     </div>
     <div class="form-group">                       
         <select formControlName="Education" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Education.errors }" placeholder="Education..." >
-            <option *ngFor="let item of staticInfo.Education" [value]="item.Id">{{item.Value}}</option>
+            <option *ngFor="let item of staticInfo.Educations" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.Education.errors" class="invalid-feedback">
             <div *ngIf="f.Education.errors.required">Education is required</div> 
@@ -67,23 +83,32 @@
             <div *ngIf="f.Zodiac.errors.required">Zodiac is required</div> 
         </div>
     </div>
-    <div class="form-group"> 
-        <input type="text" formControlName="Weight" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Weight.errors }" placeholder="Weight, kg..." />
-        <div *ngIf="submitted && f.Weight.errors" class="invalid-feedback">
-            <div *ngIf="f.Weight.errors.required">Weight is required</div> 
+    <div class="form-group">                       
+        <select multiple formControlName="BadHabits" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.BadHabits.errors }" placeholder="BadHabits..." >
+            <option *ngFor="let item of staticInfo.BadHabits" [value]="item.Id">{{item.Value}}</option>
+        </select>
+        <div *ngIf="submitted && f.BadHabits.errors" class="invalid-feedback">
+            <div *ngIf="f.BadHabits.errors.required">BadHabits is required</div> 
         </div>
     </div>
-    <div class="form-group"> 
-        <input type="text" formControlName="Growth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Growth.errors }" placeholder="Growth, m..." />
-        <div *ngIf="submitted && f.Growth.errors" class="invalid-feedback">
-            <div *ngIf="f.Growth.errors.required">Growth is required</div> 
+    <div class="form-group">                       
+        <select multiple formControlName="Interests" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Interests.errors }" placeholder="Interests..." >
+            <option *ngFor="let item of staticInfo.Interests" [value]="item.Id">{{item.Value}}</option>
+        </select>
+        <div *ngIf="submitted && f.Interests.errors" class="invalid-feedback">
+            <div *ngIf="f.Interests.errors.required">Interests is required</div> 
         </div>
     </div>
-    <div class="form-group"> 
-        <input type="file" formControlName="Photo"  (change)="uploadPhoto()" class="form-control" placeholder="Photo..." /> 
+    <div class="form-group">                       
+        <select multiple formControlName="Languages" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Languages.errors }" placeholder="Languages..." >
+            <option *ngFor="let item of staticInfo.Languages" [value]="item.Id">{{item.Value}}</option>
+        </select>
+        <div *ngIf="submitted && f.Languages.errors" class="invalid-feedback">
+            <div *ngIf="f.Languages.errors.required">Languages is required</div> 
+        </div>
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Let's start</button>
+    <div class="form-group" style="width: 100%">
+        <button type="submit" class="btn" style="width: 100%">Save</button>
     </div>
 </fieldset>
 </form>

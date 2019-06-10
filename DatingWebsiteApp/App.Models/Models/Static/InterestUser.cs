@@ -10,7 +10,7 @@ namespace App.Models
        // public int Id { get; set; }
 
         //[ForeignKey("PersonalType")]
-        public string PersonalTypeId { get; set; }
+        public int PersonalTypeId { get; set; }
 
        // [ForeignKey("Interest")]
         public int InterestId { get; set; }

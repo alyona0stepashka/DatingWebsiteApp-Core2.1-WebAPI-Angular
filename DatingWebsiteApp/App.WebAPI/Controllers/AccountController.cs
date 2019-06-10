@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using App.BLL.Interfaces;
 using App.BLL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,6 +59,24 @@ namespace App.WebAPI.Controllers
             }
             await _accountService.ConfirmEmailAsync(user_id, code);
             return Ok();
+        }
+
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> EditMyAccountInformation([FromBody] UserAccountInfoEditVM editUser)
+        {
+            if (editUser == null)
+                return BadRequest(new { message = "editUser param is null." });
+
+            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            editUser.Id = user_id;
+
+            var user = await _accountService.EditAccountInfo(editUser);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found by id." });
+            }
+            return Ok(user);
         }
 
     }

@@ -11,51 +11,53 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private router:Router,
-    private service:UserService,
-    private formBuilder: FormBuilder, 
-    private toastr: ToastrService) { }
+  constructor(private router: Router,
+              private service: UserService,
+              private formBuilder: FormBuilder,
+              private toastr: ToastrService) { }
 
     loginForm: FormGroup;
     submitted = false;
 
   ngOnInit() {
-    if (localStorage.getItem('token') != null)
+    if (localStorage.getItem('token') != null) {
   this.router.navigateByUrl('/home/search');
-    this.loginForm = this.formBuilder.group({  
+    }
+    this.loginForm = this.formBuilder.group({
         Email: ['', [Validators.required, Validators.email]],
         Password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
-  
+
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.submitted = true; 
+    this.submitted = true;
 
     if (this.loginForm.invalid) {
         return null;
-    } 
+    }
 
     this.service.login(this.loginForm).subscribe(
       (res: any) => {
-        localStorage.setItem('token', res.token); 
-        //localStorage.setItem('currentUser', res.currentUser);
+        localStorage.setItem('token', res.token);
+        // localStorage.setItem('currentUser', res.currentUser);
         this.router.navigateByUrl('/home/search');
       },
       err => {
-        if (err.status == 400)
+        if (err.status === 400) {
           this.toastr.error('Incorrect username or password.', 'Authentication failed.');
-        else
+        } else {
           console.log(err);
+        }
       }
     );
-    
+
 }
 
-    resetForm() { 
+    resetForm() {
       this.loginForm.value.Name = '';
-      this.loginForm.value.Email= '';
-      this.loginForm.value.Password = ''; 
-      } 
+      this.loginForm.value.Email = '';
+      this.loginForm.value.Password = '';
+      }
     }
