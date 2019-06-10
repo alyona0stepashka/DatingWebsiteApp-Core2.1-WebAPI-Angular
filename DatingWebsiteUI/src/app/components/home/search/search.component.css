@@ -9,7 +9,7 @@
     box-sizing: border-box;
     width: 200px;
     background-color: #2b343c;
-    height: 100%;
+    height: auto;
     top: 0;
     left: -200px;
     transition: left .2s;

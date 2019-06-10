@@ -41,17 +41,35 @@ namespace App.BLL.Services
             //{
             //    user_list = user_list.Where(m => m.Type.BadHabits.Contains(bad_hab);
             //}
-            if ((search.Education != null) && ((await _db.Educations.GetByIdAsync(search.Education.Value)).Value != "Not Defined"))
+            if (search.Education != null)
             {
-                user_list = user_list.Where(m => m.Type.EducationId == search.Education);
+                foreach(var item in search.Education)
+                {
+                    if ((await _db.Educations.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.Type.EducationId == item);
+                    }
+                }
             }
-            if ((search.FamilyStatus != null) && ((await _db.FamilyStatuses.GetByIdAsync(search.FamilyStatus.Value)).Value!="Not Defined"))
+            if (search.FamilyStatus != null)
             {
-                user_list = user_list.Where(m => m.Type.FamilyStatusId==search.FamilyStatus);
+                foreach (var item in search.Education)
+                {
+                    if ((await _db.FamilyStatuses.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.Type.FamilyStatusId == item);
+                    }
+                } 
             }
-            if ((search.FinanceStatus != null) && ((await _db.FinanceStatuses.GetByIdAsync(search.Education.Value)).Value != "Not Defined"))
+            if (search.FinanceStatus != null) 
             {
-                user_list = user_list.Where(m => m.Type.FinanceStatusId == search.FinanceStatus);
+                foreach (var item in search.FinanceStatus)
+                {
+                    if ((await _db.FinanceStatuses.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.Type.FinanceStatusId == item);
+                    }
+                } 
             }
             //if ((search.Interest != null) && ((await _db.Interests.GetByIdAsync(search.Interest.Value)).Value != "Not Defined"))
             //{
@@ -61,21 +79,45 @@ namespace App.BLL.Services
             //{
             //    user_list = user_list.Where(m => m.Type.LanguageId == search.Language);
             //}
-            if ((search.MainGoal != null) && ((await _db.MainGoals.GetByIdAsync(search.MainGoal.Value)).Value != "Not Defined"))
+            if (search.MainGoal != null) 
             {
-                user_list = user_list.Where(m => m.MainGoal.Id == search.MainGoal);
+                foreach (var item in search.MainGoal)
+                {
+                    if ((await _db.MainGoals.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.MainGoalId == item);
+                    }
+                } 
             }
-            if ((search.Nationality != null) && ((await _db.Nationalities.GetByIdAsync(search.Nationality.Value)).Value != "Not Defined"))
+            if (search.Nationality != null)
             {
-                user_list = user_list.Where(m => m.Type.NationalityId == search.Nationality);
+                foreach (var item in search.Nationality)
+                {
+                    if ((await _db.MainGoals.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.Type.NationalityId == item);
+                    }
+                } 
             }
-            if ((search.Zodiac != null) && ((await _db.Zodiacs.GetByIdAsync(search.Zodiac.Value)).Value != "Not Defined"))
+            if (search.Zodiac != null) 
             {
-                user_list = user_list.Where(m => m.Type.ZodiacId == search.Zodiac);
+                foreach (var item in search.Nationality)
+                {
+                    if ((await _db.Zodiacs.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.Type.ZodiacId == item);
+                    }
+                } 
             }
             if (search.Sex != null)
             {
-                user_list = user_list.Where(m => m.Sex.Id == search.Sex);
+                foreach (var item in search.Sex)
+                {
+                    if ((await _db.Sexes.GetByIdAsync(item)).Value != "Not Defined")
+                    {
+                        user_list = user_list.Where(m => m.SexId == item);
+                    }
+                } 
             } 
             foreach (var user in user_list)
             {

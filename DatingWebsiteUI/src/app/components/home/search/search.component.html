@@ -7,6 +7,9 @@
 
 <div class="hidden-menu">
   <h2 style="color:#ffff">Search filters </h2>
+  <div class="row" style="padding-top: 2%">
+    <button style="width: 100%" type="button" (click)="onSearch()"><i class="fas fa-search"></i></button>
+  </div>
   <div class="row">
     <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
     <!-- <p class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">Age:   </p>  -->
@@ -35,7 +38,7 @@
              placeholder="Sex..."></ng-select>  -->
 
 
-    <select [(ngModel)]="searchData.Sex"  class="form-control form-control-sm" title="Sex...">
+    <select multiple [(ngModel)]="searchData.Sex"  class="form-control form-control-sm" title="Sex...">
              <option *ngFor="let item of staticInfo.Sexes" [value]="item.Id">{{item.Value}}</option>
          </select>
   </div>
