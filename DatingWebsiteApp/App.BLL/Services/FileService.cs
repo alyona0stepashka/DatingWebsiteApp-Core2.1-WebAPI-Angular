@@ -44,7 +44,7 @@ namespace App.BLL.Services
                 }
                 var file = new FileModel
                 {
-                    Name = photo.FileName,
+                    Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
                     Path = path
                 };
                 await _db.FileModels.CreateAsync(file);
@@ -96,7 +96,7 @@ namespace App.BLL.Services
                 }
                 var file = new FileModel
                 {
-                    Name = photo.FileName,
+                    Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
                     Path = path,
                     PhotoAlbumId = album.Id
                 };
@@ -140,7 +140,7 @@ namespace App.BLL.Services
                 }
                 var file = new FileModel
                 {
-                    Name = photo.FileName,
+                    Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
                     Path = path,
                     MessageId = message.Id
                 };

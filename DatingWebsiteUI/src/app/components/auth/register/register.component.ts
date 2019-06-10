@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
       (res: any) => { 
           this.resetForm();
           this.toastr.success('New user created!', 'Registration successful.');
-          this.router.navigate(['/auth/login']); 
+          this.router.navigate(['/auth/first']); 
       },
       err => {
         console.log(err);

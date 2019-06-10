@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient, HttpHeaders } from "@angular/common/http"; 
+import { HttpClient, HttpHeaders } from "@angular/common/http";  
+//import 'rxjs/add/operator/map';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,11 @@ export class UserService {
     return this.http.get(this.BaseURI + '/users/'+id.toString());
   }
 
+  uploadAvatar(file: any) {
+    let input = new FormData();
+    input.append("filesData", file);
+    return this.http.put(this.BaseURI + '/users', input);
+}
   editUserInfo(body: any)
   {
     return this.http.put(this.BaseURI + '/users', body)

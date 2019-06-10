@@ -4,6 +4,7 @@
 /* 
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
 @import "../node_modules/bootstrap-select/dist/css/bootstrap-select.css"; */
+ 
 
 input.ng-touched.ng-invalid{
     border-color: #dc3545;
@@ -166,3 +167,6 @@ div.form-group.required>label:first-child:after{
     font-size: 0.9rem;
  }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

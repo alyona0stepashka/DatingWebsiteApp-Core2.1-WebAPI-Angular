@@ -2,7 +2,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
+import { MatNativeDateModule } from '@angular/material';
+
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,7 +41,12 @@ import { OutgoingBlackComponent } from './components/home/black/outgoing-black/o
 import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
 import { AlbumComponent } from './components/home/album/album.component';
 import { AlbumDetailComponent } from './components/home/album-detail/album-detail.component';
-import { FirstLoginComponent } from './components/home/first-login/first-login.component';
+import { FirstLoginComponent } from './components/auth/first-login/first-login.component';
+import { UserService } from './services/user.service';
+import { BlackListService } from './services/black-list.service';
+import { FriendshipService } from './services/friendship.service';
+import { PhotoAlbumService } from './services/photo-album.service';
+import { SearchService } from './services/search.service';
 
 @NgModule({
   declarations: [
@@ -63,9 +80,25 @@ import { FirstLoginComponent } from './components/home/first-login/first-login.c
     ReactiveFormsModule,
     CommonModule,
     BrowserAnimationsModule,
+    LayoutModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatSliderModule,
     ToastrModule.forRoot()
   ],
   providers: [
+    UserService,
+    BlackListService,
+    FriendshipService,
+    PhotoAlbumService,
+    SearchService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

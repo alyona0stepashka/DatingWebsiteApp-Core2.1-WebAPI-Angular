@@ -76,17 +76,19 @@ namespace App.BLL.Services
             if (model.Name != null) { db_user.Name = model.Name; }
             if (model.MainGoal != null)
             {
-                db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
+                // db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
+                db_user.MainGoalId = model.MainGoal.Value;
             }
             if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
             if (model.Sex != null)
             {
-                db_user.SexId = (_db.Sexes.GetWhere(m => m.Value == model.Sex)).FirstOrDefault().Id;
+                //db_user.SexId = (_db.Sexes.GetWhere(m => m.Value == model.Sex)).FirstOrDefault().Id;
+                db_user.SexId = model.Sex.Value;
             }
             if (db_user.Type != null)
             {
                 await _personalTypeService.EditTypeAsync(db_user.Type, model);
-            }
+            } 
             else
             {
                 db_user.Type = new PersonalType();

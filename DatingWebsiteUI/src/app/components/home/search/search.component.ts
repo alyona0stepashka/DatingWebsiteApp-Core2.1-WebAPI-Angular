@@ -15,17 +15,17 @@ export class SearchComponent implements OnInit {
 
   public searchData = new UserSearch();
   public userList: UserTab[];
-  public staticInfo = new Static(); 
+  public staticInfo = new Static();
   private baseURL = 'https://localhost:44394';
 
   constructor(private searchService: SearchService,
-    private staticService: StaticService,
-    private router:Router) { }
+              private staticService: StaticService,
+              private router: Router) { }
 
   async ngOnInit() {
     await this.searchService.getAll().subscribe(
       res => {
-        this.userList = res as UserTab[];  
+        this.userList = res as UserTab[];
         this.userList.forEach(element => {
           element.PhotoPath = this.baseURL + element.PhotoPath;
         });
@@ -33,30 +33,30 @@ export class SearchComponent implements OnInit {
       err => {
         console.log(err);
       }
-    ); 
+    );
     await this.staticService.getAll().subscribe(
       res => {
-        this.staticInfo = res as Static; 
+        this.staticInfo = res as Static;
       },
       err => {
         console.log(err);
       }
-    ); 
+    );
   }
 
-  goToProfile(id: string){
-    this.router.navigate(['/home/profile/'+ id]); 
+  goToProfile(id: string) {
+    this.router.navigate(['/home/profile/' + id]);
   }
 
-  async onSearch(){
+  async onSearch() {
     await this.searchService.getSearchResult(this.searchData).subscribe(
       res => {
-        this.userList = res as UserTab[]; 
+        this.userList = res as UserTab[];
       },
       err => {
         console.log(err);
       }
-    ); 
+    );
   }
 
 }

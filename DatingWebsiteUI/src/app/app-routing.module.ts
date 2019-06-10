@@ -19,14 +19,17 @@ import { OutgoingBlackComponent } from './components/home/black/outgoing-black/o
 import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
 import { AlbumComponent } from './components/home/album/album.component';
 import { AlbumDetailComponent } from './components/home/album-detail/album-detail.component';
+import { FirstLoginComponent } from './components/auth/first-login/first-login.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/auth/login', pathMatch:'full'},
+  //{ path: '**', redirectTo: 'home' },
   {
     path:'auth', component: AuthComponent,
     children:[
       {path:'login', component:LoginComponent},
-      {path:'register', component:RegisterComponent}
+      {path:'register', component:RegisterComponent},
+      {path:'first', component:FirstLoginComponent}
     ]
   },
   {
