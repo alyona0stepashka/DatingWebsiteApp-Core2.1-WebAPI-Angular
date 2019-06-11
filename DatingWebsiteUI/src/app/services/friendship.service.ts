@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { HttpClient } from "@angular/common/http"; 
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,29 +8,29 @@ import { HttpClient } from "@angular/common/http";
 export class FriendshipService {
 
   constructor(private fb: FormBuilder, private http: HttpClient) { }
-  readonly BaseURI = 'https://localhost:44394/api'; 
+  readonly BaseURI = 'https://localhost:44394/api';
 
-sendRequest(id: string){
-  return this.http.get(this.BaseURI + '/friends/'+id.toString());
+sendRequest(id: string) {
+  return this.http.get(this.BaseURI + '/friends/' + id.toString());
 }
 
-confirmRequest(id: string){
-  return this.http.get(this.BaseURI + '/friends/confirmation/'+id.toString());
+confirmRequest(id: string) {
+  return this.http.get(this.BaseURI + '/friends/confirmation/' + id.toString());
 }
 
-deleteRequest(id: string){
-  return this.http.delete(this.BaseURI + '/friends/'+id.toString());
+deleteRequest(id: string) {
+  return this.http.delete(this.BaseURI + '/friends/' + id.toString());
 }
 
-getMyOutgoingRequests(){
+getMyOutgoingRequests() {
   return this.http.get(this.BaseURI + '/friends/outgoing');
 }
 
-getMyIncomingRequests(){
+getMyIncomingRequests() {
   return this.http.get(this.BaseURI + '/friends/incoming');
 }
 
-getMyFriends(){
+getMyFriends() {
   return this.http.get(this.BaseURI + '/friends');
 }
 

@@ -6,17 +6,17 @@
                 <fieldset>
     <h2>Main Info</h2>
     <div class="form-group"> 
-        <img [src]="imageUrl" style="max-height: 100%; max-width: 100%">
+        <img [src]="imageUrl" style="max-height: 50%; max-width: 50%">
         <input type="file" formControlName="Photo" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." /> 
     </div>
     <div class="form-group">
-        <input type="date" formControlName="DateBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.DateBirth.errors }" placeholder="DateBirth..." />
+        <input type="date" [value]="userProfile.DateBirth" formControlName="DateBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.DateBirth.errors }" placeholder="DateBirth..." />
         <div *ngIf="submitted && f.DateBirth.errors" class="invalid-feedback">
             <div *ngIf="f.DateBirth.errors.required">DateBirth is required</div> 
         </div>
     </div>
     <div class="form-group">
-        <select formControlName="Sex" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Sex.errors }" placeholder="Sex..." >
+        <select [value]="userProfile.Sex.Id" formControlName="Sex" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Sex.errors }" placeholder="Sex..." >
             <option *ngFor="let item of staticInfo.Sexes" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.Sex.errors" class="invalid-feedback">
@@ -24,19 +24,19 @@
         </div>
     </div>
     <div class="form-group"> 
-        <input type="text" formControlName="Weight" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Weight.errors }" placeholder="Weight, kg..." />
+        <input type="text" [value]="userProfile.Weight" formControlName="Weight" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Weight.errors }" placeholder="Weight, kg..." />
         <div *ngIf="submitted && f.Weight.errors" class="invalid-feedback">
             <div *ngIf="f.Weight.errors.required">Weight is required</div> 
         </div>
     </div>
     <div class="form-group"> 
-        <input type="text" formControlName="Growth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Growth.errors }" placeholder="Growth, m..." />
+        <input type="text" [value]="userProfile.Growth" formControlName="Growth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Growth.errors }" placeholder="Growth, m..." />
         <div *ngIf="submitted && f.Growth.errors" class="invalid-feedback">
             <div *ngIf="f.Growth.errors.required">Growth is required</div> 
         </div>
     </div>
     <div class="form-group">                       
-        <select formControlName="MainGoal" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.MainGoal.errors }" placeholder="MainGoal..." >
+        <select formControlName="MainGoal" [value]="userProfile.MainGoal.Id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.MainGoal.errors }" placeholder="MainGoal..." >
             <option *ngFor="let item of staticInfo.MainGoals" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.MainGoal.errors" class="invalid-feedback">
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="form-group">                       
-        <select formControlName="FamilyStatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FamilyStatus.errors }" placeholder="FamilyStatus..." >
+        <select formControlName="FamilyStatus" [value]="userProfile.FamilyStatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FamilyStatus.errors }" placeholder="FamilyStatus..." >
             <option *ngFor="let item of staticInfo.FamilyStatuses" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.FamilyStatus.errors" class="invalid-feedback">
@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="form-group">                       
-        <select formControlName="FinanceStatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FinanceStatus.errors }" placeholder="FinanceStatus..." >
+        <select formControlName="FinanceStatus" [value]="userProfile.FinanceStatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FinanceStatus.errors }" placeholder="FinanceStatus..." >
             <option *ngFor="let item of staticInfo.FinanceStatuses" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.FinanceStatus.errors" class="invalid-feedback">
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="form-group">                       
-        <select formControlName="Education" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Education.errors }" placeholder="Education..." >
+        <select formControlName="Education" class="form-control"  [value]="userProfile.Education" [ngClass]="{ 'is-invalid': submitted && f.Education.errors }" placeholder="Education..." >
             <option *ngFor="let item of staticInfo.Educations" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.Education.errors" class="invalid-feedback">
@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="form-group">                       
-        <select formControlName="Nationality" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Nationality.errors }" placeholder="Nationality..." >
+        <select formControlName="Nationality" [value]="userProfile.DateBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Nationality.errors }" placeholder="Nationality..." >
             <option *ngFor="let item of staticInfo.Nationalities" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.Nationality.errors" class="invalid-feedback">
@@ -76,7 +76,7 @@
         </div>
     </div>
     <div class="form-group">                       
-        <select formControlName="Zodiac" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Zodiac.errors }" placeholder="Zodiac..." >
+        <select formControlName="Zodiac" [value]="userProfile.Zodiac" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Zodiac.errors }" placeholder="Zodiac..." >
             <option *ngFor="let item of staticInfo.Zodiacs" [value]="item.Id">{{item.Value}}</option>
         </select>
         <div *ngIf="submitted && f.Zodiac.errors" class="invalid-feedback">
@@ -84,17 +84,17 @@
         </div>
     </div>
     <div class="form-group">                       
-        <select multiple formControlName="BadHabits" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.BadHabits.errors }" placeholder="BadHabits..." >
+        <select multiple formControlName="BadHabits" [value]="editBadHabits" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.BadHabits.errors }" placeholder="BadHabits..." >
             <option *ngFor="let item of staticInfo.BadHabits" [value]="item.Id">{{item.Value}}</option>
         </select> 
     </div>
     <div class="form-group">                       
-        <select multiple formControlName="Interests" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Interests.errors }" placeholder="Interests..." >
+        <select multiple formControlName="Interests" [value]="editInterests" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Interests.errors }" placeholder="Interests..." >
             <option *ngFor="let item of staticInfo.Interests" [value]="item.Id">{{item.Value}}</option>
         </select> 
     </div>
     <div class="form-group">                       
-        <select multiple formControlName="Languages" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Languages.errors }" placeholder="Languages..." >
+        <select multiple formControlName="Languages" [value]="editLanguages" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Languages.errors }" placeholder="Languages..." >
             <option *ngFor="let item of staticInfo.Languages" [value]="item.Id">{{item.Value}}</option>
         </select> 
     </div>

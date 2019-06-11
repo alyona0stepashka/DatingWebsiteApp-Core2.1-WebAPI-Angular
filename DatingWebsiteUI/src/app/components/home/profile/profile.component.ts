@@ -14,8 +14,7 @@ import { BlackListService } from 'src/app/services/black-list.service';
 export class ProfileComponent implements OnInit {
 
   public userId: any;
-  public userProfile = new UserProfile();
-  private baseURL = 'https://localhost:44394';
+  public userProfile = new UserProfile(); 
 
   constructor(private service: UserService,
               private toastr: ToastrService,
@@ -43,16 +42,16 @@ export class ProfileComponent implements OnInit {
         err => {
           console.log(err);
         }
-          );
+      );
     }
   }
 
-  goToChat() {
-    this.router.navigate(['/home/chats/details/' + this.userId]);
+  goToChat(id: string) {
+    this.router.navigate(['/home/chats/details/' + id]);
   }
 
-  sendFriendRequest() {
-    this.friendService.sendRequest(this.userId).subscribe(
+  sendFriendRequest(id: string) {
+    this.friendService.sendRequest(id).subscribe(
     res => {
       this.toastr.success('Success send request', 'Sending request');
     },
@@ -62,8 +61,8 @@ export class ProfileComponent implements OnInit {
   );
   }
 
-  addToBlackList() {
-    this.blackService.sendRequest(this.userId).subscribe(
+  addToBlackList(id: string) {
+    this.blackService.sendRequest(id).subscribe(
       res => {
         this.toastr.success('Added to BlackList', 'Sending request');
       },
