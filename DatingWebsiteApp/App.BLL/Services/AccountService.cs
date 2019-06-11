@@ -166,7 +166,7 @@ namespace App.BLL.Services
             var edit_result = await _userManager.UpdateAsync(user);
             if (edit_result.Succeeded)
             {
-                return new UserInfoShowVM(user);
+                return new UserInfoShowVM(user, null);
             }
             else
             {

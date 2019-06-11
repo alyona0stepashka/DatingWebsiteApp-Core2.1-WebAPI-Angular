@@ -42,12 +42,7 @@ namespace App.DAL.Data
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
-            modelBuilder.Entity<Friendship>()
-                .HasOne(a => a.UserFrom)
-                .WithMany(b => b.FriendshipsFrom)
-                .HasForeignKey(c => c.UserFromId);
-
+        {  
             modelBuilder.Entity<Friendship>()
                 .HasOne(a => a.UserTo)
                 .WithMany(b => b.FriendshipsTo)

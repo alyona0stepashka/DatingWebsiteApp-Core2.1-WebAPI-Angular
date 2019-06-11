@@ -32,7 +32,7 @@ namespace App.WebAPI.Controllers
         public async Task<IActionResult> GetMyUserProfile()
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userService.GetVMUserAsync(user_id);
+            var user = await _userService.GetVMUserAsync(user_id, null);
             if (user == null)
             {
                 return NotFound(new { message = "User not found by id." });
@@ -44,8 +44,9 @@ namespace App.WebAPI.Controllers
         [HttpGet("{id}")] 
         [Authorize]
         public async Task<IActionResult> GetUserProfile(string id)
-        { 
-            var user = await _userService.GetVMUserAsync(id);
+        {
+            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+            var user = await _userService.GetVMUserAsync(id, user_id);
             if (user == null)
             {
                 return NotFound(new { message = "User not found by id." });

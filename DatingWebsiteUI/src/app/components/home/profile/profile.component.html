@@ -1,43 +1,41 @@
 
  <div class="jumbotron" style="height: 100%;">
     <div class="container"> 
- <div class="form-row" style="margin:20px"> 
-   <div class="col-md-4 text-center" style="margin:0 0 0 15px">
-  <img src="https://localhost:44394{{userProfile.PhotoPath}}" style="max-width: 215px; max-height: 215px;"><br/>  
-  <!-- <button *ngIf="userId!=0" class="col-md-12 " type="button" (click)="goToChat()">Go to chat</button><br/> -->
-  <div class="text-center" style="margin:5px 10px 5px 10px">
-  <button class="col-md-4 " type="button" (click)="goToChat(userProfile.Id)" [disabled]="userId==0"><i class="fas fa-comment-dots"></i></button>
-  <button class="col-md-4 " type="button" (click)="sendFriendRequest(userProfile.Id)" [disabled]="userId==0"><i class="fas fa-user-plus"></i></button>
-  <button class="col-md-4 " type="button" (click)="addToBlackList(userProfile.Id)" [disabled]="userId==0"><i class="fas fa-lock"></i></button><br/><br/><br/>
-  <div>
-    
-  </div>
-  </div>
-   </div>
+      <div *ngIf="userProfile" class="form-row" style="margin:20px"> 
+        <div class="col-md-3 text-center" style="margin-left: 15px">
+          <img src="https://localhost:44394{{userProfile.PhotoPath}}" style="max-width: 215px; max-height: 215px;"><br/> 
+          <div class="text-center" style="margin:5px 10px 5px 10px">
+            <button class="col-md-4 " type="button" (click)="goToChat(userProfile.Id)" [disabled]="userId==0 "><i class="fas fa-comment-dots"></i></button>
+            <button *ngIf="userProfile.IsFriend" class="col-md-4 " type="button" (click)="deleteFriendRequest(userProfile.Id)" [disabled]="userId==0"><i class="fas fa-user-plus"></i></button>
+            <button *ngIf="!userProfile.IsFriend" class="col-md-4 " type="button" (click)="sendFriendRequest(userProfile.Id)" [disabled]="userId==0 || userProfile.IsBlack"><i class="fas fa-user-minus"></i></button>
+            <button class="col-md-4 " type="button" (click)="addToBlackList(userProfile.Id)" [disabled]="userId==0"><i class="fas fa-lock"></i></button><br/><br/><br/>
+          </div>
+        </div> 
 
-   <div class="col-md-5 offset-md-1">
-  <div><h2>{{userProfile.Name}}</h2></div> 
-    <!-- <div>Email: {{userProfile.Email}}</div>  -->
-    <div *ngIf="userProfile.Sex!=null" >Sex: {{userProfile.Sex}}</div> 
-    <div *ngIf="userProfile.MainGoal!=null">MainGoal: {{userProfile.MainGoal}}</div> 
-    <div *ngIf="userProfile.FamilyStatus!=null">FamilyStatus: {{userProfile.FamilyStatus}}</div> 
-    <div *ngIf="userProfile.FinanceStatus!=null">FinanceStatus: {{userProfile.FinanceStatus}}</div> 
-    <div *ngIf="userProfile.Education!=null">Education: {{userProfile.Education}}</div> 
-    <div *ngIf="userProfile.Nationality!=null">Nationality: {{userProfile.Nationality}}</div> 
-    <div *ngIf="userProfile.Zodiac!=null">Zodiac: {{userProfile.Zodiac}}</div> 
-    <div *ngIf="userProfile.Growth!=null">Growth: {{userProfile.Growth}}</div> 
-    <div *ngIf="userProfile.Weight!=null">Weight: {{userProfile.Weight}}</div> 
-    <div *ngIf="userProfile.Languages!=null"> Languages: 
-      <div *ngFor="let lang of userProfile.Languages">{{lang.Value}}</div> 
+        <div class="col-md-3 offset-md-1">
+          <div><h2>{{userProfile.Name}}</h2></div>  
+          <div *ngIf="userProfile.Sex" ><b>Sex: </b>{{userProfile.Sex}}</div> 
+          <div *ngIf="userProfile.MainGoal"><b>MainGoal: </b>: {{userProfile.MainGoal}}</div> 
+          <div *ngIf="userProfile.FamilyStatus"><b>FamilyStatus:</b> {{userProfile.FamilyStatus}}</div> 
+          <div *ngIf="userProfile.FinanceStatus"><b>FinanceStatus:</b> {{userProfile.FinanceStatus}}</div> 
+          <div *ngIf="userProfile.Education"><b>Education:</b> {{userProfile.Education}}</div> 
+          <div *ngIf="userProfile.Nationality"><b>Nationality:</b> {{userProfile.Nationality}}</div> 
+          <div *ngIf="userProfile.Zodiac"><b>Zodiac:</b> {{userProfile.Zodiac}}</div> 
+          <div *ngIf="userProfile.Growth"><b>Growth:</b> {{userProfile.Growth}}</div> 
+          <div *ngIf="userProfile.Weight"><b>Weight:</b> {{userProfile.Weight}}</div>
+        </div> 
+        <div class="col-md-3" style="margin-top: 5%">
+          <ul *ngIf="userProfile.Languages.length!=0"> <b>Languages:</b>
+            <li *ngFor="let lang of userProfile.Languages">{{lang.Value}}</li> 
+          </ul> 
+          <ul *ngIf="userProfile.BadHabits.length!=0"> <b>BadHabits: </b>
+            <li *ngFor="let b of userProfile.BadHabits">{{b.Value}}</li> 
+          </ul>
+          <ul *ngIf="userProfile.Interests.length!=0"> <b>Interests:</b> 
+            <li *ngFor="let i of userProfile.Interests">{{i.Value}}</li> 
+          </ul>
+        </div>
     </div>
-    <div *ngIf="userProfile.BadHabits!=null"> BadHabits: 
-      <div *ngFor="let b of userProfile.BadHabits">{{b.Value}}</div> 
-    </div>
-    <div *ngIf="userProfile.Interests!=null"> Interests: 
-      <div *ngFor="let i of userProfile.Interests">{{i.Value}}</div> 
-    </div>
-   </div>
-</div>
-</div>
+  </div>
 </div>
   

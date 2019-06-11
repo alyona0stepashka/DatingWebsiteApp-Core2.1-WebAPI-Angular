@@ -1,6 +1,7 @@
 ﻿using App.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace App.BLL.ViewModels
@@ -14,6 +15,10 @@ namespace App.BLL.ViewModels
         public string Email { get; set; }
 
         public bool IsAnonimus { get; set; }
+
+        public bool IsFriend { get; set; }
+
+        public bool IsBlack { get; set; }
 
         public string PhotoPath { get; set; }
 
@@ -48,7 +53,7 @@ namespace App.BLL.ViewModels
 
         }
 
-        public UserInfoShowVM(ApplicationUser user)
+        public UserInfoShowVM(ApplicationUser user, string my_id)
         {
             Id = user.Id;
             Name = user.Name;
@@ -123,6 +128,42 @@ namespace App.BLL.ViewModels
                     {
                         Interests.Add(lang.Interest);
                     }
+                }
+                if (my_id != null)
+                {
+                    if (user.BlackListsTo != null)
+                    {
+                        if (user.BlackListsTo.Where(m => m.UserToId == my_id).Any())
+                        {
+                            IsBlack = true;
+                        }
+                        else
+                        {
+                            IsBlack = false;
+                        }
+                    }
+                    else { IsBlack = false; }
+
+                    if (user.FriendshipsFrom != null || user.FriendshipsTo != null)
+                    {
+                        if (user.FriendshipsFrom.Where(m => m.UserToId == my_id && m.Status==true).Any() || user.FriendshipsTo.Where(m => m.UserFromId == my_id && m.Status == true).Any())
+                        {
+                            IsFriend = true;
+                        }
+                        else
+                        {
+                            IsFriend = false;
+                        }
+                    }
+                    else
+                    {
+                        IsFriend = false;
+                    }
+                }
+                else
+                {
+                    IsBlack = false;
+                    IsFriend = false;
                 }
             }
         }

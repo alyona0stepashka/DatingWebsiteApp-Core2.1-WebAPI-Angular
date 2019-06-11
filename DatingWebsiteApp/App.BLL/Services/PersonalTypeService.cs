@@ -65,14 +65,14 @@ namespace App.BLL.Services
                 }
                 if (model.Languages != null)
                 {
-                    //type.EducationId = (_db.Educations.GetWhere(m => m.Value == model.Education)).FirstOrDefault().Id;
                     foreach (var db_item in type.Languages)
                     {
                         await _db.LanguageUsers.DeleteAsync(db_item.Id);
                     }
                     foreach (var new_item_id in model.Languages)
                     {
-                        await _db.LanguageUsers.CreateAsync(new LanguageUser { LanguageId = new_item_id, PersonalTypeId = type.Id });
+                        var bu = await _db.LanguageUsers.CreateAsync(new LanguageUser { LanguageId = new_item_id, PersonalTypeId = type.Id });
+                        //type.Languages.Add(bu);
                     }
                     type.Languages = null;
                 }
@@ -85,7 +85,8 @@ namespace App.BLL.Services
                     }
                     foreach (var new_item_id in model.BadHabits)
                     {
-                        await _db.BadHabitUsers.CreateAsync(new BadHabitUser { BadHabitId = new_item_id, PersonalTypeId = type.Id });
+                        var bu = await _db.BadHabitUsers.CreateAsync(new BadHabitUser { BadHabitId = new_item_id, PersonalTypeId = type.Id });
+                        //type.BadHabits.Add(bu);
                     }
                     type.BadHabits = null;
                 }
@@ -98,7 +99,8 @@ namespace App.BLL.Services
                     }
                     foreach (var new_item_id in model.Interests)
                     {
-                        await _db.InterestUsers.CreateAsync(new InterestUser { InterestId = new_item_id, PersonalTypeId = type.Id });
+                        var iu = await _db.InterestUsers.CreateAsync(new InterestUser { InterestId = new_item_id, PersonalTypeId = type.Id });
+                        //type.Interests.Add(iu);
                     }
                     type.Interests = null;
                 }

@@ -44,14 +44,14 @@ namespace App.BLL.Services
             return retList;
         }
 
-        public async Task<UserInfoShowVM> GetVMUserAsync(string user_id)
+        public async Task<UserInfoShowVM> GetVMUserAsync(string user_id, string my_id)
         {
             var db_user = await GetDbUserAsync(user_id);
             if (db_user == null)
             {
                 return null;
             } 
-            var user = new UserInfoShowVM(db_user);
+            var user = new UserInfoShowVM(db_user, my_id);
             return user;
         }
 
@@ -81,7 +81,7 @@ namespace App.BLL.Services
                     // db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
                     db_user.MainGoalId = model.MainGoal.Value;
                 }
-                //db_user.MainGoal = null;
+                db_user.MainGoal = null;
                 if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
                 if (model.Sex != null)
                 {
@@ -92,16 +92,16 @@ namespace App.BLL.Services
                 if (db_user.Type != null)
                 {
                     //db_user.TypeId = (await _personalTypeService.EditTypeAsync(db_user.Type, model)).Id;
-                    await _personalTypeService.EditTypeAsync(db_user.Type, model);
+                    db_user.Type=await _personalTypeService.EditTypeAsync(db_user.Type, model);
                     //db_user.Type = null;
                 }
                 else
                 {
                     db_user.Type = new PersonalType();
                 }
-                //db_user.File = null;
+                db_user.File = null;
                 await _userManager.UpdateAsync(db_user);
-                var user = new UserInfoShowVM(db_user);
+                var user = new UserInfoShowVM(db_user, null);
                 return user;
             }
             catch(Exception e)
@@ -118,7 +118,7 @@ namespace App.BLL.Services
             }
             db_user.FileId = await _fileService.CreatePhotoAsync(model.UploadPhoto);
             await _userManager.UpdateAsync(db_user);
-            var user = new UserInfoShowVM(db_user);
+            var user = new UserInfoShowVM(db_user, null);
             return user;
         }
     }

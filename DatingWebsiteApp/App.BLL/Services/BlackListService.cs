@@ -15,15 +15,18 @@ namespace App.BLL.Services
     {
         private IUnitOfWork _db { get; set; }
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFriendService _friendService;
         private readonly IUserService _userService;
 
         public BlackListService(IUnitOfWork uow,
             UserManager<ApplicationUser> userManager,
-            IUserService userService)
+            IUserService userService,
+            IFriendService friendService)
         {
             _db = uow;
             _userManager = userManager;
             _userService = userService;
+            _friendService = friendService;
         }
 
         public BlackList GetBlackFor(string user_id, string bad_guy_id)
@@ -90,6 +93,7 @@ namespace App.BLL.Services
                 UserFromId=user_id,
                 UserToId=bad_guy_id
             });
+            await _friendService.DeleteFriendAsync(user_id, bad_guy_id);
             var new_bad = new UserTabVM(bad_guy);
             return new_bad;
         }

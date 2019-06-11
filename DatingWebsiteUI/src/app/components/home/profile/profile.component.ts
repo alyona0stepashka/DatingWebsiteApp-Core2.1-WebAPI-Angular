@@ -61,6 +61,17 @@ export class ProfileComponent implements OnInit {
   );
   }
 
+  deleteFriendRequest(id: string) {
+    this.friendService.deleteRequest(id).subscribe(
+    res => {
+      this.toastr.success('Success send request', 'Sending request');
+    },
+    err => {
+      console.log(err);
+    }
+  );
+  }
+
   addToBlackList(id: string) {
     this.blackService.sendRequest(id).subscribe(
       res => {

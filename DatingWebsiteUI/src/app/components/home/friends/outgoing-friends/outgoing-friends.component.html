@@ -1,22 +1,24 @@
-<div class="jumbotron" style="height: 100%; padding-top: 5%">
-
-    <h2>You have {{userList?.length}} friend(s)</h2>
+  <div class="jumbotron" style="height: 90%; padding-top: 5%">
+    <h2>You have {{userList?.length}} outgoing request(s)</h2>
     <div style="margin-top: 1%" class="container">
-      <div *ngFor="let user of userList" class="item" (click)="goToProfile(user.Id)">
+      <div *ngFor="let user of userList" class="item" (click)="goToProfile(user.Id)"> 
         <div class="row">
-          <div class="col-sm-4">
-            <img class="avatar" src="https://localhost:44394{{user.PhotoPath}}" />
-              <div class="text-center" style="margin:5px 10px 5px 10px">
-                  <button class="col-md-4 " type="button" (click)="goToChat(user.Id)"><i class="fas fa-comment-dots"></i></button>
-                  <button class="col-md-4 " type="button" (click)="deleteFriendRequest(user.Id)"><i class="fas fa-user-minus"></i></button>
-                  <button class="col-md-4 " type="button" (click)="addToBlackList(user.Id)"><i class="fas fa-lock"></i></button>
-              <div>
-          </div>
-        </div>
-          <div class="col-sm-7">
+          <div class="col-sm-3 text-center">
+            <img class="avatar" src="https://localhost:44394{{user.PhotoPath}}" /><br/> 
+            <div class="row text-center" style="margin: 0">
+              <div class="text-center" >
+                <button class="col-sm-4 " type="button" (click)="goToChat(user.Id)"><i class="fas fa-comment-dots"></i></button>
+                <button class="col-sm-4 " type="button" (click)="deleteFriendRequest(user.Id)"><i class="fas fa-user-minus"></i></button>
+                <button class="col-sm-4 " type="button" (click)="addToBlackList(user.Id)"><i class="fas fa-lock"></i></button>
+              </div>
+            </div> 
+          </div> 
+          <div class="col-sm-5">
             <h1>{{user.Name}}, {{user.Age}}</h1><br />
-            <div style="margin-left: 10px"><i class="fas fa-venus-mars"></i> {{user.Sex}}</div> 
-        </div>
+            <div style="margin-left: 10px"><i class="fas fa-venus-mars"></i>{{user.Sex}}</div> 
+          </div>
+        </div> 
       </div>
     </div>
   </div>
+ 

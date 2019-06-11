@@ -41,7 +41,7 @@ namespace App.Models
 
         public virtual List<Friendship> FriendshipsFrom { get; set; }
 
-        public virtual List<Friendship> FriendshipsTo { get; set; }
+        public virtual List<Friendship> FriendshipsTo { get; set; } 
 
         public virtual List<ChatMessage> ChatMessages { get; set; }
 

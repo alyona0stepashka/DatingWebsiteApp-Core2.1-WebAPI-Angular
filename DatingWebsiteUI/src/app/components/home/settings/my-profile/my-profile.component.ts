@@ -60,6 +60,7 @@ export class MyProfileComponent implements OnInit {
     );
     await this.service.getMyProfile().subscribe(
     res => {
+      console.log(res);
       this.userProfile = res as UserProfile;
       this.imageUrl = this.imageUrl + this.userProfile.PhotoPath;
       this.userProfile.Languages.forEach(element => {
