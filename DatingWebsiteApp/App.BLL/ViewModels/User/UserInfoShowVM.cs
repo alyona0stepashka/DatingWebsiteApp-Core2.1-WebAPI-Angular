@@ -1,4 +1,5 @@
-﻿using App.Models;
+﻿using App.BLL.ViewModels.Static;
+using App.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,33 +17,33 @@ namespace App.BLL.ViewModels
 
         public bool IsAnonimus { get; set; }
 
-        public bool IsFriend { get; set; }
+        public bool? IsFriend { get; set; }
 
-        public bool IsBlack { get; set; }
+        public bool? IsBlack { get; set; }
 
         public string PhotoPath { get; set; }
 
         public DateTime DateBirth { get; set; }
 
-        public string Sex { get; set; }
+        public StaticBaseVM Sex { get; set; }
 
-        public string MainGoal { get; set; }
+        public StaticBaseVM MainGoal { get; set; }
 
-        public string FamilyStatus { get; set; }
+        public StaticBaseVM FamilyStatus { get; set; }
 
-        public string FinanceStatus { get; set; }
+        public StaticBaseVM FinanceStatus { get; set; }
 
-        public string Education { get; set; }
+        public StaticBaseVM Education { get; set; }
 
-        public string Nationality { get; set; }
+        public StaticBaseVM Nationality { get; set; }
 
-        public string Zodiac { get; set; }
+        public StaticBaseVM Zodiac { get; set; }
 
-        public List<Language> Languages { get; set; }
+        public List<StaticBaseVM> Languages { get; set; }
 
-        public List<BadHabit> BadHabits { get; set; }
+        public List<StaticBaseVM> BadHabits { get; set; }
 
-        public List<Interest> Interests { get; set; }
+        public List<StaticBaseVM> Interests { get; set; }
 
         public double Growth { get; set; }
 
@@ -66,33 +67,33 @@ namespace App.BLL.ViewModels
             DateBirth = user.DateBirth;
             if (user.Sex != null)
             {
-                Sex = user.Sex.Value;
+                Sex = new StaticBaseVM {Id=user.SexId.Value, Value = user.Sex.Value };
             }
             if (user.MainGoal != null)
             {
-                MainGoal = user.MainGoal.Value;
+                MainGoal = new StaticBaseVM { Id = user.MainGoalId.Value, Value = user.MainGoal.Value };
             }
             if (user.Type != null)
             {
                 if (user.Type.FamilyStatus != null)
                 {
-                    FamilyStatus = user.Type.FamilyStatus.Value;
+                    FamilyStatus = new StaticBaseVM { Id = user.Type.FamilyStatusId.Value, Value = user.Type.FamilyStatus.Value };
                 }
                 if (user.Type.FinanceStatus != null)
                 {
-                    FinanceStatus = user.Type.FinanceStatus.Value;
+                    FinanceStatus = new StaticBaseVM { Id = user.Type.FinanceStatusId.Value, Value = user.Type.FinanceStatus.Value };
                 }
                 if (user.Type.Education != null)
                 {
-                    Education = user.Type.Education.Value;
+                    Education = new StaticBaseVM { Id = user.Type.EducationId.Value, Value = user.Type.Education.Value };
                 }
                 if (user.Type.Nationality != null)
                 {
-                    Nationality = user.Type.Nationality.Value;
+                    Nationality = new StaticBaseVM { Id = user.Type.NationalityId.Value, Value = user.Type.Nationality.Value };
                 }
                 if (user.Type.Zodiac != null)
                 {
-                    Zodiac = user.Type.Zodiac.Value;
+                    Zodiac = new StaticBaseVM { Id = user.Type.ZodiacId.Value, Value = user.Type.Zodiac.Value };
                 }
                 if (user.Type.Growth != null)
                 {
@@ -104,31 +105,33 @@ namespace App.BLL.ViewModels
                 }
                 if (user.Type.Languages != null)
                 {
-                    Languages = new List<Language>();
+                    Languages = new List<StaticBaseVM>();
                     var db_langs = user.Type.Languages;
                     foreach (var lang in db_langs)
                     {
-                        Languages.Add(lang.Language);
+                        Languages.Add(new StaticBaseVM { Id = lang.Language.Id, Value = lang.Language.Value });
                     }
                 }
                 if (user.Type.BadHabits != null)
                 {
-                    BadHabits = new List<BadHabit>();
+                    BadHabits = new List<StaticBaseVM>();
                     var db_habitss = user.Type.BadHabits;
-                    foreach (var lang in db_habitss)
+                    foreach (var habit in db_habitss)
                     {
-                        BadHabits.Add(lang.BadHabit);
+                        BadHabits.Add(new StaticBaseVM { Id = habit.BadHabit.Id, Value = habit.BadHabit.Value });
                     }
                 }
                 if (user.Type.Interests != null)
                 {
-                    Interests = new List<Interest>();
+                    Interests = new List<StaticBaseVM>();
                     var db_interests = user.Type.Interests;
-                    foreach (var lang in db_interests)
+                    foreach (var inter in db_interests)
                     {
-                        Interests.Add(lang.Interest);
+                        Interests.Add(new StaticBaseVM { Id = inter.Interest.Id, Value = inter.Interest.Value });
                     }
                 }
+                IsBlack = false;
+                IsFriend = false;
                 if (my_id != null)
                 {
                     if (user.BlackListsTo != null)
@@ -136,35 +139,24 @@ namespace App.BLL.ViewModels
                         if (user.BlackListsTo.Where(m => m.UserToId == my_id).Any())
                         {
                             IsBlack = true;
-                        }
-                        else
-                        {
-                            IsBlack = false;
-                        }
-                    }
-                    else { IsBlack = false; }
+                        } 
+                    } 
 
-                    if (user.FriendshipsFrom != null || user.FriendshipsTo != null)
+                    if (user.FriendshipsFrom != null)
                     {
-                        if (user.FriendshipsFrom.Where(m => m.UserToId == my_id && m.Status==true).Any() || user.FriendshipsTo.Where(m => m.UserFromId == my_id && m.Status == true).Any())
+                        if (user.FriendshipsFrom.Where(m => m.UserToId == my_id/* && m.Status==true*/).Any())
                         {
                             IsFriend = true;
-                        }
-                        else
-                        {
-                            IsFriend = false;
-                        }
-                    }
-                    else
+                        } 
+                    } 
+                    if (user.FriendshipsTo != null)
                     {
-                        IsFriend = false;
-                    }
-                }
-                else
-                {
-                    IsBlack = false;
-                    IsFriend = false;
-                }
+                        if (user.FriendshipsTo.Where(m => m.UserFromId == my_id/* && m.Status == true*/).Any())
+                        {
+                            IsFriend = true;
+                        } 
+                    } 
+                } 
             }
         }
     }

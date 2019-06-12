@@ -27,26 +27,26 @@ export class MyProfileComponent implements OnInit {
     // OldPassword: [''],
     // NewPassword: [''],
     // IsAnonimus: [this.userProfile.IsAnonimus, [Validators.required]],
-    Sex: ['', [Validators.required]],
-    MainGoal: ['', [Validators.required]],
-    FamilyStatus: ['', [Validators.required]],
-    FinanceStatus: ['', [Validators.required]],
-    Education: ['', [Validators.required]],
-    Nationality: ['', [Validators.required]],
-    Zodiac: ['', [Validators.required]],
-    Growth: ['', [Validators.required]],
-    Weight: ['', [Validators.required]],
-    Photo: [null, [Validators.required]],
-    BadHabits: [null, [Validators.required]],
-    Interests: [null, [Validators.required]],
-    Languages: [null, [Validators.required]],
+    Sex: [''/*, [Validators.required]*/],
+    MainGoal: [''/*, [Validators.required]*/],
+    FamilyStatus: [''/*, [Validators.required]*/],
+    FinanceStatus: [''/*, [Validators.required]*/],
+    Education: [''/*, [Validators.required]*/],
+    Nationality: [''/*, [Validators.required]*/],
+    Zodiac: [''/*, [Validators.required]*/],
+    Growth: [''/*, [Validators.required]*/],
+    Weight: [''/*, [Validators.required]*/],
+    Photo: [null/*, [Validators.required]*/],
+    BadHabits: [null/*, [Validators.required]*/],
+    Interests: [null/*, [Validators.required]*/],
+    Languages: [null/*, [Validators.required]*/],
   });
   submitted = false;
   imageUrl = 'https://localhost:44394';
   userProfile = new UserProfile();
-  editLanguages: number[] = null;
-  editBadHabits: number[] = null;
-  editInterests: number[] = null;
+  editLanguages: number[] = new Array();
+  editBadHabits: number[] = new Array();
+  editInterests: number[] = new Array();
   public staticInfo = new Static();
 
   async ngOnInit() {
@@ -63,15 +63,21 @@ export class MyProfileComponent implements OnInit {
       console.log(res);
       this.userProfile = res as UserProfile;
       this.imageUrl = this.imageUrl + this.userProfile.PhotoPath;
-      this.userProfile.Languages.forEach(element => {
-        this.editLanguages.push(element.Id);
-      });
-      this.userProfile.Interests.forEach(element => {
-        this.editInterests.push(element.Id);
-      });
-      this.userProfile.BadHabits.forEach(element => {
-        this.editBadHabits.push(element.Id);
-      });
+      if (this.userProfile.Languages!=null && this.userProfile.Languages.length!=0){
+        this.userProfile.Languages.forEach(element => {
+          this.editLanguages.push(element.Id);
+        });
+      }
+      if (this.userProfile.Languages!=null && this.userProfile.Interests.length!=0){
+        this.userProfile.Interests.forEach(element => {
+          this.editInterests.push(element.Id);
+        });
+      }
+      if (this.userProfile.Languages!=null && this.userProfile.BadHabits.length!=0){
+        this.userProfile.BadHabits.forEach(element => {
+          this.editBadHabits.push(element.Id);
+        });
+      }
     },
     err => {
       console.log(err);

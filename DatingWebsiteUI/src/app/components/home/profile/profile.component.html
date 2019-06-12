@@ -14,15 +14,15 @@
 
         <div class="col-md-3 offset-md-1">
           <div><h2>{{userProfile.Name}}</h2></div>  
-          <div *ngIf="userProfile.Sex" ><b>Sex: </b>{{userProfile.Sex}}</div> 
-          <div *ngIf="userProfile.MainGoal"><b>MainGoal: </b>: {{userProfile.MainGoal}}</div> 
-          <div *ngIf="userProfile.FamilyStatus"><b>FamilyStatus:</b> {{userProfile.FamilyStatus}}</div> 
-          <div *ngIf="userProfile.FinanceStatus"><b>FinanceStatus:</b> {{userProfile.FinanceStatus}}</div> 
-          <div *ngIf="userProfile.Education"><b>Education:</b> {{userProfile.Education}}</div> 
-          <div *ngIf="userProfile.Nationality"><b>Nationality:</b> {{userProfile.Nationality}}</div> 
-          <div *ngIf="userProfile.Zodiac"><b>Zodiac:</b> {{userProfile.Zodiac}}</div> 
-          <div *ngIf="userProfile.Growth"><b>Growth:</b> {{userProfile.Growth}}</div> 
-          <div *ngIf="userProfile.Weight"><b>Weight:</b> {{userProfile.Weight}}</div>
+          <div *ngIf="userProfile.Sex" ><b>Sex: </b>{{userProfile.Sex.Value}}</div> 
+          <div *ngIf="userProfile.MainGoal"><b>MainGoal: </b>: {{userProfile.MainGoal.Value}}</div> 
+          <div *ngIf="userProfile.FamilyStatus"><b>FamilyStatus:</b> {{userProfile.FamilyStatus.Value}}</div> 
+          <div *ngIf="userProfile.FinanceStatus"><b>FinanceStatus:</b> {{userProfile.FinanceStatus.Value}}</div> 
+          <div *ngIf="userProfile.Education"><b>Education:</b> {{userProfile.Education.Value}}</div> 
+          <div *ngIf="userProfile.Nationality"><b>Nationality:</b> {{userProfile.Nationality.Value}}</div> 
+          <div *ngIf="userProfile.Zodiac"><b>Zodiac:</b> {{userProfile.Zodiac.Value}}</div> 
+          <div *ngIf="userProfile.Growth"><b>Growth:</b> {{userProfile.Growth}} m</div> 
+          <div *ngIf="userProfile.Weight"><b>Weight:</b> {{userProfile.Weight}} kg</div>
         </div> 
         <div class="col-md-3" style="margin-top: 5%">
           <ul *ngIf="userProfile.Languages.length!=0"> <b>Languages:</b>

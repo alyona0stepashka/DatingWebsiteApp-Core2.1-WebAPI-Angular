@@ -168,10 +168,17 @@ namespace App.BLL.Services
             {
                 return null;
             }
-            friendship.UserFromId = friend_id;
-            friendship.UserToId = user_id;
-            friendship.Status = false;
-            await _db.Friendships.UpdateAsync(friendship);
+            if (friendship.Status)
+            {
+                friendship.UserFromId = friend_id;
+                friendship.UserToId = user_id;
+                friendship.Status = false;
+                await _db.Friendships.UpdateAsync(friendship);
+            }
+            else
+            {
+                await _db.Friendships.DeleteAsync(friendship.Id);
+            }
             var old_friend = new UserTabVM(friend);
             return old_friend;
         }

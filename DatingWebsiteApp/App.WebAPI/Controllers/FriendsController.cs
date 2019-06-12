@@ -80,23 +80,23 @@ namespace App.WebAPI.Controllers
             return Ok(new_friend);
         }
 
-        [HttpDelete]
-        [Route("{id}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteRequest(string id)  //friend_id
-        {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            if (user_id == id)
-            {
-                return BadRequest(new { message = "You cannot (user_id == friend_id)." });
-            }
-            var friend = await _friendService.DeleteFriendRequestAsync(user_id, id);
-            if (friend == null)
-            {
-                return NotFound(new { message = "User not found by id." });
-            }
-            return Ok(friend);
-        }
+        //[HttpDelete]
+        //[Route("{id}")]
+        //[Authorize]
+        //public async Task<IActionResult> DeleteRequest(string id)  //friend_id
+        //{
+        //    var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+        //    if (user_id == id)
+        //    {
+        //        return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+        //    }
+        //    var friend = await _friendService.DeleteFriendRequestAsync(user_id, id);
+        //    if (friend == null)
+        //    {
+        //        return NotFound(new { message = "User not found by id." });
+        //    }
+        //    return Ok(friend);
+        //}
 
         [HttpGet]
         [Route("confirmation/{id}")]

@@ -93,6 +93,7 @@ namespace App.BLL.Services
                 UserFromId=user_id,
                 UserToId=bad_guy_id
             });
+
             await _friendService.DeleteFriendAsync(user_id, bad_guy_id);
             var new_bad = new UserTabVM(bad_guy);
             return new_bad;

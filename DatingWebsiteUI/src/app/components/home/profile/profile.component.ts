@@ -14,7 +14,7 @@ import { BlackListService } from 'src/app/services/black-list.service';
 export class ProfileComponent implements OnInit {
 
   public userId: any;
-  public userProfile = new UserProfile(); 
+  public userProfile = new UserProfile();
 
   constructor(private service: UserService,
               private toastr: ToastrService,
@@ -36,8 +36,19 @@ export class ProfileComponent implements OnInit {
       );
     } else {
       this.service.getUserProfileById(this.userId).subscribe(
-        res => {
-          this.userProfile = res as UserProfile; 
+        async res => {
+          this.userProfile = res as UserProfile;
+          await this.service.getMyProfile().subscribe(
+            res2 => {
+              const myProfile = res2 as UserProfile;
+              if (this.userId == myProfile.Id)  {
+                this.userId = 0;
+              }
+            },
+            err => {
+              console.log(err);
+            }
+          );
         },
         err => {
           console.log(err);

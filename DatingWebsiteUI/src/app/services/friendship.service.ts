@@ -19,7 +19,7 @@ confirmRequest(id: string) {
 }
 
 deleteRequest(id: string) {
-  return this.http.delete(this.BaseURI + '/friends/' + id.toString());
+  return this.http.delete(this.BaseURI + '/friends/delete/' + id.toString());
 }
 
 getMyOutgoingRequests() {
