@@ -63,7 +63,7 @@ namespace App.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("request/{id}")]
         [Authorize]
         public async Task<IActionResult> CreateRequest (string id)  //friend_id
         {
@@ -116,7 +116,7 @@ namespace App.WebAPI.Controllers
             return Ok(friend);
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("delete/{id}")]  //??? name route
         [Authorize]
         public async Task<IActionResult> DeleteFriend(string id)  //friend_id

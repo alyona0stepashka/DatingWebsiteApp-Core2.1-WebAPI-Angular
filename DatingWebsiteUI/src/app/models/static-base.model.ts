@@ -1,4 +1,4 @@
 export class StaticBase {
-    Id: number;
-    Value: string;
+    Id: number = null;
+    Value = '';
 }

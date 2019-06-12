@@ -74,7 +74,7 @@ namespace App.BLL.Services
                 {
                     return null;
                 }
-                if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth; }
+                if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth.Value; }
                 if (model.Name != null) { db_user.Name = model.Name; }
                 if (model.MainGoal != null)
                 {
@@ -99,7 +99,7 @@ namespace App.BLL.Services
                 {
                     db_user.Type = new PersonalType();
                 }
-                db_user.File = null;
+                db_user.File = null; 
                 await _userManager.UpdateAsync(db_user);
                 var user = new UserInfoShowVM(db_user, null);
                 return user;

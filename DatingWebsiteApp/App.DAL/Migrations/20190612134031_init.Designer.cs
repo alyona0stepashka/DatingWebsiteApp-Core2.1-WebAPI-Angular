@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190529175543_init0")]
-    partial class init0
+    [Migration("20190612134031_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace App.DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<int>("FileId");
+                    b.Property<int?>("FileId");
 
                     b.Property<int>("IncomingFirstMessageCount");
 
@@ -46,7 +46,7 @@ namespace App.DAL.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("MainGoal");
+                    b.Property<int?>("MainGoalId");
 
                     b.Property<string>("Name");
 
@@ -68,11 +68,11 @@ namespace App.DAL.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int>("SexId");
+                    b.Property<int?>("SexId");
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("TypeId");
+                    b.Property<int?>("TypeId");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
@@ -80,6 +80,8 @@ namespace App.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FileId");
+
+                    b.HasIndex("MainGoalId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -115,15 +117,13 @@ namespace App.DAL.Migrations
 
                     b.Property<int>("BadHabitId");
 
-                    b.Property<string>("PersonalTypeId");
-
-                    b.Property<int?>("PersonalTypeId1");
+                    b.Property<int>("PersonalTypeId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BadHabitId");
 
-                    b.HasIndex("PersonalTypeId1");
+                    b.HasIndex("PersonalTypeId");
 
                     b.ToTable("BadHabitUsers");
                 });
@@ -287,15 +287,13 @@ namespace App.DAL.Migrations
 
                     b.Property<int>("InterestId");
 
-                    b.Property<string>("PersonalTypeId");
-
-                    b.Property<int?>("PersonalTypeId1");
+                    b.Property<int>("PersonalTypeId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InterestId");
 
-                    b.HasIndex("PersonalTypeId1");
+                    b.HasIndex("PersonalTypeId");
 
                     b.ToTable("InterestUsers");
                 });
@@ -319,17 +317,27 @@ namespace App.DAL.Migrations
 
                     b.Property<int>("LanguageId");
 
-                    b.Property<string>("PersonalTypeId");
-
-                    b.Property<int?>("PersonalTypeId1");
+                    b.Property<int>("PersonalTypeId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LanguageId");
 
-                    b.HasIndex("PersonalTypeId1");
+                    b.HasIndex("PersonalTypeId");
 
                     b.ToTable("LanguageUsers");
+                });
+
+            modelBuilder.Entity("App.Models.MainGoal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MainGoals");
                 });
 
             modelBuilder.Entity("App.Models.Nationality", b =>
@@ -349,19 +357,19 @@ namespace App.DAL.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("EducationId");
+                    b.Property<int?>("EducationId");
 
-                    b.Property<int>("FamilyStatusId");
+                    b.Property<int?>("FamilyStatusId");
 
-                    b.Property<int>("FinanceStatusId");
+                    b.Property<int?>("FinanceStatusId");
 
-                    b.Property<double>("Growth");
+                    b.Property<double?>("Growth");
 
-                    b.Property<int>("NationalityId");
+                    b.Property<int?>("NationalityId");
 
-                    b.Property<double>("Weight");
+                    b.Property<double?>("Weight");
 
-                    b.Property<int>("ZodiacId");
+                    b.Property<int?>("ZodiacId");
 
                     b.HasKey("Id");
 
@@ -535,18 +543,19 @@ namespace App.DAL.Migrations
                 {
                     b.HasOne("App.Models.FileModel", "File")
                         .WithMany()
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FileId");
+
+                    b.HasOne("App.Models.MainGoal", "MainGoal")
+                        .WithMany()
+                        .HasForeignKey("MainGoalId");
 
                     b.HasOne("App.Models.Sex", "Sex")
                         .WithMany()
-                        .HasForeignKey("SexId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SexId");
 
                     b.HasOne("App.Models.PersonalType", "Type")
                         .WithOne("User")
-                        .HasForeignKey("App.Models.ApplicationUser", "TypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("App.Models.ApplicationUser", "TypeId");
                 });
 
             modelBuilder.Entity("App.Models.BadHabitUser", b =>
@@ -558,7 +567,8 @@ namespace App.DAL.Migrations
 
                     b.HasOne("App.Models.PersonalType", "PersonalType")
                         .WithMany("BadHabits")
-                        .HasForeignKey("PersonalTypeId1");
+                        .HasForeignKey("PersonalTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("App.Models.BlackList", b =>
@@ -626,7 +636,8 @@ namespace App.DAL.Migrations
 
                     b.HasOne("App.Models.PersonalType", "PersonalType")
                         .WithMany("Interests")
-                        .HasForeignKey("PersonalTypeId1");
+                        .HasForeignKey("PersonalTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("App.Models.LanguageUser", b =>
@@ -638,41 +649,37 @@ namespace App.DAL.Migrations
 
                     b.HasOne("App.Models.PersonalType", "PersonalType")
                         .WithMany("Languages")
-                        .HasForeignKey("PersonalTypeId1");
+                        .HasForeignKey("PersonalTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("App.Models.PersonalType", b =>
                 {
                     b.HasOne("App.Models.Education", "Education")
                         .WithMany()
-                        .HasForeignKey("EducationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EducationId");
 
                     b.HasOne("App.Models.FamilyStatus", "FamilyStatus")
                         .WithMany()
-                        .HasForeignKey("FamilyStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FamilyStatusId");
 
                     b.HasOne("App.Models.FinanceStatus", "FinanceStatus")
                         .WithMany()
-                        .HasForeignKey("FinanceStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FinanceStatusId");
 
                     b.HasOne("App.Models.Nationality", "Nationality")
                         .WithMany()
-                        .HasForeignKey("NationalityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("NationalityId");
 
                     b.HasOne("App.Models.Zodiac", "Zodiac")
                         .WithMany()
-                        .HasForeignKey("ZodiacId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ZodiacId");
                 });
 
             modelBuilder.Entity("App.Models.PhotoAlbum", b =>
                 {
                     b.HasOne("App.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("PhotoAlbums")
                         .HasForeignKey("UserId");
                 });
 

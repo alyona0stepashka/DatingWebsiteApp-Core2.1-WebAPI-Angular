@@ -1,26 +1,14 @@
 import { StaticBase } from './static-base.model';
 
 export class Static {
-    BadHabits: StaticBase[];
-    Educations: StaticBase[];
-    FamilyStatuses: StaticBase[];
-    FinanceStatuses: StaticBase[];
-    Interests: StaticBase[];
-    Languages: StaticBase[];
-    MainGoals: StaticBase[];
-    Nationalities: StaticBase[];
-    Sexes: StaticBase[];
-    Zodiacs: StaticBase[];
-    constructor(){        
-    this.BadHabits = []; 
-    this.Educations = [];
-    this.FamilyStatuses = [];
-    this.FinanceStatuses = [];
-    this.Interests = [];
-    this.Languages = [];
-    this.MainGoals = [];
-    this.Nationalities = [];
-    this.Sexes = [];
-    this.Zodiacs = [];
-    }
+    BadHabits: StaticBase[] = new Array();
+    Educations: StaticBase[] = new Array();
+    FamilyStatuses: StaticBase[] = new Array();
+    FinanceStatuses: StaticBase[] = new Array();
+    Interests: StaticBase[] = new Array();
+    Languages: StaticBase[] = new Array();
+    MainGoals: StaticBase[] = new Array();
+    Nationalities: StaticBase[] = new Array();
+    Sexes: StaticBase[] = new Array();
+    Zodiacs: StaticBase[] = new Array();
 }

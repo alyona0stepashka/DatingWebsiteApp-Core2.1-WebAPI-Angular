@@ -22,7 +22,7 @@ export class MyProfileComponent implements OnInit {
 
   UploadFile: File = null;
   editInfoForm: FormGroup = this.formBuilder.group({
-    DateBirth: ['', [Validators.required]],
+    DateBirth: [null/*, [Validators.required]*/],
     // Name: [this.userProfile.Name, [Validators.required]],
     // OldPassword: [''],
     // NewPassword: [''],
@@ -44,9 +44,9 @@ export class MyProfileComponent implements OnInit {
   submitted = false;
   imageUrl = 'https://localhost:44394';
   userProfile = new UserProfile();
-  editLanguages: number[] = new Array();
-  editBadHabits: number[] = new Array();
-  editInterests: number[] = new Array();
+  // editLanguages: number[] = new Array();
+  // editBadHabits: number[] = new Array();
+  // editInterests: number[] = new Array();
   public staticInfo = new Static();
 
   async ngOnInit() {
@@ -63,19 +63,49 @@ export class MyProfileComponent implements OnInit {
       console.log(res);
       this.userProfile = res as UserProfile;
       this.imageUrl = this.imageUrl + this.userProfile.PhotoPath;
-      if (this.userProfile.Languages!=null && this.userProfile.Languages.length!=0){
+      if (this.userProfile.DateBirth) {
+        this.editInfoForm.value.DateBirth = this.userProfile.DateBirth;
+      }
+      if (this.userProfile.Sex) {
+        this.editInfoForm.value.Sex = this.userProfile.Sex.Id;
+      }
+      if (this.userProfile.MainGoal) {
+        this.editInfoForm.value.MainGoal = this.userProfile.MainGoal.Id;
+      }
+      if (this.userProfile.FamilyStatus) {
+        this.editInfoForm.value.FamilyStatus = this.userProfile.FamilyStatus.Id;
+      }
+      if (this.userProfile.FinanceStatus) {
+        this.editInfoForm.value.FinanceStatus = this.userProfile.FinanceStatus.Id;
+      }
+      if (this.userProfile.Education) {
+        this.editInfoForm.value.Education = this.userProfile.Education.Id;
+      }
+      if (this.userProfile.Nationality) {
+        this.editInfoForm.value.Nationality = this.userProfile.Nationality.Id;
+      }
+      if (this.userProfile.Zodiac) {
+        this.editInfoForm.value.Zodiac = this.userProfile.Zodiac.Id;
+      }
+      if (this.userProfile.Growth) {
+        this.editInfoForm.value.Growth = this.userProfile.Growth;
+      }
+      if (this.userProfile.Weight) {
+        this.editInfoForm.value.Weight = this.userProfile.Weight;
+      }
+      if (this.userProfile.Languages && this.userProfile.Languages.length > 0) {
         this.userProfile.Languages.forEach(element => {
-          this.editLanguages.push(element.Id);
+          this.editInfoForm.value.Languages.push(element.Id);
         });
       }
-      if (this.userProfile.Languages!=null && this.userProfile.Interests.length!=0){
+      if (this.userProfile.Interests && this.userProfile.Interests.length > 0) {
         this.userProfile.Interests.forEach(element => {
-          this.editInterests.push(element.Id);
+          this.editInfoForm.value.Interests.push(element.Id);
         });
       }
-      if (this.userProfile.Languages!=null && this.userProfile.BadHabits.length!=0){
+      if (this.userProfile.BadHabits && this.userProfile.BadHabits.length > 0) {
         this.userProfile.BadHabits.forEach(element => {
-          this.editBadHabits.push(element.Id);
+          this.editInfoForm.value.BadHabits.push(element.Id);
         });
       }
     },

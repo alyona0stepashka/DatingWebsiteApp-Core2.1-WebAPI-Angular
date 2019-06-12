@@ -11,7 +11,7 @@ export class FriendshipService {
   readonly BaseURI = 'https://localhost:44394/api';
 
 sendRequest(id: string) {
-  return this.http.get(this.BaseURI + '/friends/' + id.toString());
+  return this.http.get(this.BaseURI + '/friends/request/' + id.toString());
 }
 
 confirmRequest(id: string) {

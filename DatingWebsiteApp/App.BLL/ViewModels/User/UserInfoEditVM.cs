@@ -10,7 +10,7 @@ namespace App.BLL.ViewModels
 
         public string Name { get; set; }
 
-        public DateTime DateBirth { get; set; }
+        public DateTime? DateBirth { get; set; }
 
         public bool? IsAnonimus { get; set; }
 

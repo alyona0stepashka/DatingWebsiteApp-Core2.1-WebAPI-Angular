@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.DAL.Migrations
 {
-    public partial class init0 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -101,6 +101,19 @@ namespace App.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MainGoals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MainGoals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Nationalities",
                 columns: table => new
                 {
@@ -166,13 +179,13 @@ namespace App.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FamilyStatusId = table.Column<int>(nullable: false),
-                    Growth = table.Column<double>(nullable: false),
-                    Weight = table.Column<double>(nullable: false),
-                    EducationId = table.Column<int>(nullable: false),
-                    NationalityId = table.Column<int>(nullable: false),
-                    ZodiacId = table.Column<int>(nullable: false),
-                    FinanceStatusId = table.Column<int>(nullable: false)
+                    FamilyStatusId = table.Column<int>(nullable: true),
+                    Growth = table.Column<double>(nullable: true),
+                    Weight = table.Column<double>(nullable: true),
+                    EducationId = table.Column<int>(nullable: true),
+                    NationalityId = table.Column<int>(nullable: true),
+                    ZodiacId = table.Column<int>(nullable: true),
+                    FinanceStatusId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,31 +195,31 @@ namespace App.DAL.Migrations
                         column: x => x.EducationId,
                         principalTable: "Educations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonalTypes_FamilyStatuses_FamilyStatusId",
                         column: x => x.FamilyStatusId,
                         principalTable: "FamilyStatuses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonalTypes_FinanceStatuses_FinanceStatusId",
                         column: x => x.FinanceStatusId,
                         principalTable: "FinanceStatuses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonalTypes_Nationalities_NationalityId",
                         column: x => x.NationalityId,
                         principalTable: "Nationalities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonalTypes_Zodiacs_ZodiacId",
                         column: x => x.ZodiacId,
                         principalTable: "Zodiacs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,9 +228,8 @@ namespace App.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PersonalTypeId = table.Column<string>(nullable: true),
-                    BadHabitId = table.Column<int>(nullable: false),
-                    PersonalTypeId1 = table.Column<int>(nullable: true)
+                    PersonalTypeId = table.Column<int>(nullable: false),
+                    BadHabitId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,11 +241,11 @@ namespace App.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BadHabitUsers_PersonalTypes_PersonalTypeId1",
-                        column: x => x.PersonalTypeId1,
+                        name: "FK_BadHabitUsers_PersonalTypes_PersonalTypeId",
+                        column: x => x.PersonalTypeId,
                         principalTable: "PersonalTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -242,9 +254,8 @@ namespace App.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PersonalTypeId = table.Column<string>(nullable: true),
-                    InterestId = table.Column<int>(nullable: false),
-                    PersonalTypeId1 = table.Column<int>(nullable: true)
+                    PersonalTypeId = table.Column<int>(nullable: false),
+                    InterestId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -256,11 +267,11 @@ namespace App.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InterestUsers_PersonalTypes_PersonalTypeId1",
-                        column: x => x.PersonalTypeId1,
+                        name: "FK_InterestUsers_PersonalTypes_PersonalTypeId",
+                        column: x => x.PersonalTypeId,
                         principalTable: "PersonalTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,9 +280,8 @@ namespace App.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PersonalTypeId = table.Column<string>(nullable: true),
-                    LanguageId = table.Column<int>(nullable: false),
-                    PersonalTypeId1 = table.Column<int>(nullable: true)
+                    PersonalTypeId = table.Column<int>(nullable: false),
+                    LanguageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,11 +293,11 @@ namespace App.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LanguageUsers_PersonalTypes_PersonalTypeId1",
-                        column: x => x.PersonalTypeId1,
+                        name: "FK_LanguageUsers_PersonalTypes_PersonalTypeId",
+                        column: x => x.PersonalTypeId,
                         principalTable: "PersonalTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -476,14 +486,14 @@ namespace App.DAL.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     DateBirth = table.Column<DateTime>(nullable: false),
-                    SexId = table.Column<int>(nullable: false),
-                    MainGoal = table.Column<string>(nullable: true),
+                    SexId = table.Column<int>(nullable: true),
+                    MainGoalId = table.Column<int>(nullable: true),
                     IsAnonimus = table.Column<bool>(nullable: false),
                     ProfileViewsForMonth = table.Column<int>(nullable: false),
                     IncomingFirstMessageCount = table.Column<int>(nullable: false),
                     OutgoingFirstMessageCount = table.Column<int>(nullable: false),
-                    TypeId = table.Column<int>(nullable: false),
-                    FileId = table.Column<int>(nullable: false)
+                    TypeId = table.Column<int>(nullable: true),
+                    FileId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -493,19 +503,25 @@ namespace App.DAL.Migrations
                         column: x => x.FileId,
                         principalTable: "FileModels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_MainGoals_MainGoalId",
+                        column: x => x.MainGoalId,
+                        principalTable: "MainGoals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_Sexes_SexId",
                         column: x => x.SexId,
                         principalTable: "Sexes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUsers_PersonalTypes_TypeId",
                         column: x => x.TypeId,
                         principalTable: "PersonalTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -540,6 +556,11 @@ namespace App.DAL.Migrations
                 column: "FileId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_MainGoalId",
+                table: "AspNetUsers",
+                column: "MainGoalId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -567,9 +588,9 @@ namespace App.DAL.Migrations
                 column: "BadHabitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BadHabitUsers_PersonalTypeId1",
+                name: "IX_BadHabitUsers_PersonalTypeId",
                 table: "BadHabitUsers",
-                column: "PersonalTypeId1");
+                column: "PersonalTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlackLists_UserFromId",
@@ -627,9 +648,9 @@ namespace App.DAL.Migrations
                 column: "InterestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InterestUsers_PersonalTypeId1",
+                name: "IX_InterestUsers_PersonalTypeId",
                 table: "InterestUsers",
-                column: "PersonalTypeId1");
+                column: "PersonalTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LanguageUsers_LanguageId",
@@ -637,9 +658,9 @@ namespace App.DAL.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LanguageUsers_PersonalTypeId1",
+                name: "IX_LanguageUsers_PersonalTypeId",
                 table: "LanguageUsers",
-                column: "PersonalTypeId1");
+                column: "PersonalTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersonalTypes_EducationId",
@@ -841,6 +862,9 @@ namespace App.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "FileModels");
+
+            migrationBuilder.DropTable(
+                name: "MainGoals");
 
             migrationBuilder.DropTable(
                 name: "Sexes");
