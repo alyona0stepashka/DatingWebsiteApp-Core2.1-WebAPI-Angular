@@ -28,22 +28,21 @@ namespace App.BLL.Services
         {
             try
             {
+                var cur_user = await _userManager.FindByIdAsync(my_id);
+                var buffer_int = new List<int>();
                 var now_year = DateTime.Now.Year;
                 var ret_list = new List<UserTabVM>();
                 var user_list = _userManager.Users./*AsNoTracking().*/Where(m => (m.IsAnonimus == false) && (m.Id != my_id));
+
                 if (search.AgeFrom != null)
                 {
                     user_list = user_list.Where(m => (now_year - m.DateBirth.Year >= search.AgeFrom));
                 }
+
                 if (search.AgeTo != null)
                 {
                     user_list = user_list.Where(m => (now_year - m.DateBirth.Year <= search.AgeTo));
-                }
-                //var bad_hab = (await _db.BadHabits.GetByIdAsync(search.BadHabit.Value));
-                //if ((search.BadHabit != null) && (bad_hab.Value != "Not Defined"))
-                //{
-                //    user_list = user_list.Where(m => m.Type.BadHabits.Contains(bad_hab);
-                //}
+                } 
 
                 if (search.Education != null)
                 {
@@ -56,6 +55,7 @@ namespace App.BLL.Services
                         }
                     }
                 }
+
                 if (search.FamilyStatus != null)
                 {
                     foreach (var item in search.FamilyStatus)
@@ -68,6 +68,7 @@ namespace App.BLL.Services
                         }
                     }
                 }
+
                 if (search.FinanceStatus != null)
                 {
                     foreach (var item in search.FinanceStatus)
@@ -78,15 +79,8 @@ namespace App.BLL.Services
                                                              search.FinanceStatus.Contains(u.Type.FinanceStatusId.Value));
                         }
                     }
-                }
-                //if ((search.Interest != null) && ((await _db.Interests.GetByIdAsync(search.Interest.Value)).Value != "Not Defined"))
-                //{
-                //    user_list = user_list.Where(m => m.Type.InterestId == search.Interest);
-                //}
-                //if ((search.Language != null) && ((await _db.Languages.GetByIdAsync(search.Language.Value)).Value != "Not Defined"))
-                //{
-                //    user_list = user_list.Where(m => m.Type.LanguageId == search.Language);
-                //}
+                } 
+
                 if (search.MainGoal != null)
                 {
                     foreach (var item in search.MainGoal)
@@ -98,6 +92,7 @@ namespace App.BLL.Services
                         }
                     }
                 }
+
                 if (search.Nationality != null)
                 {
                     foreach (var item in search.Nationality)
@@ -130,6 +125,23 @@ namespace App.BLL.Services
                         {
                             user_list = user_list.Where(u => u.SexId != null &&
                                                              search.Sex.Contains(u.SexId.Value));
+                        }
+                    }
+                }
+
+                if (search.BadHabit != null)
+                {
+                    foreach (var item in search.BadHabit)
+                    {
+                        if ((await _db.BadHabits.GetByIdAsync(item)).Value != "Not Defined")
+                        {
+                            //var _bh = _db.BadHabitUsers.GetWhere(m => m.BadHabitId == item && m.PersonalTypeId == cur_user.TypeId);
+                            //foreach (var one_bh in _bh)
+                            //{
+                            //    buffer_int.Add(one_bh.BadHabitId);
+                            //}
+                            //user_list = user_list.Where(u => u.Type.BadHabits != null &&
+                            //                                 search.BadHabit.Contains(buffer_int));
                         }
                     }
                 }

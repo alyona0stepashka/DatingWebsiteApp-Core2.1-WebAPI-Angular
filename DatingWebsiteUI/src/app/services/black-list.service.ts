@@ -8,21 +8,21 @@ import { HttpClient } from '@angular/common/http';
 export class BlackListService {
 
   constructor(private fb: FormBuilder, private http: HttpClient) { }
-  readonly BaseURI = 'https://localhost:44394/api'; 
+  readonly BaseURI = 'https://localhost:44394/api';
 
-  sendRequest(id: string){
-    return this.http.get(this.BaseURI + '/blacklist/'+id.toString());
+  sendRequest(id: string) {
+    return this.http.get(this.BaseURI + '/blacklist/' + id.toString());
   }
 
-  removeRequest(id: string){
-    return this.http.delete(this.BaseURI + '/blacklist/'+id.toString());
+  removeRequest(id: string) {
+    return this.http.delete(this.BaseURI + '/blacklist/' + id.toString());
   }
 
-  getMyBlackList(){
+  getMyBlackList() {
     return this.http.get(this.BaseURI + '/blacklist/outgoing');
   }
 
-  getBlackListWithMe(){
+  getBlackListWithMe() {
     return this.http.get(this.BaseURI + '/blacklist/incoming');
   }
 }

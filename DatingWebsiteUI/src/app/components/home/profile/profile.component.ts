@@ -75,7 +75,7 @@ export class ProfileComponent implements OnInit {
   deleteFriendRequest(id: string) {
     this.friendService.deleteRequest(id).subscribe(
     res => {
-      this.toastr.success('Success send request', 'Sending request');
+      this.toastr.success('Success delete request', 'Sending delete request');
     },
     err => {
       console.log(err);

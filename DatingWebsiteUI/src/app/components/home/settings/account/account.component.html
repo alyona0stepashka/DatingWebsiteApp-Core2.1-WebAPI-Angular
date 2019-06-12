@@ -7,9 +7,9 @@
 <h2>Account Info</h2> 
 <div class="form-group"> 
     <input type="text" [value]="userProfile.Name" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" placeholder="Name ..." />
-    <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+    <!-- <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
         <div *ngIf="f.Name.errors.required">Name is required</div> 
-    </div>
+    </div> -->
 </div> 
 <div class="form-group"> 
     <input type="password" formControlName="OldPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.OldPassword.errors }" placeholder="OldPassword ..." />

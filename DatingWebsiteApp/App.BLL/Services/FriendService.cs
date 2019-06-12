@@ -72,26 +72,23 @@ namespace App.BLL.Services
         }
         public async Task<List<UserTabVM>> GetFriendsAsync(string user_id)
         {
-            var me = await _userService.GetDbUserAsync(user_id);
-            var friendshipsFrom = me.FriendshipsFrom.Where(m => m.Status == true);
-            if (friendshipsFrom == null)
-            {
-                return null;
-            }
             var friend_list = new List<UserTabVM>();
-            foreach (var friend in friendshipsFrom)
+            var me = await _userService.GetDbUserAsync(user_id);
+            if (me.FriendshipsFrom != null) 
             {
-                friend_list.Add(new UserTabVM(friend.UserTo));
+                var friendshipsFrom = me.FriendshipsFrom.Where(m => m.Status == true);
+                foreach (var friend in friendshipsFrom)
+                {
+                    friend_list.Add(new UserTabVM(friend.UserTo));
+                }
             }
-
-            var friendshipsTo = me.FriendshipsTo.Where(m => m.Status == true);
-            if (friendshipsTo == null)
+            if (me.FriendshipsTo != null) 
             {
-                return null;
-            } 
-            foreach (var friend in friendshipsTo)
-            {
-                friend_list.Add(new UserTabVM(friend.UserTo));
+                var friendshipsTo = me.FriendshipsTo.Where(m => m.Status == true);
+                foreach (var friend in friendshipsTo)
+                {
+                    friend_list.Add(new UserTabVM(friend.UserFrom));
+                }
             }
             return friend_list;
         }

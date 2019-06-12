@@ -134,9 +134,9 @@ namespace App.BLL.ViewModels
                 IsFriend = false;
                 if (my_id != null)
                 {
-                    if (user.BlackListsTo != null)
+                    if (user.BlackListsFrom != null)
                     {
-                        if (user.BlackListsTo.Where(m => m.UserToId == my_id).Any())
+                        if (user.BlackListsFrom.Where(m => m.UserToId == my_id).Any())
                         {
                             IsBlack = true;
                         } 

@@ -1,0 +1,21 @@
+<div class="jumbotron" style="height: 90%; padding-top: 5%">
+    <h2>You have {{userList?.length}} blocker(s)</h2>
+    <div style="margin-top: 1%" class="container">
+      <div *ngFor="let user of userList" class="item"> 
+        <div class="row">
+          <div class="col-sm-4 text-center row">  
+            <div class="col-sm-4 text-center"  style="margin: 0">   
+            </div> 
+            <div class="col-sm-8 text-center" (click)="goToProfile(user.Id)">
+              <img class="avatar" style="margin-top: 1%" src="https://localhost:44394{{user.PhotoPath}}" /><br/>
+            </div>
+          </div> 
+          <div class="col-sm-6" (click)="goToProfile(user.Id)">
+            <h1>{{user.Name}}, {{user.Age}}</h1><br />
+            <div style="margin-left: 10px"><i class="fas fa-venus-mars"></i>{{user.Sex}}</div> 
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+ 

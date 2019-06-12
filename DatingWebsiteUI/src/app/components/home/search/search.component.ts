@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
 
   public searchData = new UserSearch();
   public userList: UserTab[];
-  public staticInfo = new Static(); 
+  public staticInfo = new Static();
 
   constructor(private searchService: SearchService,
               private staticService: StaticService,

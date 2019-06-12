@@ -20,10 +20,10 @@ export class AccountComponent implements OnInit {
 
   UploadFile: File = null;
   editInfoForm: FormGroup = this.formBuilder.group({
-  Name: ['', [Validators.required]],
-  OldPassword: [''],
-  NewPassword: [''],
-  IsAnonimus: [null, [Validators.required]]
+    Name: [''/*, [Validators.required]*/],
+    OldPassword: [''],
+    NewPassword: [''],
+    IsAnonimus: [null/*, [Validators.required]*/]
   });
   submitted = false;
   userProfile = new UserProfile();
@@ -51,7 +51,7 @@ export class AccountComponent implements OnInit {
 
     this.service.editUserInfo(this.editInfoForm).subscribe(
       (res: any) => {
-        this.toastr.success('New user created!', 'Registration successful.'); 
+        this.toastr.success('New info created!', 'EditInfo successful.');
       },
       err => {
        console.log(err);

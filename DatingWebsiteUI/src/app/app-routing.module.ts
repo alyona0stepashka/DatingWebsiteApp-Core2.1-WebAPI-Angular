@@ -14,11 +14,11 @@ import { FriendsComponent } from './components/home/friends/friends.component';
 import { MyFriendsComponent } from './components/home/friends/my-friends/my-friends.component';
 import { OutgoingFriendsComponent } from './components/home/friends/outgoing-friends/outgoing-friends.component';
 import { IncomingFriendsComponent } from './components/home/friends/incoming-friends/incoming-friends.component';
-import { BlackComponent } from './components/home/black/black.component';
-import { OutgoingBlackComponent } from './components/home/black/outgoing-black/outgoing-black.component';
-import { IncomingBlackComponent } from './components/home/black/incoming-black/incoming-black.component';
+import { BlackComponent } from './components/home/settings/black/black.component';
+import { OutgoingBlackComponent } from './components/home/settings/black/outgoing-black/outgoing-black.component';
+import { IncomingBlackComponent } from './components/home/settings/black/incoming-black/incoming-black.component';
 import { AlbumComponent } from './components/home/album/album.component';
-import { AlbumDetailComponent } from './components/home/album-detail/album-detail.component';
+import { AlbumDetailComponent } from './components/home/album/album-detail/album-detail.component';
 import { FirstLoginComponent } from './components/auth/first-login/first-login.component';
 
 const routes: Routes = [
@@ -36,12 +36,18 @@ const routes: Routes = [
     path: 'home', component: HomeComponent,
     children: [
       {path: 'search', component: SearchComponent, canActivate: [AuthGuard]},
-      {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]} ,
+      {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
       // {path:'profile', component: ProfileComponent,canActivate:[AuthGuard]} ,
       {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard],
         children: [
           {path: 'profile', component: MyProfileComponent},
-          {path: 'account', component: AccountComponent}
+          {path: 'account', component: AccountComponent},
+          {path: 'black', component: BlackComponent, canActivate: [AuthGuard],
+            children: [
+              {path: 'outgoing', component: OutgoingBlackComponent},
+              {path: 'incoming', component: IncomingBlackComponent}
+            ]
+          }
         ]
       },
       {path: 'friends', component: FriendsComponent, canActivate: [AuthGuard],
@@ -51,14 +57,11 @@ const routes: Routes = [
           {path: 'incoming', component: IncomingFriendsComponent}
         ]
       },
-      {path: 'black', component: BlackComponent, canActivate: [AuthGuard],
+      {path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard],
         children: [
-          {path: 'outgoing', component: OutgoingBlackComponent},
-          {path: 'incoming', component: IncomingBlackComponent}
+          {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
         ]
       },
-      {path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard]},
-      {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
     ]
   },
 ];
