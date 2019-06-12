@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using App.BLL.Interfaces;
@@ -14,6 +15,7 @@ namespace App.WebAPI.Controllers
     [ApiController]
     public class PhotoAlbumController : ControllerBase
     {
+        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
         private readonly IAlbumService _albumService; 
 
         public PhotoAlbumController(IAlbumService albumService )
@@ -59,11 +61,21 @@ namespace App.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("photo")]
+        [Route("photo/{id}")]
         [Authorize]
-        public async Task<IActionResult> AddPhoto(AlbumAddPhotoVM model)
+        public async Task<IActionResult> AddPhoto(int id)
         {
-            var album = await _albumService.AddPhotoAsync(model);
+            var UploadPhoto = HttpContext.Request.Form.Files[0];
+
+            if (UploadPhoto == null) return BadRequest("Null File");
+            if (UploadPhoto.Length == 0)
+            {
+                return BadRequest("Empty File");
+            }
+            if (UploadPhoto.Length > 10 * 1024 * 1024) return BadRequest("Max file size exceeded.");
+            if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
+
+            var album = await _albumService.AddPhotoAsync(new AlbumAddPhotoVM { Id=id, UploadPhoto = UploadPhoto });
             if (album == null)
             {
                 return NotFound(new { message = "Album not found by id (or error on create photo)." });
@@ -71,18 +83,18 @@ namespace App.WebAPI.Controllers
             return Ok(album);
         }
 
-        [HttpPost]
-        [Route("photo")]
-        [Authorize]
-        public async Task<IActionResult> DeletePhoto(AlbumDeletePhotoVM model)
-        {
-            var album = await _albumService.DeletePhotoAsync(model);
-            if (album == null)
-            {
-                return NotFound(new { message = "Album not found by id (or error on delete photo)." });
-            }
-            return Ok(album);
-        }
+        //[HttpPost]
+        //[Route("photo")]
+        //[Authorize]
+        //public async Task<IActionResult> DeletePhoto(AlbumDeletePhotoVM model)
+        //{
+        //    var album = await _albumService.DeletePhotoAsync(model);
+        //    if (album == null)
+        //    {
+        //        return NotFound(new { message = "Album not found by id (or error on delete photo)." });
+        //    }
+        //    return Ok(album);
+        //}
 
         [HttpDelete("{id}")]
         [Authorize]
@@ -92,6 +104,18 @@ namespace App.WebAPI.Controllers
             if (album == null)
             {
                 return NotFound(new { message = "Album not found by id." });
+            }
+            return Ok(album);
+        }
+
+        [HttpDelete("photo/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteAlbumPhoto(int id)
+        {
+            var album = await _albumService.DeletePhotoAsync(id);
+            if (album == null)
+            {
+                return NotFound(new { message = "File not found by id." });
             }
             return Ok(album);
         }

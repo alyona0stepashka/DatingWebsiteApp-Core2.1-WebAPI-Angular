@@ -1,3 +1,15 @@
-<p>
-  album-detail works!
-</p>
+<div class="form-group"> 
+    <img [src]="imageUrl" style="max-height: 100%; max-width: 100%">
+    <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." /> 
+</div>
+<div style="margin-top: 1%" class="container">
+    <div *ngIf="album.FilePathes"> 
+      <label>No Photo Yet</label>
+    </div>
+    <div *ngIf="!album.FilePathes"> 
+      <div *ngFor="let photo of album.FilePathes" class="item">
+        <button (click)="onDeletePhoto(album.Id)"><i class="fas fa-times"></i></button> 
+          <img src="https://localhost:44394{{photo}}" /> 
+      </div>
+    </div>
+</div>

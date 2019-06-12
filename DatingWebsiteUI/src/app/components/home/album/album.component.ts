@@ -18,8 +18,10 @@ export class AlbumComponent implements OnInit {
     Description: ['', [Validators.required]]
   });
 
-  public userId: any;
-  public albumList: AlbumTab[];
+  userId: any;
+  albumList: AlbumTab[];
+  imageUrl = '/assets/img/no-image.png';
+  submitted = false;
   private baseURL = 'https://localhost:44394';
 
   constructor(private service: UserService,
@@ -30,7 +32,11 @@ export class AlbumComponent implements OnInit {
               private router: Router) { }
 
   async ngOnInit() {
-    await this.activateRoute.params.subscribe(params => this.userId = params.id); 
+    await this.activateRoute.params.subscribe(params => this.userId = params.id);
+    this.resetList();
+  }
+
+  resetList(){
     if (this.userId == 0) {
       this.albumService.getMyAlbums().subscribe(
         res => {
@@ -57,6 +63,7 @@ export class AlbumComponent implements OnInit {
           );
     }
   }
+
   onSubmit() {
     this.albumService.createAlbum(this.createForm).subscribe(
       res => {
@@ -68,8 +75,16 @@ export class AlbumComponent implements OnInit {
     );
   }
 
-  goToAlbum(id: number) {
-    this.router.navigate(['/home/album/' + this.userId + '/album-details/' + id]);
+  onDeleteAlbum(id: number) {
+    this.albumService.deleteAlbum(id).subscribe(
+      res => {
+        this.toastr.success('Album deleted!', 'Deleting successful.');
+        this.resetList();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

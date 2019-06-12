@@ -129,22 +129,38 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.BadHabit != null)
-                {
-                    foreach (var item in search.BadHabit)
-                    {
-                        if ((await _db.BadHabits.GetByIdAsync(item)).Value != "Not Defined")
-                        {
-                            //var _bh = _db.BadHabitUsers.GetWhere(m => m.BadHabitId == item && m.PersonalTypeId == cur_user.TypeId);
-                            //foreach (var one_bh in _bh)
-                            //{
-                            //    buffer_int.Add(one_bh.BadHabitId);
-                            //}
-                            //user_list = user_list.Where(u => u.Type.BadHabits != null &&
-                            //                                 search.BadHabit.Contains(buffer_int));
-                        }
-                    }
-                }
+                //if (search.BadHabit != null)
+                //{
+                //    foreach (var us in user_list)
+                //    {
+                //        foreach (var bh in us.Type.BadHabits)
+                //        {
+                //            user_list = user_list.Where(m => search.BadHabit.Contains(bh.BadHabitId));
+                //        }
+                //    }
+                //}
+
+                //if (search.Interest != null)
+                //{
+                //    foreach (var us in user_list)
+                //    {
+                //        foreach (var inter in us.Type.Interests)
+                //        {
+                //            user_list = user_list.Where(m => search.Interest.Contains(inter.InterestId));
+                //        }
+                //    }
+                //}
+
+                //if (search.Language != null)
+                //{
+                //    foreach (var us in user_list)
+                //    {
+                //        foreach (var lang in us.Type.Languages)
+                //        {
+                //            user_list = user_list.Where(m => search.Language.Contains(lang.LanguageId));
+                //        }
+                //    }
+                //}
 
                 foreach (var user in user_list)
                 {

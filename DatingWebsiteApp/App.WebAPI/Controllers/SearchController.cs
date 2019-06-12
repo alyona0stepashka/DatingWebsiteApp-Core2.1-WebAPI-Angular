@@ -39,10 +39,10 @@ namespace App.WebAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult StartSearch([FromBody]SearchVM model)
+        public async Task<IActionResult> StartSearch([FromBody]SearchVM model)
         {
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var search_result_list = _searchService.StartSearchAsync(model, user_id);
+            var search_result_list = await _searchService.StartSearchAsync(model, user_id);
             if (search_result_list == null)
             {
                 return NotFound(new { message = "Users not found (error from service)." });

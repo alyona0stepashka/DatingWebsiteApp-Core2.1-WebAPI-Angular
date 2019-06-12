@@ -1,16 +1,16 @@
 export class UserSearch {
     AgeFrom: number = null;
     AgeTo: number = null;
-    BadHabit: number = null;
-    Education: number = null;
-    FamilyStatus: number = null;
-    FinanceStatus: number = null;
-    Interest: number = null;
-    Language: number = null;
-    MainGoal: number = null;
-    Nationality: number = null;
-    Sex: number = null;
-    Zodiac: number = null;
+    BadHabit: number[] = Array();
+    Education: number[] = Array();
+    FamilyStatus: number[] = Array();
+    FinanceStatus: number[] = Array();
+    Interest: number[] = Array();
+    Language: number[] = Array();
+    MainGoal: number[] = Array();
+    Nationality: number[] = Array();
+    Sex: number[] = Array();
+    Zodiac: number[] = Array();
 
     // AgeFrom: number;
     // AgeTo: number;

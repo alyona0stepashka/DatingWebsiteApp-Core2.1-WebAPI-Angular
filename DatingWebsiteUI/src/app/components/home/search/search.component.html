@@ -13,7 +13,9 @@
   <div class="row">
     <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
     <!-- <p class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">Age:   </p>  -->
+    <label>AgeFrom</label>
     <input [(ngModel)]="searchData.AgeFrom" type="text" class="form-control form-control-sm" placeholder="AgeFrom" />
+    <label>AgeTo</label>
     <input [(ngModel)]="searchData.AgeTo" placeholder="AgeTo" class="form-control form-control-sm" type="text" />
   </div>
   <div class="row">
@@ -37,61 +39,71 @@
     <!-- <ng-select [(ngModel)]="searchData.Sex" [items]="staticInfo.Sexes" bindLabel="type"
              placeholder="Sex..."></ng-select>  -->
 
-
+<label>Sex</label>
     <select multiple [(ngModel)]="searchData.Sex"  class="form-control form-control-sm" title="Sex...">
              <option *ngFor="let item of staticInfo.Sexes" [value]="item.Id">{{item.Value}}</option>
          </select>
   </div>
   <div class="row">
     <!-- <p  class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">BadHabits:   </p>  -->
+    <label>BadHabit</label>
     <select multiple [(ngModel)]="searchData.BadHabit" class="form-control form-control-sm" title="BadHabits...">
       <option *ngFor="let item of staticInfo.BadHabits" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Education:   </p>  -->
+    <label>Education</label>
     <select multiple [(ngModel)]="searchData.Education" class="form-control form-control-sm" title="Education...">
       <option *ngFor="let item of staticInfo.Educations" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">FamilyStatus:   </p>  -->
+    <label>FamilyStatus</label>
     <select multiple [(ngModel)]="searchData.FamilyStatus" class="form-control form-control-sm" title="FamilyStatus...">
       <option *ngFor="let item of staticInfo.FamilyStatuses" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">FinanceStatus:   </p>  -->
+    <label>FinanceStatus</label>
     <select multiple [(ngModel)]="searchData.FinanceStatus" class="form-control form-control-sm" title="FinanceStatus...">
       <option *ngFor="let item of staticInfo.FinanceStatuses" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Interests:   </p>  -->
+   
+<label>Interest</label>
     <select multiple [(ngModel)]="searchData.Interest" class="form-control form-control-sm" title="Interest...">
       <option *ngFor="let item of staticInfo.Interests" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Languages:   </p>  -->
+    <label>Language</label>
     <select multiple [(ngModel)]="searchData.Language" class="form-control form-control-sm" title="Language...">
       <option *ngFor="let item of staticInfo.Languages" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">MainGoals:   </p>  -->
+    <label>MainGoal</label>
     <select multiple [(ngModel)]="searchData.MainGoal" class="form-control form-control-sm" title="MainGoal...">
       <option *ngFor="let item of staticInfo.MainGoals" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Nationalities:   </p>  -->
+    <label>Nationality</label>
     <select multiple [(ngModel)]="searchData.Nationality" class="form-control form-control-sm" title="Nationality...">
       <option *ngFor="let item of staticInfo.Nationalities" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
   <div class="row">
     <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Zodiacs:   </p>  -->
+    <label>Zodiac</label>
     <select multiple [(ngModel)]="searchData.Zodiac" class="form-control form-control-sm" title="Zodiac...">
       <option *ngFor="let item of staticInfo.Zodiacs" [value]="item.Id">{{item.Value}}</option>
     </select>

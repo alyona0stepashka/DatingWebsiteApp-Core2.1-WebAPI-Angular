@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace App.BLL.ViewModels.Static
+namespace App.BLL.ViewModels
 {
     public class StaticBaseVM
     {

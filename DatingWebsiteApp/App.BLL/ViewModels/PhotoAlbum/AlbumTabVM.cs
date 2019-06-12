@@ -19,11 +19,11 @@ namespace App.BLL.ViewModels
         {
             Id = album.Id;
             Name = album.Name;
+            FilePath = null;
             if (album.Files.Any())
             {
                 FilePath = album.Files.First().Path;
             }
-            FilePath = null;
         }
     }
 }

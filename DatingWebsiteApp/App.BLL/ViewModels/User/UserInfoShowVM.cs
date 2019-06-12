@@ -1,4 +1,4 @@
-﻿using App.BLL.ViewModels.Static;
+﻿using App.BLL.ViewModels;
 using App.Models;
 using System;
 using System.Collections.Generic;

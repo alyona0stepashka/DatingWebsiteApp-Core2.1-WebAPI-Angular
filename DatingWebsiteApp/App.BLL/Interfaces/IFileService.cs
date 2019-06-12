@@ -13,5 +13,6 @@ namespace App.BLL.Interfaces
         Task<int> CreatePhotoForAlbumAsync(IFormFile photo, PhotoAlbum album /*int album_id*/);
         Task<int> CreatePhotoForMessageAsync(IFormFile photo, ChatMessage message /*int message_id*/);
         Task<int?> DeletePhotoForAlbumAsync(string file_path, int album_id);
+        Task<int?> DeletePhoto(int id);
     }
 }

@@ -85,6 +85,20 @@ namespace App.BLL.Services
             var ret_album = new AlbumShowVM(album);
             return ret_album;
         }
+        public async Task<int?> DeletePhotoAsync(int id)
+        {
+            var photo = _db.FileModels.GetWhere(m => m.Id == id);
+            if (photo==null)
+            {
+                return null;
+            }
+            var delete_res = await _fileService.DeletePhoto(id);
+            if (delete_res == null)
+            {
+                return null;
+            } 
+            return delete_res;
+        }
 
         public async Task<AlbumShowVM> DeleteAlbumAsync(int album_id)
         { 
