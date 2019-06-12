@@ -21,8 +21,7 @@ export class AlbumComponent implements OnInit {
   userId: any;
   albumList: AlbumTab[];
   imageUrl = '/assets/img/no-image.png';
-  submitted = false;
-  private baseURL = 'https://localhost:44394';
+  submitted = false; 
 
   constructor(private service: UserService,
               private toastr: ToastrService,
@@ -41,9 +40,6 @@ export class AlbumComponent implements OnInit {
       this.albumService.getMyAlbums().subscribe(
         res => {
           this.albumList = res as AlbumTab[];
-          this.albumList.forEach(element => {
-            element.FilePath = this.baseURL + element.FilePath;
-          });
         },
         err => {
           console.log(err);
@@ -53,9 +49,6 @@ export class AlbumComponent implements OnInit {
       this.albumService.getAlbumsByUserId(this.userId).subscribe(
         res => {
           this.albumList = res as AlbumTab[];
-          this.albumList.forEach(element => {
-            element.FilePath = this.baseURL + element.FilePath;
-          });
         },
         err => {
           console.log(err);

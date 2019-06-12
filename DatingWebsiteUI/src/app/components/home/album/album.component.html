@@ -30,11 +30,11 @@
         <div class="container">
             <div *ngFor="let album of albumList" class="item" routerLink='/home/album/{{userId}}/details/{{album.Id}}' routerLinkActive='active'>
                 <div class="row">
-                    <h1>{{album.Name}}</h1><button (click)="onDeleteAlbum(album.Id)"><i class="fas fa-times"></i></button> 
+                    <label style="margin-left: 7%">{{album.Name}}</label><button style="margin-left: 2%" (click)="onDeleteAlbum(album.Id)"><i class="fas fa-times"></i></button> 
                 </div>
-                    <div class="col-sm-4">
-                        <img *ngIf="album.FilePath" src="https://localhost:44394{{album.FilePath}}"/>
-                        <img *ngIf="!album.FilePath" src="{{album.FilePath}}"/>
+                    <div>
+                        <img *ngIf="album.FilePath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{album.FilePath}}"/>
+                        <img *ngIf="!album.FilePath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
                     </div> 
             </div>
         </div>

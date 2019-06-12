@@ -4,12 +4,12 @@
 </div>
 <div style="margin-top: 1%" class="container">
     <div *ngIf="album.FilePathes"> 
-      <label>No Photo Yet</label>
+      <label style="margin-left: 7%">No Photo Yet</label>
     </div>
     <div *ngIf="!album.FilePathes"> 
       <div *ngFor="let photo of album.FilePathes" class="item">
         <button (click)="onDeletePhoto(album.Id)"><i class="fas fa-times"></i></button> 
-          <img src="https://localhost:44394{{photo}}" /> 
+          <img style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{photo}}" /> 
       </div>
     </div>
 </div>
