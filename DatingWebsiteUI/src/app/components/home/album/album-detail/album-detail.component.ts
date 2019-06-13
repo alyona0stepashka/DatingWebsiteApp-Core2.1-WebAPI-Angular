@@ -12,6 +12,7 @@ import { Lightbox } from 'ngx-lightbox';
 export class AlbumDetailComponent implements OnChanges {
 
   @Input() albumId: number;
+  @Input() userId: any;
 
   album: AlbumDetails;
   UploadFile: File = null;
@@ -21,8 +22,7 @@ export class AlbumDetailComponent implements OnChanges {
 
   constructor(private toastr: ToastrService,
               private albumService: PhotoAlbumService,
-              private _lightbox: Lightbox) 
-              { }
+              private _lightbox: Lightbox) { }
 
   // async ngOnInit() {
   //   this.resetList();

@@ -159,7 +159,7 @@
   padding: 12px;
   background-color: #ffff;
   align-content:center; 
-  /* border-radius:15%;   */
+  border-radius: .3rem;
 }
 
 .avatar {
