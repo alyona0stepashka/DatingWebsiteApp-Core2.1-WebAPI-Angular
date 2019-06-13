@@ -8,9 +8,7 @@ namespace App.Models
 {
     public class ChatRoom : EntityBase
     {
-        //public int Id { get; set; }
-
-        public bool Status { get; set; }
+        //public int Id { get; set; } 
 
         //[ForeignKey("UserFrom")]
         public string UserFromId { get; set; }
@@ -19,6 +17,10 @@ namespace App.Models
         public string UserToId { get; set; }
 
         public bool IsBlock { get; set; }
+
+        public DateTime UserFromClearHistory { get; set; }
+
+        public DateTime UserToClearHistory { get; set; }
 
         public virtual ApplicationUser UserFrom { get; set; }
 

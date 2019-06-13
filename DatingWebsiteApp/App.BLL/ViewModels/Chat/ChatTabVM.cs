@@ -4,7 +4,7 @@ using System.Text;
 using App.Models;
 using System.Linq;
 
-namespace App.BLL.ViewModels.Chat
+namespace App.BLL.ViewModels
 {
     public class ChatTabVM
     {

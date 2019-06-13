@@ -4,10 +4,40 @@ using System.Text;
 using App.Models;
 using System.Linq;
 
-namespace App.BLL.ViewModels.Chat
+namespace App.BLL.ViewModels
 {
     public class ChatMessageVM
     {
-        public int MyProperty { get; set; }
+        public int Id { get; set; }
+
+        public string SenderAvatarPath { get; set; }
+
+        public string SenderName { get; set; }
+
+        public string Text { get; set; }
+
+        public List<string> FilePathes { get; set; }
+
+        public DateTime DateSend { get; set; }
+
+        public bool IsNew { get; set; }
+
+        public ChatMessageVM(ChatMessage message)
+        {
+            Id = message.Id;
+            SenderAvatarPath = message.UserSender.File.Path;
+            SenderName = message.UserSender.Name;
+            Text = message.Text;
+            FilePathes = new List<string>();
+            if (message.Files != null)
+            {
+                foreach(var file in message.Files)
+                {
+                    FilePathes.Add(file.Path);
+                }
+            }
+            DateSend = message.DateSend;
+            IsNew = message.IsNew;
+        }
     }
 }

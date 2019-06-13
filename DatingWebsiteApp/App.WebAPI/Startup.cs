@@ -116,6 +116,7 @@ namespace App.WebAPI
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IBlackListService, BlackListService>();
             services.AddScoped<IStaticService, StaticService>();
+            services.AddScoped<IChatService, ChatService>();
 
             services.AddSwaggerGen(c =>
             {
