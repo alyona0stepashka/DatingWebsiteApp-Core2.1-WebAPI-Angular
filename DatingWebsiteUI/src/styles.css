@@ -30,6 +30,9 @@ table tr:hover{
     cursor: pointer;
 }
 
+img:hover{
+    cursor: pointer;
+}
 
 ::placeholder {
     color: rgb(207, 199, 199);

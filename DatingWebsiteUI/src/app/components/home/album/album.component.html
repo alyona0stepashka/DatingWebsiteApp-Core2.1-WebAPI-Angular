@@ -1,4 +1,4 @@
-<div class="jumbotron" style="height: 100%; padding-top:2%">   
+<div class="jumbotron" style="height: 100%; padding-top:2%; background-color: #343a40;">   
     <div *ngIf="userId==0">
         <div class="row">
             <div class="col-md-10 offset-md-1"> 
@@ -24,23 +24,24 @@
             </div>
         </div>
     </div>
+    <h2>Found {{albumList?.length}} album(s)</h2>
 
-    <div class="col-sm-3">
-        <h2>Founded {{albumList?.length}} album(s)</h2>
-        <div class="container">
-            <div *ngFor="let album of albumList" class="item" routerLink='/home/album/{{userId}}/details/{{album.Id}}' routerLinkActive='active'>
-                <div class="row">
-                    <label style="margin-left: 7%">{{album.Name}}</label><button style="margin-left: 2%" (click)="onDeleteAlbum(album.Id)"><i class="fas fa-times"></i></button> 
-                </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="container">
+                <div *ngFor="let album of albumList" class="item text-center" > 
+                    <label>{{album.Name}}</label>  
                     <div>
-                        <img *ngIf="album.FilePath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{album.FilePath}}"/>
-                        <img *ngIf="!album.FilePath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
-                    </div> 
+                        <button *ngIf="userId==0"  style="position: absolute;" (click)="onDeleteAlbum(album.Id)"><i class="fas fa-times"></i></button>
+                        <img (click)="openAlbum(album.Id)" *ngIf="album.FilePath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{album.FilePath}}"/>
+                        <img (click)="openAlbum(album.Id)" *ngIf="!album.FilePath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
+                    </div>  
+                </div>  
             </div>
         </div>
-    </div>
-    <div class="col-sm-9">
-         <router-outlet></router-outlet>
+        <div *ngIf="isOpen" class="col-sm-9" style="padding-left: 0; background-color: #d6d6d6;">
+            <app-album-detail [albumId]="albumId"></app-album-detail> 
+        </div>
     </div>
 </div>
           

@@ -28,100 +28,156 @@ namespace App.BLL.Services
 
         public async Task<PhotoAlbum> GetDbAlbum(int album_id)
         {
-            var db_album = await _db.PhotoAlbums.GetByIdAsync(album_id);
-            if (db_album==null)
+            try
+            {
+                var db_album = await _db.PhotoAlbums.GetByIdAsync(album_id);
+                if (db_album == null)
+                {
+                    return null;
+                }
+                return db_album;
+            }
+            catch (Exception e)
             {
                 return null;
             }
-            return db_album;
         }
 
         public async Task<List<AlbumTabVM>> GetAllAlbumsByUserIdAsync(string user_id)
         {
-            var ret_albums = new List<AlbumTabVM>();
-            var db_albums = (await _userManager.FindByIdAsync(user_id)).PhotoAlbums;
-            if (db_albums != null)
+            try
             {
-                foreach (var album in db_albums)
+                var ret_albums = new List<AlbumTabVM>();
+                var db_albums = (await _userManager.FindByIdAsync(user_id)).PhotoAlbums;
+                if (db_albums != null)
                 {
-                    ret_albums.Add(new AlbumTabVM(album));
+                    foreach (var album in db_albums)
+                    {
+                        ret_albums.Add(new AlbumTabVM(album));
+                    }
                 }
+                return ret_albums;
             }
-            return ret_albums;
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task<AlbumShowVM> GetOpenAlbumAsync(int album_id)
         {
-            var album = await _db.PhotoAlbums.GetByIdAsync(album_id);
-            if (album == null)
+            try
+            {
+                var album = await _db.PhotoAlbums.GetByIdAsync(album_id);
+                if (album == null)
+                {
+                    return null;
+                }
+                var ret_album = new AlbumShowVM(album);
+                return ret_album;
+            }
+            catch (Exception e)
             {
                 return null;
             }
-            var ret_album = new AlbumShowVM(album);
-            return ret_album;
         }
 
         public async Task<AlbumShowVM> AddPhotoAsync(AlbumAddPhotoVM model)
         {
-            var album = await GetDbAlbum(model.Id);
-            await _fileService.CreatePhotoForAlbumAsync(model.UploadPhoto, album);
-            album = await GetDbAlbum(model.Id);
-            var ret_album = new AlbumShowVM(album);
-            return ret_album;
+            try
+            {
+                var album = await GetDbAlbum(model.Id);
+                await _fileService.CreatePhotoForAlbumAsync(model.UploadPhoto, album);
+                album = await GetDbAlbum(model.Id);
+                var ret_album = new AlbumShowVM(album);
+                return ret_album;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task<AlbumShowVM> DeletePhotoAsync(AlbumDeletePhotoVM model)
         {
-            var delete_res = await _fileService.DeletePhotoForAlbumAsync(model.file_path, model.Id);
-            if (delete_res==null)
+            try
+            {
+                var delete_res = await _fileService.DeletePhotoForAlbumAsync(model.file_path, model.Id);
+                if (delete_res == null)
+                {
+                    return null;
+                }
+                var album = await GetDbAlbum(model.Id);
+                if (album == null)
+                {
+                    return null;
+                }
+                var ret_album = new AlbumShowVM(album);
+                return ret_album;
+            }
+            catch (Exception e)
             {
                 return null;
             }
-            var album = await GetDbAlbum(model.Id);
-            if (album == null)
-            {
-                return null;
-            }
-            var ret_album = new AlbumShowVM(album);
-            return ret_album;
         }
         public async Task<int?> DeletePhotoAsync(int id)
         {
-            var photo = _db.FileModels.GetWhere(m => m.Id == id);
-            if (photo==null)
+            try
+            {
+                var photo = _db.FileModels.GetWhere(m => m.Id == id);
+                if (photo==null)
+                {
+                    return null;
+                }
+                var delete_res = await _fileService.DeletePhoto(id);
+                if (delete_res == null)
+                {
+                    return null;
+                } 
+                return delete_res;
+            }
+            catch(Exception e)
             {
                 return null;
             }
-            var delete_res = await _fileService.DeletePhoto(id);
-            if (delete_res == null)
-            {
-                return null;
-            } 
-            return delete_res;
         }
 
         public async Task<AlbumShowVM> DeleteAlbumAsync(int album_id)
-        { 
-            var album = await GetDbAlbum(album_id);
-            if (album == null)
+        {
+            try
+            {
+                var album = await GetDbAlbum(album_id);
+                if (album == null)
+                {
+                    return null;
+                }
+                album = await _db.PhotoAlbums.DeleteAsync(album_id);
+                var ret_album = new AlbumShowVM(album);
+                return ret_album;
+            }
+            catch (Exception e)
             {
                 return null;
             }
-            album = await _db.PhotoAlbums.DeleteAsync(album_id);
-            var ret_album = new AlbumShowVM(album);
-            return ret_album;
         }
 
         public async Task<AlbumShowVM> CreateAlbumAsync(AlbumShowVM model, string user_id)
-        { 
-            var album = await _db.PhotoAlbums.CreateAsync(new PhotoAlbum
+        {
+            try
             {
-                Name=model.Name,
-                Description = model.Description,
-                UserId = user_id 
-            });
-            var ret_album = new AlbumShowVM(album);
-            return ret_album;
+                var album = await _db.PhotoAlbums.CreateAsync(new PhotoAlbum
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    UserId = user_id
+                });
+                var ret_album = new AlbumShowVM(album);
+                return ret_album;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

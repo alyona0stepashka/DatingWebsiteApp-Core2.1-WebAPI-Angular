@@ -1,15 +1,13 @@
-<div class="form-group"> 
-    <img [src]="imageUrl" style="max-height: 100%; max-width: 100%">
-    <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." /> 
+<div class="row"> 
+    <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." /> 
+    <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
 </div>
-<div style="margin-top: 1%" class="container">
-    <div *ngIf="album.FilePathes"> 
-      <label style="margin-left: 7%">No Photo Yet</label>
-    </div>
-    <div *ngIf="!album.FilePathes"> 
-      <div *ngFor="let photo of album.FilePathes" class="item">
-        <button (click)="onDeletePhoto(album.Id)"><i class="fas fa-times"></i></button> 
-          <img style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{photo}}" /> 
-      </div>
-    </div>
+<div *ngIf="album.FilePathes.length<1" class="text-center"> 
+    <label class="text-center">No Photo Yet</label>
+</div>
+<div *ngIf="album.FilePathes.length>0" style="margin-top: 1%" class="container"> 
+    <div *ngFor="let photo of album.FilePathes" class="item text-center" style="margin-bottom: 2%">
+      <button (click)="onDeletePhoto(photo.Id)"  style="position: absolute;"><i class="fas fa-times"></i></button> 
+      <img style="max-height: 190px; max-width: 190px;" src="https://localhost:44394{{photo.Value}}" /> 
+    </div> 
 </div>

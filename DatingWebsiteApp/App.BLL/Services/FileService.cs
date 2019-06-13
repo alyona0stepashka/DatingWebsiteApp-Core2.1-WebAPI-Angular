@@ -69,41 +69,48 @@ namespace App.BLL.Services
 
         public async Task<int> CreatePhotoForAlbumAsync(IFormFile photo, PhotoAlbum album)
         {
-            var id = 0;
-            if (photo != null) //если загрузили фото 
+            try
             {
-                var path = "/Images/Users/" + album.UserId + "/Albums/"+ album.Id + "/" + photo.FileName;
-                string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images"); 
-                if (!Directory.Exists(directory + "\\Users"))
+                var id = 0;
+                if (photo != null) //если загрузили фото 
                 {
-                    Directory.CreateDirectory(directory + "\\Users");
-                }
-                if (!Directory.Exists(directory + "\\Users\\" + album.UserId))
-                {
-                    Directory.CreateDirectory(directory + "\\Users\\" + album.UserId);
-                }
-                if (!Directory.Exists(directory + "\\Users\\" + album.UserId + "\\Albums"))
-                {
-                    Directory.CreateDirectory(directory + "\\Users\\" + album.UserId + "\\Albums");
-                }
-                if (!Directory.Exists(directory + "\\Users\\" + album.UserId + "\\Albums" + album.Id))
-                {
-                    Directory.CreateDirectory(directory + "\\Users\\" + album.UserId + "\\Albums" + album.Id);
-                }
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await photo.CopyToAsync(fileStream);
-                }
-                var file = new FileModel
-                {
-                    Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
-                    Path = path,
-                    PhotoAlbumId = album.Id
-                };
-                await _db.FileModels.CreateAsync(file);
-                id = file.Id;
-            } 
-            return id;
+                    var path = "/Images/Users/" + album.UserId + "/Albums/"+ album.Id + "/" + photo.FileName;
+                    string directory = _appEnvironment.WebRootPath + "\\Images\\"; 
+                    if (!Directory.Exists(directory + "Users\\"))
+                    {
+                        Directory.CreateDirectory(directory + "Users\\");
+                    }
+                    if (!Directory.Exists(directory + "Users\\" + album.UserId + "\\"))
+                    {
+                        Directory.CreateDirectory(directory + "Users\\" + album.UserId + "\\");
+                    }
+                    if (!Directory.Exists(directory + "Users\\" + album.UserId + "\\Albums\\"))
+                    {
+                        Directory.CreateDirectory(directory + "Users\\" + album.UserId + "\\Albums\\");
+                    }
+                    if (!Directory.Exists(directory + "Users\\" + album.UserId + "\\Albums\\" + album.Id + "\\"))
+                    {
+                        Directory.CreateDirectory(directory + "Users\\" + album.UserId + "\\Albums\\" + album.Id + "\\");
+                    }
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await photo.CopyToAsync(fileStream);
+                    }
+                    var file = new FileModel
+                    {
+                        Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
+                        Path = path,
+                        PhotoAlbumId = album.Id
+                    };
+                    await _db.FileModels.CreateAsync(file);
+                    id = file.Id;
+                } 
+                return id;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
         public async Task<int?> DeletePhotoForAlbumAsync(string file_path, int album_id)
         {
@@ -120,15 +127,22 @@ namespace App.BLL.Services
         }
         public async Task<int?> DeletePhoto(int id)
         {
-            var file = _db.FileModels.GetByIdAsync(id);
-            if (file == null)
+            try
+            {
+                var file = await _db.FileModels.GetByIdAsync(id);
+                if (file == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    await _db.FileModels.DeleteAsync(file.Id);
+                    return 0;
+                }
+            }
+            catch(Exception e)
             {
                 return null;
-            }
-            else
-            {
-                await _db.FileModels.DeleteAsync(file.Id);
-                return 0;
             }
         }
 
@@ -138,14 +152,14 @@ namespace App.BLL.Services
             if (photo != null) //если загрузили фото 
             {
                 var path = "/Images/Chats/" + message.ChatId + "/" + photo.FileName;
-                string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images"); 
-                if (!Directory.Exists(directory + "\\Chats"))
+                string directory = _appEnvironment.WebRootPath + "\\Images"; 
+                if (!Directory.Exists(directory + "\\Chats\\"))
                 {
-                    Directory.CreateDirectory(directory + "\\Chats");
+                    Directory.CreateDirectory(directory + "\\Chats\\");
                 }
-                if (!Directory.Exists(directory + "\\Chats\\" + message.ChatId))
+                if (!Directory.Exists(directory + "\\Chats\\" + message.ChatId + "\\"))
                 {
-                    Directory.CreateDirectory(directory + "\\Chats\\" + message.ChatId);
+                    Directory.CreateDirectory(directory + "\\Chats\\" + message.ChatId + "\\");
                 }
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {

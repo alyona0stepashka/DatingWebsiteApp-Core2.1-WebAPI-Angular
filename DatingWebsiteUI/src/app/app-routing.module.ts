@@ -58,9 +58,9 @@ const routes: Routes = [
         ]
       },
       {path: 'album/:id', component: AlbumComponent, canActivate: [AuthGuard],
-        children: [
-          {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
-        ]
+        // children: [
+        //   {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
+        // ]
       },
     ]
   },

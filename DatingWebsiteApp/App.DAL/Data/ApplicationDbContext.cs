@@ -68,6 +68,12 @@ namespace App.DAL.Data
                 .WithMany(b => b.BlackListsTo)
                 .HasForeignKey(c => c.UserToId);
 
+            modelBuilder.Entity<FileModel>()
+                .HasOne(m => m.PhotoAlbum)
+                .WithMany(m => m.Files)
+                .HasForeignKey(m => m.PhotoAlbumId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
             base.OnModelCreating(modelBuilder);
         }
     }

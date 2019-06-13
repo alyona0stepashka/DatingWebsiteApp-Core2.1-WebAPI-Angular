@@ -8,7 +8,7 @@
 <div class="hidden-menu">
   <h2 style="color:#ffff">Search filters </h2>
   <div class="row" style="padding-top: 2%">
-    <button style="width: 100%" type="button" (click)="onSearch()"><i class="fas fa-search"></i></button>
+      <button class="btn btn-primary" style="width: 100%" (click)="onSearch()"><i class="fas fa-search"></i></button>
   </div>
   <div class="row">
     <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
@@ -109,7 +109,7 @@
     </select>
   </div>
   <div class="row" style="padding-top: 2%">
-    <button style="width: 100%" type="button" (click)="onSearch()"><i class="fas fa-search"></i></button>
+    <button class="btn btn-primary" style="width: 100%" (click)="onSearch()"><i class="fas fa-search"></i></button>
   </div>
   <!-- <form (ngSubmit)="onSubmit()">  
        <div class="form-group">
@@ -122,7 +122,7 @@
 <!-- <img src="https://www.conweso.de/wp-content/uploads/2016/07/arrow-24916_1280.png" style="position: relative; transform: rotate(-120deg); top:-150px; left:-50px; max-height: 200px; max-width: 75px"> -->
 <div class="jumbotron" style="height: 100%; padding-top: 5%">
 
-  <h2>Founded {{userList?.length}} user(s)</h2>
+  <h2>Found {{userList?.length}} user(s)</h2>
   <div style="margin-top: 1%" class="container">
     <div *ngFor="let user of userList" class="item" (click)="goToProfile(user.Id)">
       <div class="row">

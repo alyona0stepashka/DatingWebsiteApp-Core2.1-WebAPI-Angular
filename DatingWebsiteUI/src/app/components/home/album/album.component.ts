@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlbumTab } from 'src/app/models/album-tab.model';
-import { UserService } from 'src/app/services/user.service';
+import { AlbumTab } from 'src/app/models/album-tab.model'; 
 import { ToastrService } from 'ngx-toastr';
 import { PhotoAlbumService } from 'src/app/services/photo-album.service'; 
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
 
 @Component({
   selector: 'app-album',
@@ -21,14 +20,15 @@ export class AlbumComponent implements OnInit {
   userId: any;
   albumList: AlbumTab[];
   imageUrl = '/assets/img/no-image.png';
-  submitted = false; 
+  submitted = false;
+  isOpen = false;
+  albumId: number = null;
 
-  constructor(private service: UserService,
-              private toastr: ToastrService,
+  constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
               private albumService: PhotoAlbumService,
-              private activateRoute: ActivatedRoute,
-              private router: Router) { }
+              private activateRoute: ActivatedRoute
+              ) { }
 
   async ngOnInit() {
     await this.activateRoute.params.subscribe(params => this.userId = params.id);
@@ -61,6 +61,7 @@ export class AlbumComponent implements OnInit {
     this.albumService.createAlbum(this.createForm).subscribe(
       res => {
         this.toastr.success('New album created!', 'Creating successful.');
+        this.resetList();
       },
       err => {
         console.log(err);
@@ -72,12 +73,19 @@ export class AlbumComponent implements OnInit {
     this.albumService.deleteAlbum(id).subscribe(
       res => {
         this.toastr.success('Album deleted!', 'Deleting successful.');
+        this.isOpen = false;
         this.resetList();
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+  openAlbum(id: number) {
+    this.albumId = id;
+    this.isOpen = true;
+    console.log(id);
   }
 
 }

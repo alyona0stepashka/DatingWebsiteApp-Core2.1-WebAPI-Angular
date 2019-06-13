@@ -5,15 +5,18 @@
     grid-row-gap: 30px;
     grid-column-gap: 10px;
     width: 90%;
+    height: 100%;
     margin: 0 auto;
     list-style: none;
-    padding-left:0; 
+    padding-left:0;    
+    align-content: center; 
+    overflow: auto;
   }
   
   .container>.item {
-    padding: 12px;
-    background-color: #ffff;
-    align-content:center;
+    padding: 12px; 
+    align-content: center;
+    background-color: #090909;
   }
   
   .avatar {
@@ -22,3 +25,13 @@
     width: 100px;
     height: 100px;
   }
+
+  h2{ 
+    color: #fff;
+  }
+
+  label{
+    color: #adadad;
+  }
+
+  
