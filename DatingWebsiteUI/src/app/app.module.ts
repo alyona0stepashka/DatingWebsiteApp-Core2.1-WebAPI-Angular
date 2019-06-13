@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { LightboxModule } from 'ngx-lightbox';
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -80,6 +81,7 @@ import { SearchService } from './services/search.service';
     ReactiveFormsModule,
     CommonModule,
     BrowserAnimationsModule,
+    LightboxModule,
     ToastrModule.forRoot()
   ],
   providers: [

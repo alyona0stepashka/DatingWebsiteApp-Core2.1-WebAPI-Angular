@@ -1,14 +1,13 @@
 
 .container {
     display: grid;
-    grid-template-columns: repeat(3, 215px);
+    grid-template-columns: repeat(3, 240px);
     grid-row-gap: 30px;
     grid-column-gap: 10px;
     width: 90%;
     margin: 0 auto;
     list-style: none;
     padding-left:0; 
-    overflow: auto;
   }
   
   .container>.item {

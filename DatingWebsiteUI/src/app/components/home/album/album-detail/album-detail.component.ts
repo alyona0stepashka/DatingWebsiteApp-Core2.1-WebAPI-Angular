@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { AlbumDetails } from 'src/app/models/album-details.model';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoAlbumService } from 'src/app/services/photo-album.service';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-album-detail',
@@ -13,19 +14,21 @@ export class AlbumDetailComponent implements OnChanges {
   @Input() albumId: number;
 
   album: AlbumDetails;
-  UploadFile: File = null; 
+  UploadFile: File = null;
   submitted = false;
+  private _albums: any[] = new Array();
   private baseURL = 'https://localhost:44394';
 
   constructor(private toastr: ToastrService,
-              private albumService: PhotoAlbumService
-              ) { }
+              private albumService: PhotoAlbumService,
+              private _lightbox: Lightbox) 
+              { }
 
   // async ngOnInit() {
   //   this.resetList();
   // }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.resetList();
   }
 
@@ -34,6 +37,18 @@ export class AlbumDetailComponent implements OnChanges {
     this.albumService.getAlbumById(this.albumId).subscribe(
         res => {
           this.album = res as AlbumDetails;
+          this.album.FilePathes.forEach(element => {
+            const src = this.baseURL + element.Value;
+            const caption = '';
+            const thumb = '';
+            const album = {
+              src,
+              caption,
+              thumb
+           };
+
+            this._albums.push(album);
+          });
         },
         err => {
           console.log(err);
@@ -56,7 +71,7 @@ export class AlbumDetailComponent implements OnChanges {
 
   uploadPhoto(file: FileList) {
     this.UploadFile = file.item(0);
-    const reader = new FileReader(); 
+    const reader = new FileReader();
     reader.readAsDataURL(this.UploadFile);
 
     this.albumService.createAlbumPhoto(this.UploadFile, this.albumId).subscribe(
@@ -69,6 +84,16 @@ export class AlbumDetailComponent implements OnChanges {
         this.toastr.error('New photo created error!', 'Creating error.');
       }
     );
+  }
+  
+  open(index: number): void {
+    // open lightbox
+    this._lightbox.open(this._albums, index);
+  }
+ 
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
   }
 
 }
