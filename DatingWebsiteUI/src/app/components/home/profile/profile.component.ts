@@ -112,6 +112,17 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+
+  async removeFromBlackList(id: string) {
+    this.blackService.removeRequest(id).subscribe(
+      res => {
+        this.toastr.success('Success delete request', 'Sending request');
+      },
+      err => {
+        console.log(err);
+      }
+    ); 
+  } 
   
   open(): void {
     // open lightbox

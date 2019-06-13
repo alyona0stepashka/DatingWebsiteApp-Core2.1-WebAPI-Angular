@@ -19,11 +19,11 @@ namespace App.Models
        // [ForeignKey("Chat")]
         public int ChatId { get; set; }
 
-        public bool IsReaded { get; set; }
+        public bool IsNew { get; set; }
 
         public virtual ApplicationUser UserSender { get; set; }
 
-        public virtual Chat Chat { get; set; }
+        public virtual ChatRoom Chat { get; set; }
 
         public virtual List<FileModel> Files { get; set; }
          

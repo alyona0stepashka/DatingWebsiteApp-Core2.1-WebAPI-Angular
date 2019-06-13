@@ -9,7 +9,9 @@
           <button class="col-3" type="button" (click)="goToAlbums(userProfile.Id)" [disabled]="userProfile.IsBlack"><i class="fas fa-images"></i></button>
           <button class="col-3" type="button" (click)="deleteFriendRequest(userProfile.Id)" [disabled]="userId==0" *ngIf="userProfile.IsFriend"><i class="fas fa-user-minus"></i></button>
           <button class="col-3" type="button" (click)="sendFriendRequest(userProfile.Id)" [disabled]="userId==0 || userProfile.IsBlack" *ngIf="!userProfile.IsFriend"><i class="fas fa-user-plus"></i></button>
-          <button class="col-3" type="button" (click)="addToBlackList(userProfile.Id)" [disabled]="userId==0"><i class="fas fa-lock"></i></button><br/><br/><br/>
+          <button class="col-3" type="button" (click)="addToBlackList(userProfile.Id)" [disabled]="userId==0" *ngIf="!userProfile.IsBlack"><i class="fas fa-lock"></i></button>
+          <button class="col-3" type="button" (click)="removeFromBlackList(userProfile.Id)" [disabled]="userId==0" *ngIf="userProfile.IsBlack"><i class="fas fa-lock"></i></button>
+          <br/><br/><br/>
         </div>
       </div>  
       <div class="col-md-3 offset-md-1" *ngIf="!userProfile.IsBlack">

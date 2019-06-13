@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace App.Models
@@ -18,6 +19,6 @@ namespace App.Models
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual List<FileModel> Files { get; set; }
+        public virtual IQueryable<FileModel> Files { get; set; }
     }
 }

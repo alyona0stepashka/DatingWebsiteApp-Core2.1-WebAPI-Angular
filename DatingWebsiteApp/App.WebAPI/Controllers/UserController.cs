@@ -96,7 +96,7 @@ namespace App.WebAPI.Controllers
             {
                 return BadRequest("Empty File");
             }
-            if (UploadPhoto.Length > 10 * 1024 * 1024) return BadRequest("Max file size exceeded.");
+            if (UploadPhoto.Length > 5 * 1024 * 1024) return BadRequest("Max file size exceeded.");
             if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
 
             var user_id = User.Claims.First(c => c.Type == "UserID").Value;

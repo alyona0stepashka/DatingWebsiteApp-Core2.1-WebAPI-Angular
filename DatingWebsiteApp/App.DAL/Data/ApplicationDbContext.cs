@@ -10,7 +10,7 @@ namespace App.DAL.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<BlackList> BlackLists { get; set; }
-        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatRoom> Chats { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<FileModel> FileModels { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
@@ -48,12 +48,12 @@ namespace App.DAL.Data
                 .WithMany(b => b.FriendshipsTo)
                 .HasForeignKey(c => c.UserToId);
 
-            modelBuilder.Entity<Chat>()
+            modelBuilder.Entity<ChatRoom>()
                 .HasOne(a => a.UserFrom)
                 .WithMany(b => b.ChatsFrom)
                 .HasForeignKey(c => c.UserFromId);
 
-            modelBuilder.Entity<Chat>()
+            modelBuilder.Entity<ChatRoom>()
                 .HasOne(a => a.UserTo)
                 .WithMany(b => b.ChatsTo)
                 .HasForeignKey(c => c.UserToId);

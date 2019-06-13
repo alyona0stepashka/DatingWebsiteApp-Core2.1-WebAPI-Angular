@@ -11,7 +11,7 @@ namespace App.DAL.Repositories
     {
         private readonly ApplicationDbContext _db; 
         private Repository<BlackList> _blackLists;
-        private Repository<Chat> _chats;
+        private Repository<ChatRoom> _chats;
         private Repository<ChatMessage> _chatMessages;
         private Repository<FileModel> _fileModels;
         private Repository<Friendship> _friendships;
@@ -37,7 +37,7 @@ namespace App.DAL.Repositories
         }
          
         public IRepository<BlackList> BlackLists => _blackLists ?? (_blackLists = new Repository<BlackList>(_db));
-        public IRepository<Chat> Chats => _chats ?? (_chats = new Repository<Chat>(_db));
+        public IRepository<ChatRoom> Chats => _chats ?? (_chats = new Repository<ChatRoom>(_db));
         public IRepository<ChatMessage> ChatMessages => _chatMessages ?? (_chatMessages = new Repository<ChatMessage>(_db));
         public IRepository<FileModel> FileModels => _fileModels ?? (_fileModels = new Repository<FileModel>(_db));
         public IRepository<Friendship> Friendships => _friendships ?? (_friendships = new Repository<Friendship>(_db));

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.BLL.Chat;
 using App.BLL.Interfaces;
 using App.BLL.Models;
 using App.BLL.Services;
@@ -76,6 +77,7 @@ namespace App.WebAPI
                 });
             });
 
+            services.AddSignalR();
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
 
@@ -142,6 +144,10 @@ namespace App.WebAPI
                 app.UseHsts();
             }
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
 
             //app.UseCors(options =>
             //options.AllowAnyOrigin()
