@@ -129,38 +129,32 @@ namespace App.BLL.Services
                     }
                 }
 
-                //if (search.BadHabit != null)
-                //{
-                //    foreach (var us in user_list)
-                //    {
-                //        foreach (var bh in us.Type.BadHabits)
-                //        {
-                //            user_list = user_list.Where(m => search.BadHabit.Contains(bh.BadHabitId));
-                //        }
-                //    }
-                //}
+                if (search.Interest != null)
+                {
+                    user_list = user_list.Where(user =>
+                        user.Type.Interests
+                            .Select(interest => interest.InterestId)
+                            .Intersect(search.Interest)
+                            .Any());
+                }
 
-                //if (search.Interest != null)
-                //{
-                //    foreach (var us in user_list)
-                //    {
-                //        foreach (var inter in us.Type.Interests)
-                //        {
-                //            user_list = user_list.Where(m => search.Interest.Contains(inter.InterestId));
-                //        }
-                //    }
-                //}
+                if (search.BadHabit != null)
+                {
+                    user_list = user_list.Where(user =>
+                        user.Type.BadHabits
+                            .Select(hab => hab.BadHabitId)
+                            .Intersect(search.BadHabit)
+                            .Any());
+                }
 
-                //if (search.Language != null)
-                //{
-                //    foreach (var us in user_list)
-                //    {
-                //        foreach (var lang in us.Type.Languages)
-                //        {
-                //            user_list = user_list.Where(m => search.Language.Contains(lang.LanguageId));
-                //        }
-                //    }
-                //}
+                if (search.Language != null)
+                {
+                    user_list = user_list.Where(user =>
+                        user.Type.Languages
+                            .Select(lang => lang.LanguageId)
+                            .Intersect(search.Language)
+                            .Any());
+                } 
 
                 foreach (var user in user_list)
                 {
@@ -168,9 +162,9 @@ namespace App.BLL.Services
                 }
                 return ret_list;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }

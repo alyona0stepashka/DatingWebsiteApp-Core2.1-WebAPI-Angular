@@ -23,48 +23,77 @@ namespace App.BLL.Services
             _appEnvironment = appEnvironment;
         }
 
-        public async Task<int> CreatePhotoAsync(IFormFile photo)
+        public async Task<int> CreateFileModelDbAsync(IFormFile photo, string path, string file_name, int? message_id, int? album_id)
         {
-            var id = 0;
-            if (photo != null) //если загрузили фото 
-            { 
-                var path = "/Images/Users/" + photo.FileName;
-                //string directory = Path.Combine(_appEnvironment.WebRootPath + "\\Images");
-                //if (!Directory.Exists(directory))
-                //{
-                //    Directory.CreateDirectory(directory);
-                //}
-                //if (!Directory.Exists(directory+"\\General"))
-                //{
-                //    Directory.CreateDirectory(directory + "\\General");
-                //}
+            try
+            {
                 using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await photo.CopyToAsync(fileStream);
                 }
-                var file = new FileModel
+                var file = new FileModel();
+                if (message_id != null)
                 {
-                    Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
-                    Path = path
-                };
-                await _db.FileModels.CreateAsync(file);
-                id = file.Id;
+                    file.Name = file_name;
+                    file.Path = path;
+                    file.MessageId = message_id; 
+                }
+                else if (album_id != null)
+                {
+                    file.Name = file_name;
+                    file.Path = path;
+                    file.PhotoAlbumId = album_id; 
+                }
+                else
+                {
+                    file.Name = file_name;
+                    file.Path = path;
+                }                
+                await _db.FileModels.CreateAsync(file); 
+                return file.Id;
             }
-            else  //если не загрузили фото
+            catch (Exception e)
             {
-                var photo_no_image = (_db.FileModels.GetWhere(m => m.Name == "no-image.png")).FirstOrDefault();  //ищем фото-заглушку
-                if (photo_no_image == null)  //если ее нет в бд - создаем
-                {
-                    var path = "/Images/General/no-image.png"; 
-                    photo_no_image = await _db.FileModels.CreateAsync(new FileModel
-                    {
-                        Name = "no-image.png",
-                        Path = path
-                    });
-                } 
-                id = photo_no_image.Id;
+                throw e;
             }
-            return id;
+        }
+
+        public async Task<int> CreatePhotoAsync(IFormFile photo)
+        {
+            try
+            {
+                var id = 0;
+                if (photo != null)
+                {
+                    var file_name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+                    var path = "/Images/Users/" + file_name;
+                    var dirs = new List<string>
+                    {
+                        "Users"
+                    };
+                    CreateDirectoryIfNotExist(dirs);                     
+                    id = await CreateFileModelDbAsync(photo, path, file_name, null, null);
+                }
+                else
+                {
+                    var photo_no_image = (_db.FileModels.GetWhere(m => m.Name == "no-image.png")).FirstOrDefault();  //ищем фото-заглушку
+                                                                                                                     //if (photo_no_image == null)  //если ее нет в бд - создаем
+                                                                                                                     //{
+                                                                                                                     //    var path = "/Images/General/no-image.png"; 
+                                                                                                                     //    photo_no_image = await _db.FileModels.CreateAsync(new FileModel
+                                                                                                                     //    {
+                                                                                                                     //        Name = "no-image.png",
+                                                                                                                     //        Path = path
+                                                                                                                     //    });
+                                                                                                                     //} 
+                    id = photo_no_image.Id;
+                }
+                return id;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<int> CreatePhotoForAlbumAsync(IFormFile photo, PhotoAlbum album)
@@ -74,37 +103,15 @@ namespace App.BLL.Services
                 var id = 0;
                 if (photo != null) //если загрузили фото 
                 {
-                    var path = "/Images/Users/" + album.UserId + "/Albums/"+ album.Id + "/" + photo.FileName;
-                    string directory = _appEnvironment.WebRootPath + "\\Images\\"; 
-                    if (!Directory.Exists(directory + "Users\\"))
+                    var file_name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+                    var path = "/Images/Users/" + album.UserId + "/Albums/" + album.Id + "/" + file_name;
+                    var dirs = new List<string>
                     {
-                        Directory.CreateDirectory(directory + "Users\\");
-                    }
-                    if (!Directory.Exists(directory + "Users\\" + album.UserId + "\\"))
-                    {
-                        Directory.CreateDirectory(directory + "Users\\" + album.UserId + "\\");
-                    }
-                    if (!Directory.Exists(directory + "Users\\" + album.UserId + "\\Albums\\"))
-                    {
-                        Directory.CreateDirectory(directory + "Users\\" + album.UserId + "\\Albums\\");
-                    }
-                    if (!Directory.Exists(directory + "Users\\" + album.UserId + "\\Albums\\" + album.Id + "\\"))
-                    {
-                        Directory.CreateDirectory(directory + "Users\\" + album.UserId + "\\Albums\\" + album.Id + "\\");
-                    }
-                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                    {
-                        await photo.CopyToAsync(fileStream);
-                    }
-                    var file = new FileModel
-                    {
-                        Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
-                        Path = path,
-                        PhotoAlbumId = album.Id
+                        "Users", album.UserId.ToString(), "Albums", album.Id.ToString()
                     };
-                    await _db.FileModels.CreateAsync(file);
-                    id = file.Id;
-                } 
+                    CreateDirectoryIfNotExist(dirs);
+                    id = await CreateFileModelDbAsync(photo, path, file_name, null, album.Id);
+                }
                 return id;
             }
             catch (Exception e)
@@ -114,17 +121,25 @@ namespace App.BLL.Services
         }
         public async Task<int?> DeletePhotoForAlbumAsync(string file_path, int album_id)
         {
-            var file = _db.FileModels.GetWhere(m => m.Path == file_path && m.PhotoAlbumId==album_id).First();
-            if (file==null)
+            try
             {
-                return null;
+                var file = _db.FileModels.GetWhere(m => m.Path == file_path && m.PhotoAlbumId == album_id).First();
+                if (file == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    await _db.FileModels.DeleteAsync(file.Id);
+                    return 0;
+                }
             }
-            else
+            catch (Exception e)
             {
-                await _db.FileModels.DeleteAsync(file.Id);
-                return 0;
+                throw e;
             }
         }
+
         public async Task<int?> DeletePhoto(int id)
         {
             try
@@ -140,41 +155,54 @@ namespace App.BLL.Services
                     return 0;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
         public async Task<int> CreatePhotoForMessageAsync(IFormFile photo, ChatMessage message)
         {
-            var id = 0;
-            if (photo != null) //если загрузили фото 
+            try
             {
-                var path = "/Images/Chats/" + message.ChatId + "/" + photo.FileName;
-                string directory = _appEnvironment.WebRootPath + "\\Images"; 
-                if (!Directory.Exists(directory + "\\Chats\\"))
+                var id = 0;
+                if (photo != null) //если загрузили фото 
                 {
-                    Directory.CreateDirectory(directory + "\\Chats\\");
-                }
-                if (!Directory.Exists(directory + "\\Chats\\" + message.ChatId + "\\"))
+                    var file_name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+                    var path = "/Images/Chats/" + message.ChatId + "/" + file_name;
+                    var dirs = new List<string>
                 {
-                    Directory.CreateDirectory(directory + "\\Chats\\" + message.ChatId + "\\");
-                }
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-                {
-                    await photo.CopyToAsync(fileStream);
-                }
-                var file = new FileModel
-                {
-                    Name = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName),
-                    Path = path,
-                    MessageId = message.Id
+                    "Chats", message.ChatId.ToString()
                 };
-                await _db.FileModels.CreateAsync(file);
-                id = file.Id;
-            } 
-            return id;
+                    CreateDirectoryIfNotExist(dirs);
+                    id = await CreateFileModelDbAsync(photo, path, file_name, message.Id, null);
+                }
+                return id;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
+
+        public void CreateDirectoryIfNotExist(List<string> path_list)
+        {
+            try
+            { 
+                var cur_path = _appEnvironment.WebRootPath + "\\Images\\";
+                foreach (var path in path_list)
+                {
+                    cur_path = cur_path + path + "\\";
+                    if (!Directory.Exists(cur_path))
+                    {
+                        Directory.CreateDirectory(cur_path);
+                    }
+                } 
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+}
     }
 }

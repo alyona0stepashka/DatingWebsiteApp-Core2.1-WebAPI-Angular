@@ -16,14 +16,15 @@ export class AlbumDetailComponent implements OnChanges {
   @Input() userId: any;
 
   album: AlbumDetails;
-  UploadFile: File = null;
+  UploadFiles: File[] = new Array();
   submitted = false;
-  private _albums: any[] = new Array();
+  private lbAlbums: any[] = new Array();
   private baseURL = 'https://localhost:44394';
 
   constructor(private toastr: ToastrService,
               private albumService: PhotoAlbumService,
-              private _lightbox: Lightbox) { }
+              private lbLightbox: Lightbox,
+              public dropzone: NgxDropzoneModule) { }
 
   // async ngOnInit() {
   //   this.resetList();
@@ -34,11 +35,10 @@ export class AlbumDetailComponent implements OnChanges {
   }
 
   resetList() {
-    console.log(this.albumId + 'afqwfqfqef');
     this.albumService.getAlbumById(this.albumId).subscribe(
         res => {
           this.album = res as AlbumDetails;
-          this._albums = new Array();
+          this.lbAlbums = new Array();
           this.album.FilePathes.forEach(element => {
             const src = this.baseURL + element.Value;
             const caption = '';
@@ -49,7 +49,7 @@ export class AlbumDetailComponent implements OnChanges {
               thumb
            };
 
-            this._albums.push(album);
+            this.lbAlbums.push(album);
           });
         },
         err => {
@@ -71,12 +71,45 @@ export class AlbumDetailComponent implements OnChanges {
     );
   }
 
-  uploadPhoto(file: FileList) {
-    this.UploadFile = file.item(0);
-    const reader = new FileReader();
-    reader.readAsDataURL(this.UploadFile);
+  // uploadPhoto(file: FileList) {
+  //   this.UploadFile = file.item(0);
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(this.UploadFile);
 
-    this.albumService.createAlbumPhoto(this.UploadFile, this.albumId).subscribe(
+  //   this.albumService.createAlbumPhoto(this.UploadFile, this.albumId).subscribe(
+  //     (res: any) => {
+  //         this.toastr.success('New photo created!', 'Creating successful.');
+  //         this.resetList();
+  //     },
+  //     err => {
+  //       console.log(err);
+  //       this.toastr.error('New photo created error!', 'Creating error.');
+  //     }
+  //   );
+  // }
+
+  open(index: number): void {
+    // open lightbox
+    this.lbLightbox.open(this.lbAlbums, index);
+  }
+
+  close(): void {
+    // close lightbox programmatically
+    this.lbLightbox.close();
+  }
+
+
+
+  onFilesAdded(files: File[]) {
+    this.UploadFiles = files;
+  }
+
+  onUploadFiles() {
+    this.UploadFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      this.albumService.createAlbumPhoto(file, this.albumId).subscribe(
       (res: any) => {
           this.toastr.success('New photo created!', 'Creating successful.');
           this.resetList();
@@ -86,16 +119,11 @@ export class AlbumDetailComponent implements OnChanges {
         this.toastr.error('New photo created error!', 'Creating error.');
       }
     );
+    });
   }
-  
-  open(index: number): void {
-    // open lightbox
-    this._lightbox.open(this._albums, index);
-  }
- 
-  close(): void {
-    // close lightbox programmatically
-    this._lightbox.close();
+
+  onFilesRejected(files: File[]) {
+    console.log(files);
   }
 
 }

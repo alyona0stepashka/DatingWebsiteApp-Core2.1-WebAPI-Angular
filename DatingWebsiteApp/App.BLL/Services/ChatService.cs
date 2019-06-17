@@ -33,9 +33,9 @@ namespace App.BLL.Services
                 var chat = await _db.Chats.GetByIdAsync(chat_id);
                 return chat;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -51,9 +51,9 @@ namespace App.BLL.Services
                 }
                 return chat_list;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -70,9 +70,9 @@ namespace App.BLL.Services
                 }
                 return message_list;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -97,9 +97,9 @@ namespace App.BLL.Services
                 }
                 return 0;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 
@@ -119,9 +119,9 @@ namespace App.BLL.Services
                 await _db.Chats.UpdateAsync(chat);
                 return 0;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
 

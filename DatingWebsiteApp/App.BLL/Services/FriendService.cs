@@ -3,6 +3,7 @@ using App.BLL.ViewModels;
 using App.DAL.Interfaces;
 using App.Models;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,21 +27,29 @@ namespace App.BLL.Services
 
         public Friendship GetFriendshipFor(string user_id, string friend_id)
         {
-            var friendship = _db.Friendships.GetWhere(m => (m.UserFromId == user_id && m.UserToId == friend_id) || (m.UserFromId == friend_id && m.UserToId == user_id));
-            if (friendship == null)
+            try
             {
-                return null;
+                var friendship = _db.Friendships.GetWhere(m => (m.UserFromId == user_id && m.UserToId == friend_id) || (m.UserFromId == friend_id && m.UserToId == user_id));
+                if (friendship == null)
+                {
+                    return null;
+                }
+                var one_friend = friendship.FirstOrDefault();
+                if (one_friend == null)
+                {
+                    return null;
+                }
+                return one_friend;
             }
-            var one_friend = friendship.FirstOrDefault();
-            if (one_friend == null)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
-            return one_friend;
         }
 
         public async Task<List<UserTabVM>> GetIncomingsAsync(string user_id)
         {
+            try { 
             var me = await _userService.GetDbUserAsync(user_id); 
             var friendships = me.FriendshipsTo.Where(m=>m.Status==false);
             if (friendships == null)
@@ -53,10 +62,16 @@ namespace App.BLL.Services
                 requests.Add(new UserTabVM(friend.UserFrom));
             }
             return requests;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<List<UserTabVM>> GetOutgoingsAsync(string user_id)
         {
+            try { 
             var me = await _userService.GetDbUserAsync(user_id);
             var friendships = me.FriendshipsFrom.Where(m => m.Status == false);
             if (friendships == null)
@@ -69,9 +84,15 @@ namespace App.BLL.Services
                 requests.Add(new UserTabVM(friend.UserTo));
             }
             return requests;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<List<UserTabVM>> GetFriendsAsync(string user_id)
         {
+            try { 
             var friend_list = new List<UserTabVM>();
             var me = await _userService.GetDbUserAsync(user_id);
             if (me.FriendshipsFrom != null) 
@@ -91,10 +112,16 @@ namespace App.BLL.Services
                 }
             }
             return friend_list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<UserTabVM> CreateFriendRequestAsync(string user_id, string friend_id)
         {
+            try { 
             var friend = await _userService.GetDbUserAsync(friend_id);
             if (friend == null)
             {
@@ -113,27 +140,40 @@ namespace App.BLL.Services
             });
             var new_friend = new UserTabVM(friend);
             return new_friend;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<UserTabVM> DeleteFriendRequestAsync(string user_id, string friend_id)
         {
-            var friend = await _userService.GetDbUserAsync(friend_id);
-            if (friend == null)
+            try
             {
-                return null;
+                var friend = await _userService.GetDbUserAsync(friend_id);
+                if (friend == null)
+                {
+                    return null;
+                }
+                var friendship = GetFriendshipFor(user_id, friend_id);
+                if (friendship == null)
+                {
+                    return null;
+                }
+                await _db.Friendships.DeleteAsync(friendship.Id);
+                var new_friend = new UserTabVM(friend);
+                return new_friend;
             }
-            var friendship = GetFriendshipFor(user_id, friend_id); 
-            if (friendship==null)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
-            await _db.Friendships.DeleteAsync(friendship.Id);
-            var new_friend = new UserTabVM(friend);
-            return new_friend;
         }
 
         public async Task<UserTabVM> ConfirmFriendRequestAsync(string user_id, string friend_id)
         {
+            try { 
             var friend = await _userService.GetDbUserAsync(friend_id);
             if (friend == null)
             {
@@ -152,9 +192,15 @@ namespace App.BLL.Services
             await _db.Friendships.UpdateAsync(friendship);
             var new_friend = new UserTabVM(friend);
             return new_friend;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<UserTabVM> DeleteFriendAsync(string user_id, string friend_id)
         {
+            try { 
             var friend = await _userService.GetDbUserAsync(friend_id);
             if (friend == null)
             {
@@ -178,6 +224,11 @@ namespace App.BLL.Services
             }
             var old_friend = new UserTabVM(friend);
             return old_friend;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

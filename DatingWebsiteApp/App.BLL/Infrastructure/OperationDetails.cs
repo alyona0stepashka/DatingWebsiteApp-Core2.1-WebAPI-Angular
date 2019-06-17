@@ -2,14 +2,14 @@
 {
     public class OperationDetails
     {
-        public OperationDetails(bool succeeded, string message, string prop)
+        public OperationDetails(bool succeeded, string message, object prop)
         {
             Succeeded = succeeded;
             Message = message;
-            Property = prop;
+            Result = prop;
         }
         public bool Succeeded { get; private set; }
         public string Message { get; private set; }
-        public string Property { get; private set; }
+        public object Result { get; private set; }
     }
 }

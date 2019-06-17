@@ -44,6 +44,7 @@ namespace App.BLL.Services
 
         public async Task<object> RegisterUserAsync(RegisterVM model, string url)
         {
+            try { 
             var file_id = await _fileService.CreatePhotoAsync(null); 
             var user = new ApplicationUser
             {
@@ -64,9 +65,7 @@ namespace App.BLL.Services
                     NationalityId = _db.Nationalities.GetAll().FirstOrDefault().Id,
                     ZodiacId = _db.Zodiacs.GetAll().FirstOrDefault().Id,
                 }
-            }; 
-            try
-            {
+            };  
                 var result = await _userManager.CreateAsync(user, model.Password); 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var encode = HttpUtility.UrlEncode(code);
@@ -94,85 +93,98 @@ namespace App.BLL.Services
 
         public async Task<object> LoginUserAsync(LoginVM model)
         {
-            var user = await _userManager.FindByNameAsync(model.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-            { 
-                var options = new IdentityOptions();
-
-                var tokenDescriptor = new SecurityTokenDescriptor
+            try
+            {
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    var options = new IdentityOptions();
+
+                    var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        new Claim("UserID", user.Id), 
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials =
-                        new SigningCredentials(
-                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
-                            SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return token;
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
+                        new Claim("UserID", user.Id),
+                        }),
+                        Expires = DateTime.UtcNow.AddDays(1),
+                        SigningCredentials =
+                            new SigningCredentials(
+                                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
+                                SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                    var token = tokenHandler.WriteToken(securityToken);
+                    return token;
+                }
+                else
+                    return null;
             }
-            else
-                return null;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<object> EditAccountInfo(UserAccountInfoEditVM model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
-            if (model.NewPassword != null && model.OldPassword != null)
-            { 
-                if (user != null && await _userManager.CheckPasswordAsync(user, model.OldPassword))
+            try
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+                if (model.NewPassword != null && model.OldPassword != null)
                 {
-                    string code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    var result = await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
-
-                    if (result.Succeeded)
+                    if (user != null && await _userManager.CheckPasswordAsync(user, model.OldPassword))
                     {
-                        var options = new IdentityOptions();
+                        string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var result = await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
 
-                        var tokenDescriptor = new SecurityTokenDescriptor
+                        if (result.Succeeded)
                         {
-                            Subject = new ClaimsIdentity(new Claim[]
+                            var options = new IdentityOptions();
+
+                            var tokenDescriptor = new SecurityTokenDescriptor
                             {
+                                Subject = new ClaimsIdentity(new Claim[]
+                                {
                             new Claim("UserID", user.Id),
-                            }),
-                            Expires = DateTime.UtcNow.AddDays(1),
-                            SigningCredentials =
-                                new SigningCredentials(
-                                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
-                                    SecurityAlgorithms.HmacSha256Signature)
-                        };
-                        var tokenHandler = new JwtSecurityTokenHandler();
-                        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                        var token = tokenHandler.WriteToken(securityToken);
-                        return token;
+                                }),
+                                Expires = DateTime.UtcNow.AddDays(1),
+                                SigningCredentials =
+                                    new SigningCredentials(
+                                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
+                                        SecurityAlgorithms.HmacSha256Signature)
+                            };
+                            var tokenHandler = new JwtSecurityTokenHandler();
+                            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                            var token = tokenHandler.WriteToken(securityToken);
+                            return token;
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                     else
                     {
                         return null;
                     }
                 }
+                if (model.Name != null) { user.Name = model.Name; }
+                if (model.IsAnonimus != null) { user.IsAnonimus = model.IsAnonimus.Value; }
+                var edit_result = await _userManager.UpdateAsync(user);
+                if (edit_result.Succeeded)
+                {
+                    return new UserInfoShowVM(user, null);
+                }
                 else
                 {
                     return null;
                 }
             }
-            if (model.Name != null) { user.Name = model.Name; }
-            if (model.IsAnonimus!=null) { user.IsAnonimus = model.IsAnonimus.Value; }
-            var edit_result = await _userManager.UpdateAsync(user);
-            if (edit_result.Succeeded)
+            catch (Exception ex)
             {
-                return new UserInfoShowVM(user, null);
+                throw ex;
             }
-            else
-            {
-                return null;
-            }
-
         }
 
         public void Dispose()

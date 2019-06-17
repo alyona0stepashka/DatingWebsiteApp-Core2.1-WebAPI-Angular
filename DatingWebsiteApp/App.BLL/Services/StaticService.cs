@@ -23,6 +23,7 @@ namespace App.BLL.Services
 
         public StaticAllVM GetAll()
         {
+            try { 
             var retVal = new StaticAllVM();
             retVal.FinanceStatuses = _db.FinanceStatuses.GetAll().ToList();
             retVal.FamilyStatuses = _db.FamilyStatuses.GetAll().ToList();
@@ -35,6 +36,11 @@ namespace App.BLL.Services
             retVal.Zodiacs = _db.Zodiacs.GetAll().ToList();
             retVal.Sexes = _db.Sexes.GetAll().ToList();
             return retVal;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

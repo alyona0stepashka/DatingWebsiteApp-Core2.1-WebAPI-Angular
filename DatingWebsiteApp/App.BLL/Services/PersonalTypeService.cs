@@ -107,9 +107,9 @@ namespace App.BLL.Services
                 var new_type = await _db.PersonalTypes.UpdateAsync(type);
                 return type;
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
     }

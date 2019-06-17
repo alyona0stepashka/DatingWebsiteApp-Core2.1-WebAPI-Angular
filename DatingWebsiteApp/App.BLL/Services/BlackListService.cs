@@ -31,85 +31,120 @@ namespace App.BLL.Services
 
         public BlackList GetBlackFor(string user_id, string bad_guy_id)
         {
-            var black = _db.BlackLists.GetWhere(m => (m.UserFromId == user_id && m.UserToId == bad_guy_id));
-            if (black == null)
+            try
             {
-                return null;
+                var black = _db.BlackLists.GetWhere(m => (m.UserFromId == user_id && m.UserToId == bad_guy_id));
+                if (black == null)
+                {
+                    return null;
+                }
+                var one_black = black.FirstOrDefault();
+                if (one_black == null)
+                {
+                    return null;
+                }
+                return one_black;
             }
-            var one_black = black.FirstOrDefault();
-            if (one_black == null)
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
-            return one_black;
         }
 
         public async Task<List<UserTabVM>> GetMyBlackListAsync(string user_id)
         {
-            var me = await _userService.GetDbUserAsync(user_id);
-            if (me == null)
+            try
             {
-                return null;
+                var me = await _userService.GetDbUserAsync(user_id);
+                if (me == null)
+                {
+                    return null;
+                }
+                var black_list = me.BlackListsFrom;
+                var ret_list = new List<UserTabVM>();
+                foreach (var black in black_list)
+                {
+                    ret_list.Add(new UserTabVM(black.UserTo));
+                }
+                return ret_list;
             }
-            var black_list = me.BlackListsFrom;
-            var ret_list = new List<UserTabVM>();
-            foreach(var black in black_list)
+            catch (Exception ex)
             {
-                ret_list.Add(new UserTabVM(black.UserTo));
+                throw ex;
             }
-            return ret_list;
         }
 
         public async Task<List<UserTabVM>> GetBlackListWithMeAsync(string user_id)
         {
-            var me = await _userService.GetDbUserAsync(user_id);
-            if (me == null)
+            try
             {
-                return null;
+                var me = await _userService.GetDbUserAsync(user_id);
+                if (me == null)
+                {
+                    return null;
+                }
+                var black_list = me.BlackListsTo;
+                var ret_list = new List<UserTabVM>();
+                foreach (var black in black_list)
+                {
+                    ret_list.Add(new UserTabVM(black.UserFrom));
+                }
+                return ret_list;
             }
-            var black_list = me.BlackListsTo;
-            var ret_list = new List<UserTabVM>();
-            foreach (var black in black_list)
+            catch (Exception ex)
             {
-                ret_list.Add(new UserTabVM(black.UserFrom));
+                throw ex;
             }
-            return ret_list;
         }
 
         public async Task<UserTabVM> AddToBlackListAsync(string user_id, string bad_guy_id)
         {
-            var bad_guy = await _userService.GetDbUserAsync(bad_guy_id);
-            if (bad_guy == null)
+            try
             {
-                return null;
-            }
-            var is_exist = GetBlackFor(user_id, bad_guy_id);
-            if (is_exist != null)
-            {
-                return null;
-            }
-            await _db.BlackLists.CreateAsync(new BlackList
-            {
-                UserFromId=user_id,
-                UserToId=bad_guy_id
-            });
+                var bad_guy = await _userService.GetDbUserAsync(bad_guy_id);
+                if (bad_guy == null)
+                {
+                    return null;
+                }
+                var is_exist = GetBlackFor(user_id, bad_guy_id);
+                if (is_exist != null)
+                {
+                    return null;
+                }
+                await _db.BlackLists.CreateAsync(new BlackList
+                {
+                    UserFromId = user_id,
+                    UserToId = bad_guy_id
+                });
 
-            await _friendService.DeleteFriendAsync(user_id, bad_guy_id);
-            var new_bad = new UserTabVM(bad_guy);
-            return new_bad;
+                await _friendService.DeleteFriendAsync(user_id, bad_guy_id);
+                var new_bad = new UserTabVM(bad_guy);
+                return new_bad;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<UserTabVM> DeleteFromBlackListAsync(string user_id, string bad_guy_id)
         {
-            var bad_guy = await _userService.GetDbUserAsync(bad_guy_id);
-            if (bad_guy == null)
+            try
             {
-                return null;
+                var bad_guy = await _userService.GetDbUserAsync(bad_guy_id);
+                if (bad_guy == null)
+                {
+                    return null;
+                }
+                var black = GetBlackFor(user_id, bad_guy_id);
+                await _db.BlackLists.DeleteAsync(black.Id);
+                var new_good = new UserTabVM(bad_guy);
+                return new_good;
             }
-            var black = GetBlackFor(user_id, bad_guy_id);
-            await _db.BlackLists.DeleteAsync(black.Id);
-            var new_good = new UserTabVM(bad_guy);
-            return new_good;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

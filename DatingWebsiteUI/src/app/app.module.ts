@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LightboxModule } from 'ngx-lightbox';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -86,6 +87,7 @@ import { ChatDetailComponent } from './components/home/chats/chat-detail/chat-de
     CommonModule,
     BrowserAnimationsModule,
     LightboxModule,
+    NgxDropzoneModule,
     ToastrModule.forRoot()
   ],
   providers: [

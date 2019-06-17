@@ -8,9 +8,9 @@
     height: 100%;
     margin: 0 auto;
     list-style: none;
-    padding-left:0;    
-    align-content: center; 
-    overflow: auto;
+    padding-left:0;     
+    vertical-align: top;
+    align-content: flex-start;
   }
   
   .container>.item {

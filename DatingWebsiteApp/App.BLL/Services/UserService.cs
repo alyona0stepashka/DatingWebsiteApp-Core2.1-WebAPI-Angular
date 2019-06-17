@@ -31,6 +31,7 @@ namespace App.BLL.Services
 
         public List<UserTabVM> GetAllUsers()
         {
+            try {
             var db_users = _userManager.Users.Where(m=>!m.IsAnonimus);
             if (db_users == null)
             {
@@ -42,10 +43,16 @@ namespace App.BLL.Services
                 retList.Add(new UserTabVM(user));
             } 
             return retList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<UserInfoShowVM> GetVMUserAsync(string user_id, string my_id)
         {
+            try { 
             var db_user = await GetDbUserAsync(user_id);
             if (db_user == null)
             {
@@ -53,16 +60,27 @@ namespace App.BLL.Services
             } 
             var user = new UserInfoShowVM(db_user, my_id);
             return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<ApplicationUser> GetDbUserAsync(string user_id)
         {
+            try { 
             var db_user = await _userManager.FindByIdAsync(user_id);
             if (db_user == null)
             {
                 return null;
             }
             return db_user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<UserInfoShowVM> EditUserInfo(UserInfoEditVM model)
@@ -106,11 +124,12 @@ namespace App.BLL.Services
             }
             catch(Exception e)
             {
-                return null;
+                throw e;
             }
         }
         public async Task<UserInfoShowVM> EditUserPhoto(UserPhotoCreateVM model)
         {
+            try { 
             var db_user = await GetDbUserAsync(model.Id);
             if (db_user == null)
             {
@@ -120,6 +139,11 @@ namespace App.BLL.Services
             await _userManager.UpdateAsync(db_user);
             var user = new UserInfoShowVM(db_user, null);
             return user;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

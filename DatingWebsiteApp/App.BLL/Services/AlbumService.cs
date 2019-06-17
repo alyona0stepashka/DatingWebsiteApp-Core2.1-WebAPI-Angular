@@ -39,7 +39,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
@@ -60,7 +60,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
@@ -78,7 +78,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
@@ -94,7 +94,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
@@ -117,7 +117,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
         public async Task<int?> DeletePhotoAsync(int id)
@@ -138,7 +138,7 @@ namespace App.BLL.Services
             }
             catch(Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
@@ -157,7 +157,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
 
@@ -176,7 +176,7 @@ namespace App.BLL.Services
             }
             catch (Exception e)
             {
-                return null;
+                throw e;
             }
         }
     }
