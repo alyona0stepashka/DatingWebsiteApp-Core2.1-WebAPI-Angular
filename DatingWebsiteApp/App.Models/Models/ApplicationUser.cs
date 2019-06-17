@@ -40,21 +40,21 @@ namespace App.Models
 
         public virtual MainGoal MainGoal { get; set; }
 
-        public virtual IQueryable<Friendship> FriendshipsFrom { get; set; }
+        public virtual List<Friendship> FriendshipsFrom { get; set; }
 
-        public virtual IQueryable<Friendship> FriendshipsTo { get; set; } 
+        public virtual List<Friendship> FriendshipsTo { get; set; } 
 
-        public virtual IQueryable<ChatMessage> ChatMessages { get; set; }
+        public virtual List<ChatMessage> ChatMessages { get; set; }
 
-        public virtual IQueryable<ChatRoom> ChatsFrom { get; set; }
+        public virtual List<ChatRoom> ChatsFrom { get; set; }
 
-        public virtual IQueryable<ChatRoom> ChatsTo { get; set; }
+        public virtual List<ChatRoom> ChatsTo { get; set; }
 
-        public virtual IQueryable<BlackList> BlackListsFrom { get; set; }
+        public virtual List<BlackList> BlackListsFrom { get; set; }
 
-        public virtual IQueryable<BlackList> BlackListsTo { get; set; }
+        public virtual List<BlackList> BlackListsTo { get; set; }
 
-        public virtual IQueryable<PhotoAlbum> PhotoAlbums { get; set; }
+        public virtual List<PhotoAlbum> PhotoAlbums { get; set; }
 
         //public ApplicationUser()
         //{

@@ -26,7 +26,7 @@ namespace App.Models
 
         public virtual ApplicationUser UserTo { get; set; }
 
-        public virtual IQueryable<ChatMessage> Messages { get; set; }
+        public virtual List<ChatMessage> Messages { get; set; }
 
         //public Chat()
         //{

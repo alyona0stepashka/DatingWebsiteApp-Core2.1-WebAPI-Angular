@@ -1,13 +1,12 @@
-<div *ngIf="userId==0" class="row"> 
-    <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." /> 
-    <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
+<!-- <div *ngIf="userId==0" class="row"> 
+    <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  
 </div>
 <div *ngIf="album.FilePathes.length<1" > 
     <label class="text-center">No Photo Yet</label>
 </div>
-<div *ngIf="album.FilePathes.length>0" style="padding-bottom: 1%;margin-top: 1%" class="container"> 
+<div *ngIf="album.FilePathes.length>0" style="margin-top: 1%" class="container"> 
     <div *ngFor="let photo of album.FilePathes; let i = index" class="item text-center" >
       <button *ngIf="userId==0" (click)="onDeletePhoto(photo.Id)"  style="position: absolute;"><i class="fas fa-times"></i></button> 
       <img  (click)="open(i)" style="max-height: 200px; max-width: 200px;" src="https://localhost:44394{{photo.Value}}" /> 
     </div> 
-</div>
+</div> -->

@@ -19,6 +19,6 @@ namespace App.Models
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual IQueryable<FileModel> Files { get; set; }
+        public virtual List<FileModel> Files { get; set; }
     }
 }

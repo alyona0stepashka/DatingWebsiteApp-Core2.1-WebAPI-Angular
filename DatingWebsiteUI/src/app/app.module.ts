@@ -48,6 +48,8 @@ import { BlackListService } from './services/black-list.service';
 import { FriendshipService } from './services/friendship.service';
 import { PhotoAlbumService } from './services/photo-album.service';
 import { SearchService } from './services/search.service';
+import { ChatsComponent } from './components/home/chats/chats.component';
+import { ChatDetailComponent } from './components/home/chats/chat-detail/chat-detail.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { SearchService } from './services/search.service';
     IncomingBlackComponent,
     AlbumComponent,
     AlbumDetailComponent,
-    FirstLoginComponent
+    FirstLoginComponent,
+    ChatsComponent,
+    ChatDetailComponent
   ],
   imports: [
     BrowserModule,

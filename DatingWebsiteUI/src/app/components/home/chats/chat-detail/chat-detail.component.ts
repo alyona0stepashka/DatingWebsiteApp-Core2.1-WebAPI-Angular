@@ -3,15 +3,15 @@ import { AlbumDetails } from 'src/app/models/album-details.model';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoAlbumService } from 'src/app/services/photo-album.service';
 import { Lightbox } from 'ngx-lightbox';
-import { NgxDropzoneModule } from 'ngx-dropzone';
+import * as signalR from '@aspnet/signalr';
+import { HubConnection } from '@aspnet/signalr';
 
 @Component({
-  selector: 'app-album-detail',
-  templateUrl: './album-detail.component.html',
-  styleUrls: ['./album-detail.component.css']
+  selector: 'app-chat-detail',
+  templateUrl: './chat-detail.component.html',
+  styleUrls: ['./chat-detail.component.css']
 })
-export class AlbumDetailComponent implements OnChanges {
-
+export class ChatDetailComponent implements OnChanges {
   @Input() albumId: number;
   @Input() userId: any;
 
@@ -20,6 +20,12 @@ export class AlbumDetailComponent implements OnChanges {
   submitted = false;
   private _albums: any[] = new Array();
   private baseURL = 'https://localhost:44394';
+
+  
+  private _hubConnection: HubConnection | undefined;
+  public async: any;
+  message = '';
+  messages: string[] = [];
 
   constructor(private toastr: ToastrService,
               private albumService: PhotoAlbumService,
@@ -38,7 +44,6 @@ export class AlbumDetailComponent implements OnChanges {
     this.albumService.getAlbumById(this.albumId).subscribe(
         res => {
           this.album = res as AlbumDetails;
-          this._albums = new Array();
           this.album.FilePathes.forEach(element => {
             const src = this.baseURL + element.Value;
             const caption = '';

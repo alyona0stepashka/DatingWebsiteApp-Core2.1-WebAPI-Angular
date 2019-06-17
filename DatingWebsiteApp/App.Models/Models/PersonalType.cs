@@ -41,10 +41,10 @@ namespace App.Models
 
         public virtual Zodiac Zodiac { get; set; }
 
-        public virtual IQueryable<LanguageUser> Languages { get; set; }
+        public virtual List<LanguageUser> Languages { get; set; }
 
-        public virtual IQueryable<BadHabitUser> BadHabits { get; set; }
+        public virtual List<BadHabitUser> BadHabits { get; set; }
 
-        public virtual IQueryable<InterestUser> Interests { get; set; }
+        public virtual List<InterestUser> Interests { get; set; }
     }
 }
