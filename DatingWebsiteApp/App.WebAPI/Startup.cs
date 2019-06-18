@@ -1,4 +1,4 @@
-﻿using System; 
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,12 +14,12 @@ using App.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http; 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection; 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -145,9 +145,6 @@ namespace App.WebAPI
                 app.UseHsts();
             }
 
-            //app.UseSignalR(routes =>
-            //    routes.MapHub<ChatHub>("/chat")
-            //);
 
             //app.UseCors(options =>
             //options.AllowAnyOrigin()
@@ -172,6 +169,11 @@ namespace App.WebAPI
 
             app.UseAuthentication();
 
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
             app.UseMvc();
 
             //app.Use(async (context, next) =>

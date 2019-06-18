@@ -58,7 +58,8 @@ namespace App.WebAPI.Controllers
                 var user = await _userService.GetVMUserAsync(id, user_id);
                 if (user == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("UserNotFound.");
+                   // return NotFound(new { message = "User not found by id." });
                 }
                 return Ok(user);
             }
@@ -75,7 +76,7 @@ namespace App.WebAPI.Controllers
             try
             {
                 if (editUser == null)
-                    return BadRequest(new { message = "editUser param is null." });
+                    return BadRequest(new { error_message = "editUser param is null." });
 
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 editUser.Id = user_id;

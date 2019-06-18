@@ -50,7 +50,7 @@ namespace App.API.Chat
                 throw e;
             }
         }
-        public void UpdateList(string caller_id)
+        void UpdateList(string caller_id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace App.API.Chat
                 throw e;
             }
         }
-        public async Task AttachFilesAsync(ChatMessage db_message)
+        async Task AttachFilesAsync(ChatMessage db_message)
         {
             try
             { 
@@ -93,7 +93,7 @@ namespace App.API.Chat
                 throw e;
             }
         }
-        public void FindCallerReceiver(string receiver_id, out Connect caller, out Connect receiver)
+        void FindCallerReceiver(string receiver_id, out Connect caller, out Connect receiver)
         {
             try
             {
