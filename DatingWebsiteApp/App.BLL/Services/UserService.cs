@@ -95,21 +95,18 @@ namespace App.BLL.Services
                 if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth.Value; }
                 if (model.Name != null) { db_user.Name = model.Name; }
                 if (model.MainGoal != null)
-                {
-                    // db_user.MainGoalId = (_db.MainGoals.GetWhere(m => m.Value == model.MainGoal)).FirstOrDefault().Id;
+                { 
                     db_user.MainGoalId = model.MainGoal.Value;
                 }
                 db_user.MainGoal = null;
                 if (model.IsAnonimus != null) { db_user.IsAnonimus = model.IsAnonimus.Value; }
                 if (model.Sex != null)
-                {
-                    //db_user.SexId = (_db.Sexes.GetWhere(m => m.Value == model.Sex)).FirstOrDefault().Id;
+                { 
                     db_user.SexId = model.Sex.Value;
                 }
                 db_user.Sex = null;
                 if (db_user.Type != null)
-                {
-                    //db_user.TypeId = (await _personalTypeService.EditTypeAsync(db_user.Type, model)).Id;
+                { 
                     db_user.Type=await _personalTypeService.EditTypeAsync(db_user.Type, model);
                     db_user.Type = null;
                 }

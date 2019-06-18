@@ -314,16 +314,20 @@ namespace App.DAL.Migrations
 
             modelBuilder.Entity("App.Models.LanguageUser", b =>
                 {
+                    b.Property<int>("LanguageId")
+                        .HasColumnName("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonalTypeId")
+                        .HasColumnName("PersonalTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("LanguageId");
+                    b.HasKey("LanguageId", "PersonalTypeId");
 
-                    b.Property<int>("PersonalTypeId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("PersonalTypeId");
 
@@ -646,7 +650,7 @@ namespace App.DAL.Migrations
             modelBuilder.Entity("App.Models.LanguageUser", b =>
                 {
                     b.HasOne("App.Models.Language", "Language")
-                        .WithMany()
+                        .WithMany("Languages")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
 

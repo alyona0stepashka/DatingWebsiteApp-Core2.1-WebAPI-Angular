@@ -12,7 +12,10 @@ namespace App.BLL.Interfaces
         Task<ChatRoom> GetDbChatAsync(int chat_id);
         List<ChatTabVM> GetChatListByUserId(string user_id);
         Task<List<ChatMessageVM>> GetChatByIdAsync(int chat_id, string user_id);
-        Task<int?> SendMessageAsync(ChatMessageSendVM message, string me_id);
+        Task<ChatMessage> SendMessageAsync(ChatMessageSendVM message, string me_id);
         Task<int?> ClearChatHistoryAsync(int chat_id, string me_id);
+        bool IsChatExist(string caller_id, string receiver_id);
+        Task<ChatRoom> CreateChatAsync(string me_id, string receiver_id);
+        Task<string> GetChatReceiverIdAsync(int chat_id, string me_id);
     }
 }

@@ -69,25 +69,8 @@ export class AlbumDetailComponent implements OnChanges {
         this.toastr.error('Photo deleted Error!', 'Deleting error.');
       }
     );
-  }
-
-  // uploadPhoto(file: FileList) {
-  //   this.UploadFile = file.item(0);
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(this.UploadFile);
-
-  //   this.albumService.createAlbumPhoto(this.UploadFile, this.albumId).subscribe(
-  //     (res: any) => {
-  //         this.toastr.success('New photo created!', 'Creating successful.');
-  //         this.resetList();
-  //     },
-  //     err => {
-  //       console.log(err);
-  //       this.toastr.error('New photo created error!', 'Creating error.');
-  //     }
-  //   );
-  // }
-
+  } 
+  
   open(index: number): void {
     // open lightbox
     this.lbLightbox.open(this.lbAlbums, index);
@@ -97,8 +80,6 @@ export class AlbumDetailComponent implements OnChanges {
     // close lightbox programmatically
     this.lbLightbox.close();
   }
-
-
 
   onFilesAdded(files: File[]) {
     this.UploadFiles = files;

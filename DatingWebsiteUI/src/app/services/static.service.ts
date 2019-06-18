@@ -8,9 +8,9 @@ import { UserSearch } from '../models/user-search.model';
 export class StaticService {
 
   constructor(private http: HttpClient) { }
-  readonly BaseURI = 'https://localhost:44394/api'; 
+  readonly BaseURI = 'https://localhost:44394/api';
 
-  getAll(){
+  getAll() {
     return this.http.get(this.BaseURI + '/static');
   }
 }

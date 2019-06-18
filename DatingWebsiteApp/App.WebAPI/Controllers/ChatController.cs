@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using App.BLL.Chat;
+using App.API.Chat;
+using App.BLL.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -14,19 +16,53 @@ namespace App.WebAPI.Controllers
     public class ChatController : ControllerBase
     {
 
-        private readonly IHubContext<ChatHub> _hub;
+        private readonly IChatService _chatService;
 
-        public ChatController(IHubContext<ChatHub> hub)
+        public ChatController(IChatService chatService)
         {
-            _hub = hub;
+            _chatService = chatService;
+        }
+        
+        [HttpGet]
+        [Route("my")]
+        [Authorize]
+        public IActionResult GetMyChatRooms()
+        {
+            var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+            var chat_list = _chatService.GetChatListByUserId(me_id);
+            if (chat_list == null)
+            {
+                return NotFound(new { message = "Chat not found by id." });
+            }
+            return Ok(chat_list);
         }
 
-        public IActionResult Get()
+        [HttpGet]
+        [Route("{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetChatByIdAsync(int id)
         {
-            var message = "Hellooooooooo";
-            _hub.Clients.All.SendAsync("transferchartdata", message);
+            var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+            var chat_list = await _chatService.GetChatByIdAsync(id, me_id);
+            if (chat_list == null)
+            {
+                return NotFound(new { message = "Chat not found by id." });
+            }
+            return Ok(chat_list);
+        }
 
-            return Ok(new { Message = "Request Completed" });
+        [HttpGet]
+        [Route("clear/{id}")]
+        [Authorize]
+        public async Task<IActionResult> ClearChatHistoryByIdAsync(int id)
+        {
+            var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+            var chat_list = await _chatService.ClearChatHistoryAsync(id, me_id);
+            if (chat_list == null)
+            {
+                return NotFound(new { message = "Chat not found by id." });
+            }
+            return Ok(chat_list);
         }
 
 

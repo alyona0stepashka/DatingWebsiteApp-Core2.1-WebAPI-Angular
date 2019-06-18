@@ -5,6 +5,8 @@ import { PhotoAlbumService } from 'src/app/services/photo-album.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
 import * as signalR from '@aspnet/signalr';
+import { ChatService } from 'src/app/services/chat.service';
+import { ChatTab } from 'src/app/models/chat-tab.model';
 
 @Component({
   selector: 'app-chats',
@@ -17,63 +19,50 @@ export class ChatsComponent implements OnInit {
     Name: ['', [Validators.required]],
     Description: ['', [Validators.required]]
   });
-
-  userId: any;
-  albumList: AlbumTab[];
+ 
+  chatList: ChatTab[];
   imageUrl = '/assets/img/no-image.png';
   submitted = false;
   isOpen = false;
-  albumId: number = null;
+  chatId: number = null;
 
   constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
-              private albumService: PhotoAlbumService,
+              private chatService: ChatService,
               private activateRoute: ActivatedRoute
               ) { }
 
-  async ngOnInit() {
-    await this.activateRoute.params.subscribe(params => this.userId = params.id);
+  async ngOnInit() { 
     this.resetList();
   }
 
-  resetList(){
-    if (this.userId == 0) {
-      this.albumService.getMyAlbums().subscribe(
+  resetList() { 
+      this.chatService.getMyChats().subscribe(
         res => {
-          this.albumList = res as AlbumTab[];
+          this.chatList = res as ChatTab[];
         },
         err => {
           console.log(err);
         }
-      );
-    } else {
-      this.albumService.getAlbumsByUserId(this.userId).subscribe(
-        res => {
-          this.albumList = res as AlbumTab[];
-        },
-        err => {
-          console.log(err);
-        }
-          );
-    }
+      ); 
   }
 
-  onSubmit() {
-    this.albumService.createAlbum(this.createForm).subscribe(
-      res => {
-        this.toastr.success('New album created!', 'Creating successful.');
-        this.resetList();
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
+  // onSubmit() {
+  //   this.albumService.createAlbum(this.createForm).subscribe(
+  //     res => {
+  //       this.toastr.success('New album created!', 'Creating successful.');
+  //       this.resetList();
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
 
-  onDeleteAlbum(id: number) {
-    this.albumService.deleteAlbum(id).subscribe(
+  onClearHistory(id: number) {
+    this.chatService.clearChatHistory(id).subscribe(
       res => {
-        this.toastr.success('Album deleted!', 'Deleting successful.');
+        this.toastr.success('History deleted!', 'Deleting successful.');
         this.isOpen = false;
         this.resetList();
       },
@@ -83,8 +72,8 @@ export class ChatsComponent implements OnInit {
     );
   }
 
-  openAlbum(id: number) {
-    this.albumId = id;
+  openChat(id: number) {
+    this.chatId = id;
     this.isOpen = true;
     console.log(id);
   }

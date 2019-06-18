@@ -13,7 +13,7 @@ namespace App.BLL.ViewModels
 
         public string Text { get; set; }
 
-        public List<IFormFile> UploadFiles { get; set; }  
+        //public List<IFormFile> UploadFiles { get; set; }  
 
         public ChatMessageSendVM()
         {

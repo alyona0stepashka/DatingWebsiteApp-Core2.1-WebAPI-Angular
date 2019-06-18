@@ -39,6 +39,32 @@ namespace App.BLL.Services
             }
         }
 
+        public bool IsChatExist(string caller_id, string receiver_id)
+        {
+            try
+            {
+                var chat = _db.Chats.GetWhere(m => (m.UserFromId == caller_id && m.UserToId == receiver_id) || (m.UserToId == caller_id && m.UserFromId == receiver_id));
+                return chat.Any();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<string> GetChatReceiverIdAsync(int chat_id, string me_id)
+        {
+            try
+            {
+                var chat = await GetDbChatAsync(chat_id);
+                return (chat.UserToId==me_id) ? chat.UserFromId : chat.UserToId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<ChatTabVM> GetChatListByUserId(string user_id)
         {
             try
@@ -75,8 +101,26 @@ namespace App.BLL.Services
                 throw ex;
             }
         }
+        public async Task<ChatRoom> CreateChatAsync(string me_id, string receiver_id)
+        {
+            try
+            {
+                var new_chat = await _db.Chats.CreateAsync(new ChatRoom
+                {
+                    IsBlock = false,
+                    UserFromClearHistory = DateTime.Now,
+                    UserFromId = me_id,
+                    UserToId = receiver_id
+                }); 
+                return new_chat;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        public async Task<int?> SendMessageAsync(ChatMessageSendVM message, string me_id)
+        public async Task<ChatMessage> SendMessageAsync(ChatMessageSendVM message, string me_id)
         {
             try
             {
@@ -88,14 +132,14 @@ namespace App.BLL.Services
                      IsNew = true,
                      Text = message.Text 
                  });
-                if (message.UploadFiles != null)
-                {
-                    foreach (var file in message.UploadFiles)
-                    {
-                        await _fileService.CreatePhotoForMessageAsync(file, new_message);
-                    }
-                }
-                return 0;
+                //if (message.UploadFiles != null)
+                //{
+                //    foreach (var file in message.UploadFiles)
+                //    {
+                //        await _fileService.CreatePhotoForMessageAsync(file, new_message);
+                //    }
+                //}
+                return new_message;
             }
             catch (Exception ex)
             {
