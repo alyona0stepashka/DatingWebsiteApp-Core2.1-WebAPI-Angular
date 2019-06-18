@@ -26,57 +26,85 @@ namespace App.WebAPI.Controllers
         [Route("register")]
         public async Task<object> Register([FromBody]RegisterVM model)
         {
-            var url = HttpContext.Request.Host.ToString();
-            var result = await _accountService.RegisterUserAsync(model, url);
-            if (result == null)
-                return BadRequest(new { message = "Error by register." });
-            return Ok(result);
+            try
+            {
+                var url = HttpContext.Request.Host.ToString();
+                var result = await _accountService.RegisterUserAsync(model, url);
+                if (result == null)
+                    return BadRequest(new { message = "Error by register." });
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+            }
         }
 
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginVM model)
         {
-            var token = await _accountService.LoginUserAsync(model);
-            if (token != null)
-                return Ok(new { token });
-            return BadRequest(new { message = "Username or password is incorrect or not confirm email." });
+            try
+            {
+                var token = await _accountService.LoginUserAsync(model);
+                if (token != null)
+                    return Ok(new { token });
+                return BadRequest(new { message = "Username or password is incorrect or not confirm email." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+            }
         }
 
         [HttpGet]
         [Route("email")]
         public async Task<IActionResult> ConfirmEmail(string user_id, string code)  //user_id
         {
-            if (string.IsNullOrWhiteSpace(user_id) || string.IsNullOrWhiteSpace(code))
+            try
             {
-                ModelState.AddModelError("", "UserId and Code are required");
-                return BadRequest(ModelState);
+                if (string.IsNullOrWhiteSpace(user_id) || string.IsNullOrWhiteSpace(code))
+                {
+                    ModelState.AddModelError("", "UserId and Code are required");
+                    return BadRequest(ModelState);
+                }
+                var user = await _userService.GetDbUserAsync(user_id);
+                if (user == null)
+                {
+                    return BadRequest("Error by confirm email.");
+                }
+                await _accountService.ConfirmEmailAsync(user_id, code);
+                return Ok();
             }
-            var user = await _userService.GetDbUserAsync(user_id);
-            if (user == null)
+            catch (Exception ex)
             {
-                return BadRequest("Error by confirm email.");
+                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
             }
-            await _accountService.ConfirmEmailAsync(user_id, code);
-            return Ok();
         }
 
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> EditMyAccountInformation([FromBody] UserAccountInfoEditVM editUser)
         {
-            if (editUser == null)
-                return BadRequest(new { message = "editUser param is null." });
-
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            editUser.Id = user_id;
-
-            var user = await _accountService.EditAccountInfo(editUser);
-            if (user == null)
+            try
             {
-                return NotFound(new { message = "User not found by id." });
+                if (editUser == null)
+                    return BadRequest(new { message = "editUser param is null." });
+
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                editUser.Id = user_id;
+
+                var user = await _accountService.EditAccountInfo(editUser);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found by id." });
+                }
+                return Ok(user);
             }
-            return Ok(user);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+            }
         }
 
     }

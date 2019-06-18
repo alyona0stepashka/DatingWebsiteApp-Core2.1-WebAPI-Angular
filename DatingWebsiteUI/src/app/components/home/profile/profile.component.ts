@@ -6,6 +6,7 @@ import { FriendshipService } from 'src/app/services/friendship.service';
 import { ToastrComponentlessModule, ToastrService } from 'ngx-toastr';
 import { BlackListService } from 'src/app/services/black-list.service';
 import { Lightbox } from 'ngx-lightbox';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 
 @Component({
   selector: 'app-profile',
@@ -48,7 +49,7 @@ export class ProfileComponent implements OnInit {
           await this.service.getMyProfile().subscribe(
             res2 => {
               const myProfile = res2 as UserProfile;
-              this.light_image_path = this.baseURL + this.userProfile.PhotoPath;
+              this.light_image_path = this.baseURL + myProfile.PhotoPath;
               if (this.userId == myProfile.Id)  {
                 this.userId = 0;
               }

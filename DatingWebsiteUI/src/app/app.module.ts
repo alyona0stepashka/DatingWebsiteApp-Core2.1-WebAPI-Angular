@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgxGalleryModule } from 'ngx-gallery';
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -51,6 +52,7 @@ import { PhotoAlbumService } from './services/photo-album.service';
 import { SearchService } from './services/search.service';
 import { ChatsComponent } from './components/home/chats/chats.component';
 import { ChatDetailComponent } from './components/home/chats/chat-detail/chat-detail.component';
+import 'hammerjs';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,7 @@ import { ChatDetailComponent } from './components/home/chats/chat-detail/chat-de
     BrowserAnimationsModule,
     LightboxModule,
     NgxDropzoneModule,
+    NgxGalleryModule,
     ToastrModule.forRoot()
   ],
   providers: [

@@ -5,22 +5,38 @@
             </div>
         </div>
     </div> -->
-    <h2>Found {{chatList?.length}} album(s)</h2>
+    <h2>Found {{chatList?.length}} chat(s)</h2>
 
     <div class="row">
-        <div class="col-2">
+        <div class="col-5">
             <div class="container">
-                <div *ngFor="let album of albumList" class="item text-center" > 
-                    <label>{{album.Name}}</label>  
-                    <div>
-                        <button style="position: absolute;" (click)="onClearHistory(album.Id)"><i class="fas fa-times"></i></button>
-                        <img (click)="openChat(album.Id)" *ngIf="album.FilePath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{album.FilePath}}"/>
-                        <img (click)="openChat(album.Id)" *ngIf="!album.FilePath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
+                <div *ngFor="let chat of chatList" class="item text-center" > 
+                    <div class="row">
+                            <button style="position: absolute;" (click)="onClearHistory(chat.Id)"><i class="fas fa-times"></i></button>
+                        <div class="col-2 text-center">
+                            <img (click)="openChat(chat.Id)" *ngIf="chat.ChatIconPath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{chat.ChatIconPath}}"/>
+                            <img (click)="openChat(chat.Id)" *ngIf="!chat.ChatIconPath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
+                        </div>
+                        <div class="col-10">
+                            <label>{{chat.Name}}</label> 
+                        </div>
+                        <div class="row">
+                            <div class="col-2 text-center">
+                                <img (click)="openChat(chat.Id)" *ngIf="chat.LastSenderAvatarPath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{chat.LastSenderAvatarPath}}"/>
+                                <img (click)="openChat(chat.Id)" *ngIf="chat.LastSenderAvatarPath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
+                            </div>
+                            <div class="col-8">
+                                <b>{{chat.LastMessage}}</b>
+                            </div>
+                            <div class="col-2">
+                                <b>{{chat.LastMessageDateTime}}</b>
+                            </div>
+                        </div>
                     </div>  
                 </div>  
             </div>
         </div>
-        <div *ngIf="isOpen" class="col-10" style="padding-left: 0; background-color: #d6d6d6;">
+        <div *ngIf="isOpen" class="col-7" style="padding-left: 0; background-color: #d6d6d6;">
             <app-chat-detail [chatId]="chatId"></app-chat-detail> 
         </div>
     </div>

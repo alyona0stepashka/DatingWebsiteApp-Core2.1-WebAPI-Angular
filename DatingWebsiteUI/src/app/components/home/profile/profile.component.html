@@ -1,11 +1,13 @@
-
-<div class="jumbotron" style="height: 100%;">
+<div style="position: inherit">
+    <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" style="max-width: 350px; max-height: 350px;" class="pre-image">
+</div>
+<div class="jumbotron" style="height: auto;">
   <div class="container"> 
     <div *ngIf="userProfile" class="form-row" style="margin:20px"> 
       <div class="col-md-3 text-center" style="margin-left: 15px">
         <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" style="max-width: 215px; max-height: 215px;"><br/> 
         <div class="text-center" style="margin:5px 10px 5px 10px">
-          <button class="col-3" type="button" (click)="goToChat(userProfile.Id)" [disabled]="userId==0 "><i class="fas fa-comment-dots"></i></button>
+          <button class="col-3" type="button" onclick="document.getElementById('id01').style.display='block'" [disabled]="userId==0 "><i class="fas fa-comment-dots"></i></button>
           <button class="col-3" type="button" (click)="goToAlbums(userProfile.Id)" [disabled]="userProfile.IsBlack"><i class="fas fa-images"></i></button>
           <button class="col-3" type="button" (click)="deleteFriendRequest(userProfile.Id)" [disabled]="userId==0" *ngIf="userProfile.IsFriend"><i class="fas fa-user-minus"></i></button>
           <button class="col-3" type="button" (click)="sendFriendRequest(userProfile.Id)" [disabled]="userId==0 || userProfile.IsBlack" *ngIf="!userProfile.IsFriend"><i class="fas fa-user-plus"></i></button>
@@ -43,8 +45,12 @@
         </div>  
       </div>
     </div>
-    <div style="width: 100%">
-       
+    <div class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px"> 
+        <div class="w3-center"><br>
+          <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

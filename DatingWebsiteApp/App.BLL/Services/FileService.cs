@@ -123,7 +123,7 @@ namespace App.BLL.Services
         {
             try
             {
-                var file = _db.FileModels.GetWhere(m => m.Path == file_path && m.PhotoAlbumId == album_id).First();
+                var file = _db.FileModels.GetWhere(m => m.Path == file_path && m.PhotoAlbumId == album_id).FirstOrDefault(); 
                 if (file == null)
                 {
                     return null;

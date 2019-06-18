@@ -31,86 +31,102 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> GetMyUserProfile()
         {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userService.GetVMUserAsync(user_id, null);
-            if (user == null)
+            try
             {
-                return NotFound(new { message = "User not found by id." });
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var user = await _userService.GetVMUserAsync(user_id, null);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found by id." });
+                }
+                return Ok(user);
             }
-            return Ok(user);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+            }
         }
 
 
-        [HttpGet("{id}")] 
+        [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetUserProfile(string id)
         {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userService.GetVMUserAsync(id, user_id);
-            if (user == null)
+            try
             {
-                return NotFound(new { message = "User not found by id." });
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var user = await _userService.GetVMUserAsync(id, user_id);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found by id." });
+                }
+                return Ok(user);
             }
-            return Ok(user);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+            }
         }
 
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> EditMyUserInformation([FromBody] UserInfoEditVM editUser)
         {
-            if (editUser == null)
-                return BadRequest(new { message = "editUser param is null." });
-
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            editUser.Id = user_id;
-
-            var user = await _userService.EditUserInfo(editUser);
-            if (user == null)
+            try
             {
-                return NotFound(new { message = "User not found by id." });
+                if (editUser == null)
+                    return BadRequest(new { message = "editUser param is null." });
+
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                editUser.Id = user_id;
+
+                var user = await _userService.EditUserInfo(editUser);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found by id." });
+                }
+                return Ok(user);
             }
-            return Ok(user);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+            }
         }
 
         [HttpPut, Route("avatar")]
         [Authorize]
-        public async Task<IActionResult> EditMyUserPhoto(/*[FromBody] UserPhotoCreateVM editUser*/)
+        public async Task<IActionResult> EditMyUserPhoto()
         {
-            //if (editUser == null)
-            //    return BadRequest(new { message = "editUser param is null." });
-
-            //var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            //editUser.Id = user_id;
-
-            //var user = await _userService.EditUserPhoto(editUser);
-            //if (user == null)
-            //{
-            //    return NotFound(new { message = "User not found by id." });
-            //}
-            //return Ok(user);
-
-            var UploadPhoto = HttpContext.Request.Form.Files[0];
-
-            if (UploadPhoto == null) return BadRequest("Null File");
-            if (UploadPhoto.Length == 0)
+            try
             {
-                return BadRequest("Empty File");
+                var UploadPhoto = HttpContext.Request.Form.Files[0];
+
+                if (UploadPhoto == null) return BadRequest("Null File");
+                if (UploadPhoto.Length == 0)
+                {
+                    return BadRequest("Empty File");
+                }
+                if (UploadPhoto.Length > 5 * 1024 * 1024) return BadRequest("Max file size exceeded.");
+                if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
+
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+
+                var editUser = new UserPhotoCreateVM() { Id = user_id, UploadPhoto = UploadPhoto };
+                editUser.Id = user_id;
+
+                var user = await _userService.EditUserPhoto(editUser);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found by id." });
+                }
+                return Ok(user);
             }
-            if (UploadPhoto.Length > 5 * 1024 * 1024) return BadRequest("Max file size exceeded.");
-            if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
-
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-
-            var editUser = new UserPhotoCreateVM() { Id=user_id, UploadPhoto = UploadPhoto };
-            editUser.Id = user_id;
-
-            var user = await _userService.EditUserPhoto(editUser);
-            if (user == null)
+            catch (Exception ex)
             {
-                return NotFound(new { message = "User not found by id." });
+                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
             }
-            return Ok(user);
 
         }
+
     }
 }

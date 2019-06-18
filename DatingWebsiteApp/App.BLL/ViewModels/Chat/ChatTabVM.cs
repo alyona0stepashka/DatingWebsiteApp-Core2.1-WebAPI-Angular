@@ -22,20 +22,25 @@ namespace App.BLL.ViewModels
 
         public bool HasNew { get; set; }
 
+        public bool IsBlock { get; set; }
+
         public ChatTabVM(ChatRoom chat, string me_id)
         {
             Id = chat.Id;
-            if (me_id != null)
+            IsBlock = false;
+            if (!String.IsNullOrEmpty(me_id))
             {
                 if (chat.UserFromId == me_id)
                 {
                     Name = chat.UserTo.Name;
                     ChatIconPath = chat.UserTo.File.Path;
+                    IsBlock = chat.UserTo.BlackListsFrom.Where(m => m.UserToId == me_id).Any();
                 }
                 else
                 {
                     Name = chat.UserFrom.Name;
                     ChatIconPath = chat.UserFrom.File.Path;
+                    IsBlock = chat.UserFrom.BlackListsFrom.Where(m => m.UserToId == me_id).Any();
                 }
             }
             var last = chat.Messages.LastOrDefault();

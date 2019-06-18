@@ -13,9 +13,9 @@ namespace App.WebAPI.Controllers
     [ApiController]
     public class StaticController : ControllerBase
     {
-        private readonly IStaticService _staticService; 
+        private readonly IStaticService _staticService;
 
-        public StaticController(IStaticService staticService )
+        public StaticController(IStaticService staticService)
         {
             _staticService = staticService;
         }
@@ -24,12 +24,19 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public IActionResult GetAll()
         {
-            var statics = _staticService.GetAll();
-            if (statics == null)
+            try
             {
-                return NotFound(new { message = "Statics not found (error from service)." });
+                var statics = _staticService.GetAll();
+                if (statics == null)
+                {
+                    return NotFound(new { message = "Statics not found (error from service)." });
+                }
+                return Ok(statics);
             }
-            return Ok(statics);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from StaticController: " + ex.Message });
+            }
         }
     }
 }

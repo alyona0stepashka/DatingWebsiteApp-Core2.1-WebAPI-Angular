@@ -21,22 +21,19 @@ namespace App.BLL.Services
     public class AccountService:IAccountService
     {
         private IUnitOfWork _db { get; set; }
-        private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager; 
         private readonly ApplicationSettings _applicationSettingsOption; 
         private readonly IEmailService _emailService;
         private readonly IFileService _fileService;
 
         public AccountService(IUnitOfWork uow,
-            UserManager<ApplicationUser> userManager,
-            //SignInManager<ApplicationUser> signManager,
+            UserManager<ApplicationUser> userManager, 
             IOptions<ApplicationSettings> applicationSettingsOption,
             IEmailService emailService, 
             IFileService fileService)
         {
             _db = uow;
-            _userManager = userManager;
-           // _signInManager = signManager;
+            _userManager = userManager; 
             _applicationSettingsOption = applicationSettingsOption.Value; 
             _emailService = emailService;
             _fileService = fileService;
@@ -131,10 +128,10 @@ namespace App.BLL.Services
             try
             {
                 var user = await _userManager.FindByIdAsync(model.Id);
-                if (model.NewPassword != null && model.OldPassword != null)
+                if (!String.IsNullOrEmpty(model.NewPassword) && !String.IsNullOrEmpty(model.OldPassword))
                 {
                     if (user != null && await _userManager.CheckPasswordAsync(user, model.OldPassword))
-                    {
+                    { 
                         string code = await _userManager.GeneratePasswordResetTokenAsync(user);
                         var result = await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
 
@@ -146,11 +143,10 @@ namespace App.BLL.Services
                             {
                                 Subject = new ClaimsIdentity(new Claim[]
                                 {
-                            new Claim("UserID", user.Id),
+                                    new Claim("UserID", user.Id),
                                 }),
                                 Expires = DateTime.UtcNow.AddDays(1),
-                                SigningCredentials =
-                                    new SigningCredentials(
+                                SigningCredentials = new SigningCredentials(
                                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
                                         SecurityAlgorithms.HmacSha256Signature)
                             };
@@ -169,7 +165,7 @@ namespace App.BLL.Services
                         return null;
                     }
                 }
-                if (model.Name != null) { user.Name = model.Name; }
+                if (!String.IsNullOrEmpty(model.Name)) { user.Name = model.Name; }
                 if (model.IsAnonimus != null) { user.IsAnonimus = model.IsAnonimus.Value; }
                 var edit_result = await _userManager.UpdateAsync(user);
                 if (edit_result.Succeeded)

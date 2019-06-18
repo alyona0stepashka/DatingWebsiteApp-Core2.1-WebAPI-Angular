@@ -20,7 +20,7 @@ export class AccountComponent implements OnInit {
 
   UploadFile: File = null;
   editInfoForm: FormGroup = this.formBuilder.group({
-    Name: [''/*, [Validators.required]*/],
+    Name: [''],
     OldPassword: [''],
     NewPassword: [''],
     IsAnonimus: [null/*, [Validators.required]*/]

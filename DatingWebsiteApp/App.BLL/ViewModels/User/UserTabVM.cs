@@ -35,65 +35,7 @@ namespace App.BLL.ViewModels
             if (user.MainGoal != null)
             {
                 MainGoal = user.MainGoal.Value;
-            }
-            //if (user.Type != null)
-            //{
-            //    if (user.Type.FamilyStatus != null)
-            //    {
-            //        FamilyStatus = user.Type.FamilyStatus.Value;
-            //    }
-            //    if (user.Type.FinanceStatus != null)
-            //    {
-            //        FinanceStatus = user.Type.FinanceStatus.Value;
-            //    }
-            //    if (user.Type.Education != null)
-            //    {
-            //        Education = user.Type.Education.Value;
-            //    }
-            //    if (user.Type.Nationality != null)
-            //    {
-            //        Nationality = user.Type.Nationality.Value;
-            //    }
-            //    if (user.Type.Zodiac != null)
-            //    {
-            //        Zodiac = user.Type.Zodiac.Value;
-            //    }
-            //    if (user.Type.Growth != null)
-            //    {
-            //        Growth = user.Type.Growth.Value;
-            //    }
-            //    if (user.Type.Weight != null)
-            //    {
-            //        Weight = user.Type.Weight.Value;
-            //    }
-            //    if (user.Type.Languages != null)
-            //    {
-            //        Languages = new List<string>();
-            //        var db_langs = user.Type.Languages;
-            //        foreach (var lang in db_langs)
-            //        {
-            //            Languages.Add(lang.Language.Value);
-            //        }
-            //    }
-            //    if (user.Type.BadHabits != null)
-            //    {
-            //        BadHabits = new List<string>();
-            //        var db_habitss = user.Type.BadHabits;
-            //        foreach (var lang in db_habitss)
-            //        {
-            //            BadHabits.Add(lang.BadHabit.Value);
-            //        }
-            //    }
-            //    if (user.Type.Interests != null)
-            //    {
-            //        Interests = new List<string>();
-            //        var db_interests = user.Type.Interests;
-            //        foreach (var lang in db_interests)
-            //        {
-            //            Interests.Add(lang.Interest.Value);
-            //        }
-            //    }
-            //}
+            } 
         }
         public UserTabVM()
         {

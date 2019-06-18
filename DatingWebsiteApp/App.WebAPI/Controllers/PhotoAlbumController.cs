@@ -16,48 +16,69 @@ namespace App.WebAPI.Controllers
     public class PhotoAlbumController : ControllerBase
     {
         private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
-        private readonly IAlbumService _albumService; 
+        private readonly IAlbumService _albumService;
 
-        public PhotoAlbumController(IAlbumService albumService )
+        public PhotoAlbumController(IAlbumService albumService)
         {
-            _albumService = albumService; 
+            _albumService = albumService;
         }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetMyAlbums()
         {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var albums = await _albumService.GetAllAlbumsByUserIdAsync(user_id);
-            if (albums == null)
+            try
             {
-                return NotFound(new { message = "Albums not found by user id." });
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var albums = await _albumService.GetAllAlbumsByUserIdAsync(user_id);
+                if (albums == null)
+                {
+                    return NotFound(new { message = "Albums not found by user id." });
+                }
+                return Ok(albums);
             }
-            return Ok(albums);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
 
-        [HttpGet, Route("user/{id}")]        
+        [HttpGet, Route("user/{id}")]
         [Authorize]
         public async Task<IActionResult> GetAlbumsByUserId(string id)
         {
-            var albums = await _albumService.GetAllAlbumsByUserIdAsync(id);
-            if (albums == null)
+            try
             {
-                return NotFound(new { message = "Albums not found by user id." });
+                var albums = await _albumService.GetAllAlbumsByUserIdAsync(id);
+                if (albums == null)
+                {
+                    return NotFound(new { message = "Albums not found by user id." });
+                }
+                return Ok(albums);
             }
-            return Ok(albums);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
 
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetAlbumById(int id)
         {
-            var album = await _albumService.GetOpenAlbumAsync(id);
-            if (album == null)
+            try
             {
-                return NotFound(new { message = "Albums not found by id." });
+                var album = await _albumService.GetOpenAlbumAsync(id);
+                if (album == null)
+                {
+                    return NotFound(new { message = "Albums not found by id." });
+                }
+                return Ok(album);
             }
-            return Ok(album);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
 
         [HttpPost]
@@ -65,22 +86,29 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> AddPhoto(int id)
         {
-            var UploadPhoto = HttpContext.Request.Form.Files[0];
-
-            if (UploadPhoto == null) return BadRequest("Null File");
-            if (UploadPhoto.Length == 0)
+            try
             {
-                return BadRequest("Empty File");
-            }
-            if (UploadPhoto.Length > 5 * 1024 * 1024) return BadRequest("Max file size exceeded.");
-            if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
+                var UploadPhoto = HttpContext.Request.Form.Files[0];
 
-            var album = await _albumService.AddPhotoAsync(new AlbumAddPhotoVM { Id=id, UploadPhoto = UploadPhoto });
-            if (album == null)
-            {
-                return NotFound(new { message = "Album not found by id (or error on create photo)." });
+                if (UploadPhoto == null) return BadRequest("Null File");
+                if (UploadPhoto.Length == 0)
+                {
+                    return BadRequest("Empty File");
+                }
+                if (UploadPhoto.Length > 5 * 1024 * 1024) return BadRequest("Max file size exceeded.");
+                if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
+
+                var album = await _albumService.AddPhotoAsync(new AlbumAddPhotoVM { Id = id, UploadPhoto = UploadPhoto });
+                if (album == null)
+                {
+                    return NotFound(new { message = "Album not found by id (or error on create photo)." });
+                }
+                return Ok(album);
             }
-            return Ok(album);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
 
         //[HttpPost]
@@ -100,37 +128,58 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteAlbum(int id)
         {
-            var album = await _albumService.DeleteAlbumAsync(id);
-            if (album == null)
+            try
             {
-                return NotFound(new { message = "Album not found by id." });
+                var album = await _albumService.DeleteAlbumAsync(id);
+                if (album == null)
+                {
+                    return NotFound(new { message = "Album not found by id." });
+                }
+                return Ok(album);
             }
-            return Ok(album);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
 
         [HttpDelete("photo/{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteAlbumPhoto(int id)
         {
-            var album = await _albumService.DeletePhotoAsync(id);
-            if (album == null)
+            try
             {
-                return NotFound(new { message = "File not found by id." });
+                var album = await _albumService.DeletePhotoAsync(id);
+                if (album == null)
+                {
+                    return NotFound(new { message = "File not found by id." });
+                }
+                return Ok(album);
             }
-            return Ok(album);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateAlbum([FromBody]AlbumShowVM model)
         {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var album = await _albumService.CreateAlbumAsync(model, user_id);
-            if (album == null)
+            try
             {
-                return NotFound(new { message = "Album not found by id." });
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var album = await _albumService.CreateAlbumAsync(model, user_id);
+                if (album == null)
+                {
+                    return NotFound(new { message = "Album not found by id." });
+                }
+                return Ok(album);
             }
-            return Ok(album);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from PhotoAlbumController: " + ex.Message });
+            }
         }
     }
 }

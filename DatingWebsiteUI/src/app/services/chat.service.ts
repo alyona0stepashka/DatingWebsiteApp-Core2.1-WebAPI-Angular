@@ -10,14 +10,14 @@ export class ChatService {
   readonly BaseURI = 'https://localhost:44394/api';
 
   getMyChats() {
-    return this.http.get(this.BaseURI + '/my');
+    return this.http.get(this.BaseURI + '/chats/my');
   }
 
   getChatById(id: number) {
-    return this.http.get(this.BaseURI + '/' + id.toString());
+    return this.http.get(this.BaseURI + '/chats/' + id.toString());
   }
 
   clearChatHistory(id: number) {
-    return this.http.get(this.BaseURI + '/clear/' + id.toString());
+    return this.http.get(this.BaseURI + '/chats/clear/' + id.toString());
   }
 }

@@ -22,19 +22,26 @@ namespace App.WebAPI.Controllers
         {
             _chatService = chatService;
         }
-        
+
         [HttpGet]
         [Route("my")]
         [Authorize]
         public IActionResult GetMyChatRooms()
         {
-            var me_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var chat_list = _chatService.GetChatListByUserId(me_id);
-            if (chat_list == null)
+            try
             {
-                return NotFound(new { message = "Chat not found by id." });
+                var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var chat_list = _chatService.GetChatListByUserId(me_id);
+                if (chat_list == null)
+                {
+                    return NotFound(new { message = "Chat not found by id." });
+                }
+                return Ok(chat_list);
             }
-            return Ok(chat_list);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from ChatController: " + ex.Message });
+            }
         }
 
         [HttpGet]
@@ -42,13 +49,20 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> GetChatByIdAsync(int id)
         {
-            var me_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var chat_list = await _chatService.GetChatByIdAsync(id, me_id);
-            if (chat_list == null)
+            try
             {
-                return NotFound(new { message = "Chat not found by id." });
+                var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var chat_list = await _chatService.GetChatByIdAsync(id, me_id);
+                if (chat_list == null)
+                {
+                    return NotFound(new { message = "Chat not found by id." });
+                }
+                return Ok(chat_list);
             }
-            return Ok(chat_list);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from ChatController: " + ex.Message });
+            }
         }
 
         [HttpGet]
@@ -56,15 +70,20 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> ClearChatHistoryByIdAsync(int id)
         {
-            var me_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var chat_list = await _chatService.ClearChatHistoryAsync(id, me_id);
-            if (chat_list == null)
+            try
             {
-                return NotFound(new { message = "Chat not found by id." });
+                var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var chat_list = await _chatService.ClearChatHistoryAsync(id, me_id);
+                if (chat_list == null)
+                {
+                    return NotFound(new { message = "Chat not found by id." });
+                }
+                return Ok(chat_list);
             }
-            return Ok(chat_list);
-        }
-
-
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from ChatController: " + ex.Message });
+            }
+        } 
     }
 }

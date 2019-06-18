@@ -59,8 +59,8 @@ export class UserService {
     const body = {
       Name: form.value.Name,
       IsAnonimus: form.value.IsAnonimus,
-      NewPassword: form.value.Passwords.NewPassword,
-      OldPassword: form.value.Passwords.OldPassword
+      NewPassword: form.value.NewPassword,
+      OldPassword: form.value.OldPassword
     };
     return this.http.put(this.BaseURI + '/account', body);
   }

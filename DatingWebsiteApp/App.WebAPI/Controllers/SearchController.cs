@@ -28,26 +28,40 @@ namespace App.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> FirstSearch()
         {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var search_result_list = await _searchService.StartSearchAsync(new SearchVM(), user_id);
-            if (search_result_list == null)
+            try
             {
-                return NotFound(new { message = "Users not found (error from service)." });
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var search_result_list = await _searchService.StartSearchAsync(new SearchVM(), user_id);
+                if (search_result_list == null)
+                {
+                    return NotFound(new { message = "Users not found (error from service)." });
+                }
+                return Ok(search_result_list);
             }
-            return Ok(search_result_list);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from SearchController: " + ex.Message });
+            }
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> StartSearch([FromBody]SearchVM model)
         {
-            var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-            var search_result_list = await _searchService.StartSearchAsync(model, user_id);
-            if (search_result_list == null)
+            try
             {
-                return NotFound(new { message = "Users not found (error from service)." });
+                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var search_result_list = await _searchService.StartSearchAsync(model, user_id);
+                if (search_result_list == null)
+                {
+                    return NotFound(new { message = "Users not found (error from service)." });
+                }
+                return Ok(search_result_list);
             }
-            return Ok(search_result_list);
+            catch (Exception ex)
+            {
+                return BadRequest(new { error_message = "Exception from SearchController: " + ex.Message });
+            }
         }
 
     }

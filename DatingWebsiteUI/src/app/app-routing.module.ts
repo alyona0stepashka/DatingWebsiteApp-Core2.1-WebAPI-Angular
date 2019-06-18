@@ -20,6 +20,7 @@ import { IncomingBlackComponent } from './components/home/settings/black/incomin
 import { AlbumComponent } from './components/home/album/album.component';
 import { AlbumDetailComponent } from './components/home/album/album-detail/album-detail.component';
 import { FirstLoginComponent } from './components/auth/first-login/first-login.component';
+import { ChatsComponent } from './components/home/chats/chats.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/auth/login', pathMatch: 'full'},
@@ -62,6 +63,11 @@ const routes: Routes = [
         //   {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
         // ]
       },
+      {path: 'chats', component: ChatsComponent, canActivate: [AuthGuard],
+        // children: [
+        //   {path: 'album-details/:id', component: AlbumDetailComponent, canActivate: [AuthGuard]}
+        // ]
+      }
     ]
   },
 ];
