@@ -34,13 +34,13 @@ namespace App.WebAPI.Controllers
                 var chat_list = _chatService.GetChatListByUserId(me_id);
                 if (chat_list == null)
                 {
-                    return NotFound(new { message = "Chat not found by id." });
+                    throw new Exception("Chat not found by id." );
                 }
                 return Ok(chat_list);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from ChatController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -55,13 +55,13 @@ namespace App.WebAPI.Controllers
                 var chat_list = await _chatService.GetChatByIdAsync(id, me_id);
                 if (chat_list == null)
                 {
-                    return NotFound(new { message = "Chat not found by id." });
+                    throw new Exception("Chat not found by id.");
                 }
                 return Ok(chat_list);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from ChatController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -73,16 +73,12 @@ namespace App.WebAPI.Controllers
             try
             {
                 var me_id = User.Claims.First(c => c.Type == "UserID").Value;
-                var chat_list = await _chatService.ClearChatHistoryAsync(id, me_id);
-                if (chat_list == null)
-                {
-                    return NotFound(new { message = "Chat not found by id." });
-                }
-                return Ok(chat_list);
+                await _chatService.ClearChatHistoryAsync(id, me_id); 
+                return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from ChatController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         } 
     }

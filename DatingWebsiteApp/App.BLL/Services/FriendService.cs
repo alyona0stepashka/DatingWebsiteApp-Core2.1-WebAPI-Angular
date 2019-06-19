@@ -12,16 +12,13 @@ namespace App.BLL.Services
 {
     public class FriendService : IFriendService
     {
-        private IUnitOfWork _db { get; set; }
-        private readonly UserManager<ApplicationUser> _userManager;
+        private IUnitOfWork _db { get; set; } 
         private readonly IUserService _userService;
 
-        public FriendService(IUnitOfWork uow,
-            UserManager<ApplicationUser> userManager,
+        public FriendService(IUnitOfWork uow, 
             IUserService userService)
         {
-            _db = uow;
-            _userManager = userManager;
+            _db = uow; 
             _userService = userService;
         }
 
@@ -29,17 +26,12 @@ namespace App.BLL.Services
         {
             try
             {
-                var friendship = _db.Friendships.GetWhere(m => (m.UserFromId == user_id && m.UserToId == friend_id) || (m.UserFromId == friend_id && m.UserToId == user_id));
+                var friendship = _db.Friendships.GetWhere(m => (m.UserFromId == user_id && m.UserToId == friend_id) || (m.UserFromId == friend_id && m.UserToId == user_id)).FirstOrDefault();
                 if (friendship == null)
                 {
                     return null;
-                }
-                var one_friend = friendship.FirstOrDefault();
-                if (one_friend == null)
-                {
-                    return null;
-                }
-                return one_friend;
+                } 
+                return friendship;
             }
             catch (Exception ex)
             {
@@ -49,19 +41,19 @@ namespace App.BLL.Services
 
         public async Task<List<UserTabVM>> GetIncomingsAsync(string user_id)
         {
-            try { 
-            var me = await _userService.GetDbUserAsync(user_id); 
-            var friendships = me.FriendshipsTo.Where(m=>m.Status==false);
-            if (friendships == null)
+            try
             {
-                return null;
-            }
-            var requests = new List<UserTabVM>();
-            foreach(var friend in friendships)
-            {
-                requests.Add(new UserTabVM(friend.UserFrom));
-            }
-            return requests;
+                var requests = new List<UserTabVM>();
+                var me = await _userService.GetDbUserAsync(user_id); 
+                var friendships = me.FriendshipsTo.Where(m => m.Status == false);
+                if (friendships != null)
+                {
+                    foreach (var friend in friendships)
+                    {
+                        requests.Add(new UserTabVM(friend.UserFrom));
+                    }
+                }
+                return requests;
             }
             catch (Exception ex)
             {
@@ -71,19 +63,19 @@ namespace App.BLL.Services
 
         public async Task<List<UserTabVM>> GetOutgoingsAsync(string user_id)
         {
-            try { 
-            var me = await _userService.GetDbUserAsync(user_id);
-            var friendships = me.FriendshipsFrom.Where(m => m.Status == false);
-            if (friendships == null)
+            try
             {
-                return null;
-            }
-            var requests = new List<UserTabVM>();
-            foreach (var friend in friendships)
-            {
-                requests.Add(new UserTabVM(friend.UserTo));
-            }
-            return requests;
+                var requests = new List<UserTabVM>();
+                var me = await _userService.GetDbUserAsync(user_id); 
+                var friendships = me.FriendshipsFrom.Where(m => m.Status == false);
+                if (friendships != null)
+                {
+                    foreach (var friend in friendships)
+                    {
+                        requests.Add(new UserTabVM(friend.UserTo));
+                    }
+                }
+                return requests;
             }
             catch (Exception ex)
             {
@@ -92,26 +84,27 @@ namespace App.BLL.Services
         }
         public async Task<List<UserTabVM>> GetFriendsAsync(string user_id)
         {
-            try { 
-            var friend_list = new List<UserTabVM>();
-            var me = await _userService.GetDbUserAsync(user_id);
-            if (me.FriendshipsFrom != null) 
+            try
             {
-                var friendshipsFrom = me.FriendshipsFrom.Where(m => m.Status == true);
-                foreach (var friend in friendshipsFrom)
+                var friend_list = new List<UserTabVM>();
+                var me = await _userService.GetDbUserAsync(user_id); 
+                if (me.FriendshipsFrom != null)
                 {
-                    friend_list.Add(new UserTabVM(friend.UserTo));
+                    var friendshipsFrom = me.FriendshipsFrom.Where(m => m.Status == true);
+                    foreach (var friend in friendshipsFrom)
+                    {
+                        friend_list.Add(new UserTabVM(friend.UserTo));
+                    }
                 }
-            }
-            if (me.FriendshipsTo != null) 
-            {
-                var friendshipsTo = me.FriendshipsTo.Where(m => m.Status == true);
-                foreach (var friend in friendshipsTo)
+                if (me.FriendshipsTo != null)
                 {
-                    friend_list.Add(new UserTabVM(friend.UserFrom));
+                    var friendshipsTo = me.FriendshipsTo.Where(m => m.Status == true);
+                    foreach (var friend in friendshipsTo)
+                    {
+                        friend_list.Add(new UserTabVM(friend.UserFrom));
+                    }
                 }
-            }
-            return friend_list;
+                return friend_list;
             }
             catch (Exception ex)
             {
@@ -121,25 +114,22 @@ namespace App.BLL.Services
 
         public async Task<UserTabVM> CreateFriendRequestAsync(string user_id, string friend_id)
         {
-            try { 
-            var friend = await _userService.GetDbUserAsync(friend_id);
-            if (friend == null)
+            try
             {
-                return null;
-            }
-            var is_exist = GetFriendshipFor(user_id, friend_id);
-            if (is_exist != null)
-            {
-                return null;
-            }
-            await _db.Friendships.CreateAsync(new Friendship
-            {
-                UserFromId = user_id,
-                UserToId = friend_id,
-                Status = false
-            });
-            var new_friend = new UserTabVM(friend);
-            return new_friend;
+                var friend = await _userService.GetDbUserAsync(friend_id); 
+                var friendship = GetFriendshipFor(user_id, friend_id);
+                if (friendship != null)
+                {
+                    throw new Exception("User already is your friend");
+                }
+                await _db.Friendships.CreateAsync(new Friendship
+                {
+                    UserFromId = user_id,
+                    UserToId = friend_id,
+                    Status = false
+                });
+                var new_friend = new UserTabVM(friend);
+                return new_friend;
             }
             catch (Exception ex)
             {
@@ -151,15 +141,11 @@ namespace App.BLL.Services
         {
             try
             {
-                var friend = await _userService.GetDbUserAsync(friend_id);
-                if (friend == null)
-                {
-                    return null;
-                }
+                var friend = await _userService.GetDbUserAsync(friend_id); 
                 var friendship = GetFriendshipFor(user_id, friend_id);
                 if (friendship == null)
                 {
-                    return null;
+                    throw new Exception("User not your friend");
                 }
                 await _db.Friendships.DeleteAsync(friendship.Id);
                 var new_friend = new UserTabVM(friend);
@@ -173,25 +159,22 @@ namespace App.BLL.Services
 
         public async Task<UserTabVM> ConfirmFriendRequestAsync(string user_id, string friend_id)
         {
-            try { 
-            var friend = await _userService.GetDbUserAsync(friend_id);
-            if (friend == null)
+            try
             {
-                return null;
-            }
-            var friendship = GetFriendshipFor(user_id, friend_id);
-            if (friendship == null)
-            {
-                return null;
-            }
-            if (friendship.Status)
-            {
-                return null;
-            }
-            friendship.Status = true;
-            await _db.Friendships.UpdateAsync(friendship);
-            var new_friend = new UserTabVM(friend);
-            return new_friend;
+                var friend = await _userService.GetDbUserAsync(friend_id); 
+                var friendship = GetFriendshipFor(user_id, friend_id);
+                if (friendship == null)
+                {
+                    throw new Exception("Friend request not found");
+                }
+                if (friendship.Status)
+                {
+                    throw new Exception("User already your friend");
+                }
+                friendship.Status = true;
+                await _db.Friendships.UpdateAsync(friendship);
+                var new_friend = new UserTabVM(friend);
+                return new_friend;
             }
             catch (Exception ex)
             {
@@ -201,15 +184,11 @@ namespace App.BLL.Services
         public async Task<UserTabVM> DeleteFriendAsync(string user_id, string friend_id)
         {
             try { 
-            var friend = await _userService.GetDbUserAsync(friend_id);
-            if (friend == null)
-            {
-                return null;
-            }
+            var friend = await _userService.GetDbUserAsync(friend_id); 
             var friendship = GetFriendshipFor(user_id, friend_id);
             if (friendship == null)
             {
-                return null;
+                    throw new Exception("User not your friend");
             }
             if (friendship.Status)
             {

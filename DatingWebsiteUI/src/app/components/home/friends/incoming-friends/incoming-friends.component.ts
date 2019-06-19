@@ -19,12 +19,12 @@ export class IncomingFriendsComponent implements OnInit {
               private blackService: BlackListService,
               private router: Router) { }
 
-  async ngOnInit() {
-    await this.resetUserList();
+  ngOnInit() {
+    this.resetUserList();
   }
 
-  async resetUserList() {
-    await this.friendshipService.getMyIncomingRequests().subscribe(
+  resetUserList() {
+    this.friendshipService.getMyIncomingRequests().subscribe(
       res => {
         this.userList = res as UserTab[];
       },
@@ -42,7 +42,7 @@ export class IncomingFriendsComponent implements OnInit {
     this.router.navigate(['/home/chats/details/' + id]);
   }
 
-  async deleteFriendRequest(id: string) {
+  deleteFriendRequest(id: string) {
     this.friendshipService.deleteRequest(id).subscribe(
       res => {
         this.toastr.success('Success delete request', 'Sending request');
@@ -51,10 +51,10 @@ export class IncomingFriendsComponent implements OnInit {
         console.log(err);
       }
     );
-    await this.resetUserList();
+    this.resetUserList();
   }
 
-  async confirmFriendRequest(id: string) {
+  confirmFriendRequest(id: string) {
     this.friendshipService.confirmRequest(id).subscribe(
       res => {
         this.toastr.success('Success delete request', 'Sending request');
@@ -63,10 +63,10 @@ export class IncomingFriendsComponent implements OnInit {
         console.log(err);
       }
     );
-    await this.resetUserList();
+    this.resetUserList();
   }
 
-  async addToBlackList(id: string) {
+  addToBlackList(id: string) {
     this.blackService.sendRequest(id).subscribe(
       res => {
         this.toastr.success('Added to BlackList', 'Sending request');
@@ -75,7 +75,7 @@ export class IncomingFriendsComponent implements OnInit {
         console.log(err);
       }
     );
-    await this.resetUserList();
+    this.resetUserList();
   }
 
 }

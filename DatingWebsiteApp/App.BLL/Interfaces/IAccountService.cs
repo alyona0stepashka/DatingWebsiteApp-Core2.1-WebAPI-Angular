@@ -9,7 +9,7 @@ namespace App.BLL.Interfaces
 {
     public interface IAccountService
     {
-        Task<object> RegisterUserAsync(RegisterVM model, string url);
+        Task<string> RegisterUserAsync(RegisterVM model, string url);
         Task<OperationDetails> ConfirmEmailAsync(string user_id, string code);
         Task<object> LoginUserAsync(LoginVM model);
         Task<object> EditAccountInfo(UserAccountInfoEditVM model);

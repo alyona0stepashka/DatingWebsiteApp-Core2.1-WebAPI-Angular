@@ -31,13 +31,13 @@ namespace App.WebAPI.Controllers
                 var black_list = await _blackListService.GetMyBlackListAsync(user_id);
                 if (black_list == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id");
                 }
                 return Ok(black_list);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from BlackListController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -52,13 +52,13 @@ namespace App.WebAPI.Controllers
                 var black_list = await _blackListService.GetBlackListWithMeAsync(user_id);
                 if (black_list == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id." );
                 }
                 return Ok(black_list);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from BlackListController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -83,7 +83,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from BlackListController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -97,18 +97,18 @@ namespace App.WebAPI.Controllers
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 if (user_id == id)
                 {
-                    return BadRequest(new { message = "You cannot (user_id == bad_guy_id)." });
+                    throw new Exception("You cannot (user_id == bad_guy_id)." );
                 }
                 var new_good = await _blackListService.DeleteFromBlackListAsync(user_id, id);
                 if (new_good == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id.");
                 }
                 return Ok(new_good);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from BlackListController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
     }

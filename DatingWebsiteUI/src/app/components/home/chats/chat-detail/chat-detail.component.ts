@@ -20,7 +20,7 @@ export class ChatDetailComponent implements OnChanges {
   @Input() chatId: number;
 
   messages: MessageTab[] = new Array();
-  outgoingMessage: MessageSend;
+  outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   submitted = false;
   private message_images: any[] = new Array();
@@ -61,7 +61,7 @@ export class ChatDetailComponent implements OnChanges {
                 const src = this.baseURL + file;
                 const caption = '';
                 const thumb = '';
-                const img = {
+                const img = { 
                   src,
                   caption,
                   thumb
@@ -94,13 +94,11 @@ export class ChatDetailComponent implements OnChanges {
   }
 
   
-  open(index: number): void {
-    // open lightbox
+  open(index: number): void { 
     this.lbLightbox.open(this.message_images, index);
   }
 
-  close(): void {
-    // close lightbox programmatically
+  close(): void { 
     this.lbLightbox.close();
   }
 
@@ -114,6 +112,7 @@ export class ChatDetailComponent implements OnChanges {
       reader.readAsDataURL(file);
 
       this.signalRService.sendMessage(this.outgoingMessage);
+      this.outgoingMessage.Text = '';
 
     //   this.albumService.createAlbumPhoto(file, this.albumId).subscribe(
     //   (res: any) => {

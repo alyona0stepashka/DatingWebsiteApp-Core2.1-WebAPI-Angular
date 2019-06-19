@@ -27,39 +27,15 @@ namespace App.BLL.Services
             _userManager = userManager; 
             _fileService = fileService;
             _personalTypeService = personalTypeService;
-        }
-
-        public List<UserTabVM> GetAllUsers()
-        {
-            try {
-            var db_users = _userManager.Users.Where(m=>!m.IsAnonimus);
-            if (db_users == null)
-            {
-                return null;
-            }
-            var retList = new List<UserTabVM>();
-            foreach(var user in db_users)
-            {
-                retList.Add(new UserTabVM(user));
-            } 
-            return retList;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        } 
 
         public async Task<UserInfoShowVM> GetVMUserAsync(string user_id, string my_id)
         {
-            try { 
-            var db_user = await GetDbUserAsync(user_id);
-            if (db_user == null)
+            try
             {
-                return null;
-            } 
-            var user = new UserInfoShowVM(db_user, my_id);
-            return user;
+                var db_user = await GetDbUserAsync(user_id); 
+                var user = new UserInfoShowVM(db_user, my_id);
+                return user;
             }
             catch (Exception ex)
             {
@@ -69,13 +45,14 @@ namespace App.BLL.Services
 
         public async Task<ApplicationUser> GetDbUserAsync(string user_id)
         {
-            try { 
-            var db_user = await _userManager.FindByIdAsync(user_id);
-            if (db_user == null)
+            try
             {
-                return null;
-            }
-            return db_user;
+                var db_user = await _userManager.FindByIdAsync(user_id);
+                if (db_user == null)
+                {
+                    throw new Exception("User not found");
+                }
+                return db_user;
             }
             catch (Exception ex)
             {
@@ -87,11 +64,7 @@ namespace App.BLL.Services
         {
             try
             {
-                var db_user = await GetDbUserAsync(model.Id);
-                if (db_user == null)
-                {
-                    return null;
-                }
+                var db_user = await GetDbUserAsync(model.Id); 
                 if (model.DateBirth != null) { db_user.DateBirth = model.DateBirth.Value; }
                 if (model.Name != null) { db_user.Name = model.Name; }
                 if (model.MainGoal != null)
@@ -126,16 +99,13 @@ namespace App.BLL.Services
         }
         public async Task<UserInfoShowVM> EditUserPhoto(UserPhotoCreateVM model)
         {
-            try { 
-            var db_user = await GetDbUserAsync(model.Id);
-            if (db_user == null)
+            try
             {
-                return null;
-            }
-            db_user.FileId = await _fileService.CreatePhotoAsync(model.UploadPhoto);
-            await _userManager.UpdateAsync(db_user);
-            var user = new UserInfoShowVM(db_user, null);
-            return user;
+                var db_user = await GetDbUserAsync(model.Id);
+                db_user.FileId = await _fileService.CreatePhotoAsync(model.UploadPhoto);
+                await _userManager.UpdateAsync(db_user);
+                var user = new UserInfoShowVM(db_user, null);
+                return user;
             }
             catch (Exception e)
             {

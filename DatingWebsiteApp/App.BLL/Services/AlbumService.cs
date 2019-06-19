@@ -30,11 +30,7 @@ namespace App.BLL.Services
         {
             try
             {
-                var db_album = await _db.PhotoAlbums.GetByIdAsync(album_id);
-                if (db_album == null)
-                {
-                    throw new Exception("PhotoAlbum not found");
-                }
+                var db_album = await _db.PhotoAlbums.GetByIdAsync(album_id); 
                 return db_album;
             }
             catch (Exception e)
@@ -102,16 +98,8 @@ namespace App.BLL.Services
         {
             try
             {
-                var delete_res = await _fileService.DeletePhotoForAlbumAsync(model.file_path, model.Id);
-                if (delete_res == null)
-                {
-                    throw new Exception("Delete Photo Fail");
-                }
-                var album = await GetDbAlbum(model.Id);
-                if (album == null)
-                {
-                    throw new Exception("PhotoAlbum not found");
-                }
+                await _fileService.DeletePhotoForAlbumAsync(model.file_path, model.Id); 
+                var album = await GetDbAlbum(model.Id); 
                 var ret_album = new AlbumShowVM(album);
                 return ret_album;
             }
@@ -120,7 +108,7 @@ namespace App.BLL.Services
                 throw e;
             }
         }
-        public async Task<int?> DeletePhotoAsync(int id)
+        public async Task DeletePhotoAsync(int id)
         {
             try
             {
@@ -129,12 +117,7 @@ namespace App.BLL.Services
                 {
                     throw new Exception("Photo not found");
                 }
-                var delete_res = await _fileService.DeletePhoto(id);
-                if (delete_res == null)
-                {
-                    throw new Exception("Delete Photo Fail");
-                } 
-                return delete_res;
+                await _fileService.DeletePhoto(id); 
             }
             catch(Exception e)
             {
@@ -146,11 +129,7 @@ namespace App.BLL.Services
         {
             try
             {
-                var album = await GetDbAlbum(album_id);
-                if (album == null)
-                {
-                    throw new Exception("PhotoAlbum not found");
-                }
+                var album = await GetDbAlbum(album_id); 
                 album = await _db.PhotoAlbums.DeleteAsync(album_id);
                 var ret_album = new AlbumShowVM(album);
                 return ret_album;

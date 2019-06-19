@@ -30,7 +30,7 @@ const routes: Routes = [
     children: [
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
-      {path: 'first', component: FirstLoginComponent}
+      {path: 'first/:id', component: FirstLoginComponent}
     ]
   },
   {

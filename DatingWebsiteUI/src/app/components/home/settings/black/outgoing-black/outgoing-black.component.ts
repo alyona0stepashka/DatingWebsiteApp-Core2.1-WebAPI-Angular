@@ -44,10 +44,11 @@ export class OutgoingBlackComponent implements OnInit {
         this.toastr.success('Success delete request', 'Sending request');
       },
       err => {
+        this.toastr.error(err);
         console.log(err);
       }
     );
     await this.resetUserList();
-  } 
+  }
 
 }

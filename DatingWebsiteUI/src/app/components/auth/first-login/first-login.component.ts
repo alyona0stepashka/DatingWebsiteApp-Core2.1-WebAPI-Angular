@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -17,15 +17,18 @@ export class FirstLoginComponent implements OnInit {
               private service: UserService,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
+              private activateRoute: ActivatedRoute,
               private staticService: StaticService) { }
 
     UploadFile: File = null;
     firstLoginForm: FormGroup;
+    userId = '';
     submitted = false;
     public staticInfo = new Static();
     imageUrl = '/assets/img/no-image.png';
 
   async ngOnInit() {
+    await this.activateRoute.params.subscribe(params => this.userId = params.id);
     this.firstLoginForm = this.formBuilder.group({
       DateBirth: [null, [Validators.required]],
       Sex: ['', [Validators.required]],
@@ -62,7 +65,7 @@ export class FirstLoginComponent implements OnInit {
 
     this.service.addUserInfo(this.firstLoginForm).subscribe(
       (res: any) => {
-          this.toastr.success('New user created!', 'Registration successful.');
+          this.toastr.success('Info added!', 'Success.');
           this.router.navigate(['/home/search']);
       },
       err => {

@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
 
     registerForm: FormGroup;
     submitted = false;
-    userId = 0;
+    userId = '';
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -39,23 +39,22 @@ export class RegisterComponent implements OnInit {
 
     this.service.register(this.registerForm).subscribe(
       (res: any) => {
-          this.resetForm();
-          this.toastr.success('New user created!', 'Registration successful.');
+        this.userId = res as string;
+        this.resetForm();
+        this.toastr.success('New user created!', 'Registration successful.');
+        // this.router.navigate(['/auth/first/' + this.userId]); 
+        this.router.navigate(['/auth/login/' + this.userId]);
       },
       err => {
         console.log(err);
+        this.toastr.error('err', 'Error');
       }
-    );
+    ); 
+  }
 
-    if (this.userId != 0) {
-          this.router.navigate(['/auth/first']);
-    }
-
+  resetForm() {
+    this.registerForm.value.Name = '';
+    this.registerForm.value.Email = '';
+    this.registerForm.value.Password = '';
+  }
 }
-
-    resetForm() {
-      this.registerForm.value.Name = '';
-      this.registerForm.value.Email = '';
-      this.registerForm.value.Password = '';
-      }
-    }

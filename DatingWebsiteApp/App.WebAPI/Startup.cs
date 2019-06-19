@@ -77,7 +77,10 @@ namespace App.WebAPI
                 });
             });
 
-            services.AddSignalR();
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
 

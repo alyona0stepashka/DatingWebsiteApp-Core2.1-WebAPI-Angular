@@ -14,6 +14,7 @@ namespace App.BLL.Services
 {
     public class FileService : IFileService
     {
+        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
         private IUnitOfWork _db { get; set; }
         private readonly IHostingEnvironment _appEnvironment;
         public FileService(IUnitOfWork uow,
@@ -21,6 +22,29 @@ namespace App.BLL.Services
         {
             _db = uow;
             _appEnvironment = appEnvironment;
+        }
+
+        public void IsValidFile(IFormFile file, int file_max_size)
+        {
+            try
+            {
+                if (file.Length == 0)
+                {
+                    throw new Exception("Empty File");
+                }
+                if (file.Length > file_max_size * 1024 * 1024)
+                {
+                    throw new Exception("Max file size exceeded.");
+                }
+                if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(file.FileName).ToLower()))
+                {
+                    throw new Exception("Invalid file type.");
+                } 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<int> CreateFileModelDbAsync(IFormFile photo, string path, string file_name, int? message_id, int? album_id)
@@ -119,19 +143,18 @@ namespace App.BLL.Services
                 throw e;
             }
         }
-        public async Task<int?> DeletePhotoForAlbumAsync(string file_path, int album_id)
+        public async Task DeletePhotoForAlbumAsync(string file_path, int album_id)
         {
             try
             {
                 var file = _db.FileModels.GetWhere(m => m.Path == file_path && m.PhotoAlbumId == album_id).FirstOrDefault(); 
                 if (file == null)
                 {
-                    return null;
+                    throw new Exception("File not found");
                 }
                 else
                 {
                     await _db.FileModels.DeleteAsync(file.Id);
-                    return 0;
                 }
             }
             catch (Exception e)
@@ -140,19 +163,18 @@ namespace App.BLL.Services
             }
         }
 
-        public async Task<int?> DeletePhoto(int id)
+        public async Task DeletePhoto(int id)
         {
             try
             {
                 var file = await _db.FileModels.GetByIdAsync(id);
                 if (file == null)
                 {
-                    return null;
+                    throw new Exception("File not found");
                 }
                 else
                 {
-                    await _db.FileModels.DeleteAsync(file.Id);
-                    return 0;
+                    await _db.FileModels.DeleteAsync(file.Id); 
                 }
             }
             catch (Exception e)

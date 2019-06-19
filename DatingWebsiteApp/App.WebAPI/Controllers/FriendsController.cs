@@ -37,7 +37,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from FriendController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -58,7 +58,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from FriendController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -79,7 +79,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from FriendController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -104,7 +104,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from FriendController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -147,7 +147,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from FriendController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -161,18 +161,18 @@ namespace App.WebAPI.Controllers
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 if (user_id == id)
                 {
-                    return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+                    throw new Exception("You cannot (user_id == friend_id).");
                 }
                 var friend = await _friendService.DeleteFriendAsync(user_id, id);
                 if (friend == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id." );
                 }
                 return Ok(friend);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from FriendController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
     }

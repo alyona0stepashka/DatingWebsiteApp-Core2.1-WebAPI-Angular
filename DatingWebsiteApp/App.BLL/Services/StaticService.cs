@@ -23,19 +23,20 @@ namespace App.BLL.Services
 
         public StaticAllVM GetAll()
         {
-            try { 
-            var retVal = new StaticAllVM();
-            retVal.FinanceStatuses = _db.FinanceStatuses.GetAll().ToList();
-            retVal.FamilyStatuses = _db.FamilyStatuses.GetAll().ToList();
-            retVal.Nationalities = _db.Nationalities.GetAll().ToList();
-            retVal.Educations = _db.Educations.GetAll().ToList();
-            retVal.MainGoals = _db.MainGoals.GetAll().ToList();
-            retVal.Languages = _db.Languages.GetAll().ToList();
-            retVal.Interests = _db.Interests.GetAll().ToList();
-            retVal.BadHabits = _db.BadHabits.GetAll().ToList();
-            retVal.Zodiacs = _db.Zodiacs.GetAll().ToList();
-            retVal.Sexes = _db.Sexes.GetAll().ToList();
-            return retVal;
+            try
+            {
+                var retVal = new StaticAllVM();
+                retVal.FinanceStatuses = _db.FinanceStatuses.GetAll().ToList();
+                retVal.FamilyStatuses = _db.FamilyStatuses.GetAll().ToList();
+                retVal.Nationalities = _db.Nationalities.GetAll().ToList();
+                retVal.Educations = _db.Educations.GetAll().ToList();
+                retVal.MainGoals = _db.MainGoals.GetAll().ToList();
+                retVal.Languages = _db.Languages.GetAll().ToList();
+                retVal.Interests = _db.Interests.GetAll().ToList();
+                retVal.BadHabits = _db.BadHabits.GetAll().ToList();
+                retVal.Zodiacs = _db.Zodiacs.GetAll().ToList();
+                retVal.Sexes = _db.Sexes.GetAll().ToList();
+                return retVal;
             }
             catch (Exception ex)
             {

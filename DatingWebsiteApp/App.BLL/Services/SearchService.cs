@@ -29,6 +29,10 @@ namespace App.BLL.Services
             try
             {
                 var cur_user = await _userManager.FindByIdAsync(my_id);
+                if (cur_user == null)
+                {
+                    throw new Exception("User not found");
+                }
                 var buffer_int = new List<int>();
                 var now_year = DateTime.Now.Year;
                 var ret_list = new List<UserTabVM>();

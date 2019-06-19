@@ -29,14 +29,16 @@ namespace App.WebAPI.Controllers
             try
             {
                 var url = HttpContext.Request.Host.ToString();
-                var result = await _accountService.RegisterUserAsync(model, url);
-                if (result == null)
-                    return BadRequest(new { message = "Error by register." });
-                return Ok(result);
+                var user_id = await _accountService.RegisterUserAsync(model, url);
+                if (user_id == null)
+                {
+                    throw new Exception("Register fail");
+                }                    
+                return Ok(user_id);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -48,12 +50,14 @@ namespace App.WebAPI.Controllers
             {
                 var token = await _accountService.LoginUserAsync(model);
                 if (token != null)
+                {
                     return Ok(new { token });
-                return BadRequest(new { message = "Username or password is incorrect or not confirm email." });
+                } 
+                throw new Exception("Username or password is incorrect or not confirm email.");
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -65,20 +69,15 @@ namespace App.WebAPI.Controllers
             {
                 if (string.IsNullOrWhiteSpace(user_id) || string.IsNullOrWhiteSpace(code))
                 {
-                    ModelState.AddModelError("", "UserId and Code are required");
-                    return BadRequest(ModelState);
-                }
-                var user = await _userService.GetDbUserAsync(user_id);
-                if (user == null)
-                {
-                    return BadRequest("Error by confirm email.");
-                }
+                    //ModelState.AddModelError("", );
+                    throw new Exception("UserId and Code are required");
+                } 
                 await _accountService.ConfirmEmailAsync(user_id, code);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -89,21 +88,22 @@ namespace App.WebAPI.Controllers
             try
             {
                 if (editUser == null)
-                    return BadRequest(new { message = "editUser param is null." });
-
+                {
+                    throw new Exception("editUser param is null");
+                }  
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 editUser.Id = user_id;
 
                 var user = await _accountService.EditAccountInfo(editUser);
                 if (user == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found");
                 }
                 return Ok(user);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from AccountController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 

@@ -34,13 +34,13 @@ namespace App.WebAPI.Controllers
                 var search_result_list = await _searchService.StartSearchAsync(new SearchVM(), user_id);
                 if (search_result_list == null)
                 {
-                    return NotFound(new { message = "Users not found (error from service)." });
+                    throw new Exception("Users not found (error from service).");
                 }
                 return Ok(search_result_list);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from SearchController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -54,13 +54,13 @@ namespace App.WebAPI.Controllers
                 var search_result_list = await _searchService.StartSearchAsync(model, user_id);
                 if (search_result_list == null)
                 {
-                    return NotFound(new { message = "Users not found (error from service)." });
+                    throw new Exception("Users not found (error from service).");
                 }
                 return Ok(search_result_list);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from SearchController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 

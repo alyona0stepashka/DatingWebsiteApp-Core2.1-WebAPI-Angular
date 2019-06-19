@@ -6,7 +6,7 @@
 </div>
 <div class="row" style="width: 100%; margin-left: 1%">
     <textarea rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
-    <button class="col-1" (click)="onSendMessage()">Reset</button> 
+    <button class="col-1" (click)="onSendMessage()">Send</button> 
 </div>
 <div *ngIf="messages.length>0" style="padding-bottom: 1%;margin-top: 1%" class="container"> 
     <div *ngFor="let mess of messages" class="item text-center" > 

@@ -14,8 +14,7 @@ using System.Threading.Tasks;
 namespace App.API.Chat
 {
     public class ChatHub : Hub
-    {
-        private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg"};
+    { 
         public static List<Connect> connects = new List<Connect>();
         private readonly IChatService _chatService;
         private readonly IFileService _fileService; 
@@ -76,16 +75,8 @@ namespace App.API.Chat
                 var UploadFiles = Context.GetHttpContext().Request.Form.Files;
                 foreach (var UploadPhoto in UploadFiles)
                 {
-                    if (UploadPhoto.Length != 0)
-                    {
-                        if (UploadPhoto.Length <= 2 * 1024 * 1024)
-                        {
-                            if (ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower()))
-                            {
-                                await _fileService.CreatePhotoForMessageAsync(UploadPhoto, db_message);
-                            }
-                        }
-                    }
+                    _fileService.IsValidFile(UploadPhoto, 2);
+                    await _fileService.CreatePhotoForMessageAsync(UploadPhoto, db_message); 
                 }
             }
             catch (Exception e)
@@ -105,8 +96,8 @@ namespace App.API.Chat
                 throw e;
             }
         }
-        public async Task Send (ChatMessageSendVM message) //(ChatMessageSendVM message)
-        {
+        public async Task Send (ChatMessageSendVM message)
+        { 
             try
             {
                 Connect receiver, caller;
@@ -117,8 +108,7 @@ namespace App.API.Chat
                 await Clients.Client(caller.ConnectionId).SendAsync("SendMyself", new ChatMessageVM(db_message), caller.UserId);
                 if (receiver != null)
                 {
-                    await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId);
-                    //await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
+                    await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId); 
                 } 
             }
             catch (Exception e)
@@ -126,24 +116,21 @@ namespace App.API.Chat
                 throw e;
             }
         }
-        public async Task SendFromProfile(ChatMessageSendVM message) //(ChatMessageSendVM message)
+        public async Task SendFromProfile(ChatMessageSendVM message) 
         {
             try
             {
                 Connect receiver, caller; 
                 FindCallerReceiver(message.ReceiverId, out caller, out receiver);
                 var isChatExist = _chatService.IsChatExist(caller.UserId, message.ReceiverId);
-                if (isChatExist)
-                {
-                    await _chatService.CreateChatAsync(caller.UserId, message.ReceiverId); 
-                    //await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify");
-                } 
+                message.ChatId = isChatExist ? (await _chatService.CreateChatAsync(caller.UserId, message.ReceiverId)).Id
+                                             : _chatService.GetChatIdByUsersAsync(caller.UserId, receiver.UserId); 
+
                 var db_message = await _chatService.SendMessageAsync(message, caller.UserId);
                 await AttachFilesAsync(db_message);
                 if (receiver != null)
                 {
-                    await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId);
-                    //await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
+                    await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId); 
                 }
             }
             catch (Exception e)

@@ -8,14 +8,16 @@ import { MessageSend } from '../models/message-send.model';
 })
 export class SignalRService {
 
-  public incomingMessage: MessageTab;
+  public incomingMessage = new MessageTab();
  // public outgoing_message: MessageSend;
   public soundNotify = new Audio('assets/sounds/message.mp3');
   public hubConnection: signalR.HubConnection;
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl('https://localhost:44394/chat')
+                            .withUrl('https://localhost:44394/chat', {skipNegotiation: true,
+                            transport: signalR.HttpTransportType.WebSockets,
+                            accessTokenFactory: () => localStorage.getItem('token')})
                             .build();
 
     this.hubConnection.start()

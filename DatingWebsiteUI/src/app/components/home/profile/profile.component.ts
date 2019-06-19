@@ -7,6 +7,8 @@ import { ToastrComponentlessModule, ToastrService } from 'ngx-toastr';
 import { BlackListService } from 'src/app/services/black-list.service';
 import { Lightbox } from 'ngx-lightbox';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { SignalRService } from 'src/app/services/signal-r.service';
+import { MessageSend } from 'src/app/models/message-send.model';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +19,8 @@ export class ProfileComponent implements OnInit {
 
   public userId: any;
   public userProfile = new UserProfile();
+  outgoingMessage = new MessageSend();
+  UploadFiles: File[] = new Array();
   _albums: any[] = new Array();
   light_image_path = '/assets/img/no-image.png';
   private baseURL = 'https://localhost:44394';
@@ -27,7 +31,8 @@ export class ProfileComponent implements OnInit {
               private friendService: FriendshipService,
               private activateRoute: ActivatedRoute,
               private router: Router,
-              private _lightbox: Lightbox) { }
+              private _lightbox: Lightbox,
+              public signalRService: SignalRService) { }
 
   async ngOnInit() { 
     await this.activateRoute.params.subscribe(params => this.userId = params.id);
@@ -71,7 +76,10 @@ export class ProfileComponent implements OnInit {
    };
 
     this._albums.push(album);
-  }
+    this.outgoingMessage.ReceiverId = this.userId;
+
+    this.signalRService.startConnection(); 
+  } 
 
   goToChat(id: string) {
     this.router.navigate(['/home/chats/details/' + id]);
@@ -133,6 +141,25 @@ export class ProfileComponent implements OnInit {
   close(): void {
     // close lightbox programmatically
     this._lightbox.close();
+  }
+
+  
+  onFilesAdded(files: File[]) {
+    this.UploadFiles = files;
+  }
+
+  onSendMessage() {
+    this.UploadFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+    });
+
+      this.signalRService.sendMessageFromProfile(this.outgoingMessage);
+      this.outgoingMessage.Text = '';
+  }
+
+  onFilesRejected(files: File[]) {
+    console.log(files);
   }
 
 }

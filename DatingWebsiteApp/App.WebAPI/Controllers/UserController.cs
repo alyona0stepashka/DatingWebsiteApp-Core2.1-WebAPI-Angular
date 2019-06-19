@@ -18,12 +18,15 @@ namespace App.WebAPI.Controllers
         private readonly string[] ACCEPTED_FILE_TYPES = new[] { ".jpg", ".jpeg", ".png" };
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
+        private readonly IFileService _fileService;
 
         public UserController(IAccountService accountService,
-            IUserService userService)
+            IUserService userService,
+            IFileService fileService)
         {
             _accountService = accountService;
             _userService = userService;
+            _fileService = fileService;
         }
 
         [HttpGet]
@@ -37,13 +40,13 @@ namespace App.WebAPI.Controllers
                 var user = await _userService.GetVMUserAsync(user_id, null);
                 if (user == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id.");
                 }
                 return Ok(user);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -65,7 +68,7 @@ namespace App.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -76,7 +79,9 @@ namespace App.WebAPI.Controllers
             try
             {
                 if (editUser == null)
-                    return BadRequest(new { error_message = "editUser param is null." });
+                {
+                    throw new Exception("editUser param is null.");
+            }                    
 
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 editUser.Id = user_id;
@@ -84,13 +89,13 @@ namespace App.WebAPI.Controllers
                 var user = await _userService.EditUserInfo(editUser);
                 if (user == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id.");
                 }
                 return Ok(user);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -102,13 +107,12 @@ namespace App.WebAPI.Controllers
             {
                 var UploadPhoto = HttpContext.Request.Form.Files[0];
 
-                if (UploadPhoto == null) return BadRequest("Null File");
-                if (UploadPhoto.Length == 0)
+                if (UploadPhoto == null)
                 {
-                    return BadRequest("Empty File");
+                    throw new Exception("Null photo");
                 }
-                if (UploadPhoto.Length > 5 * 1024 * 1024) return BadRequest("Max file size exceeded.");
-                if (!ACCEPTED_FILE_TYPES.Any(s => s == Path.GetExtension(UploadPhoto.FileName).ToLower())) return BadRequest("Invalid file type.");
+
+                _fileService.IsValidFile(UploadPhoto, 5);
 
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
 
@@ -118,13 +122,13 @@ namespace App.WebAPI.Controllers
                 var user = await _userService.EditUserPhoto(editUser);
                 if (user == null)
                 {
-                    return NotFound(new { message = "User not found by id." });
+                    throw new Exception("User not found by id.");
                 }
                 return Ok(user);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from UserController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
 
         }

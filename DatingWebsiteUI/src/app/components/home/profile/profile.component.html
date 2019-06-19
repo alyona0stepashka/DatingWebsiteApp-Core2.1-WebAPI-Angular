@@ -45,10 +45,18 @@
         </div>  
       </div>
     </div>
-    <div class="w3-modal">
-      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px"> 
+    <div id="id01" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:650px"> 
         <div class="w3-center"><br>
           <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+          <div class="row" style="width: 100%; margin-top: 4%; margin-left: 1%">      
+            <ngx-dropzone style="max-height: 50px;" class="col-10" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
+            <button class="col-2" (click)="dropzone.reset()">ResetFiles</button> 
+          </div>
+          <div class="row" style="width: 100%; margin-left: 1%">
+              <textarea class="col-10" rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
+              <button class="col-2" (click)="onSendMessage()">Send</button> 
+          </div>
         </div>
       </div>
     </div>

@@ -39,31 +39,36 @@ namespace App.BLL.Services
             _fileService = fileService;
         }
 
-        public async Task<object> RegisterUserAsync(RegisterVM model, string url)
+        public async Task<string> RegisterUserAsync(RegisterVM model, string url)
         {
-            try { 
-            var file_id = await _fileService.CreatePhotoAsync(null); 
-            var user = new ApplicationUser
+            try
             {
-                Name = model.Name, 
-                Email = model.Email, 
-                PasswordHash = model.Password,
-                UserName = model.Email,
-                FileId = file_id,
-                EmailConfirmed =false,
-                IsAnonimus = false,
-                SexId = _db.Sexes.GetAll().FirstOrDefault().Id,
-                MainGoalId = _db.MainGoals.GetAll().FirstOrDefault().Id,
-                Type = new PersonalType
-                { 
-                    EducationId = _db.Educations.GetAll().FirstOrDefault().Id,
-                    FamilyStatusId = _db.FamilyStatuses.GetAll().FirstOrDefault().Id,
-                    FinanceStatusId = _db.FinanceStatuses.GetAll().FirstOrDefault().Id,
-                    NationalityId = _db.Nationalities.GetAll().FirstOrDefault().Id,
-                    ZodiacId = _db.Zodiacs.GetAll().FirstOrDefault().Id,
+                var file_id = await _fileService.CreatePhotoAsync(null);
+                var user = new ApplicationUser
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    PasswordHash = model.Password,
+                    UserName = model.Email,
+                    FileId = file_id,
+                    EmailConfirmed = false,
+                    IsAnonimus = false,
+                    SexId = _db.Sexes.GetAll().FirstOrDefault().Id,
+                    MainGoalId = _db.MainGoals.GetAll().FirstOrDefault().Id,
+                    Type = new PersonalType
+                    {
+                        EducationId = _db.Educations.GetAll().FirstOrDefault().Id,
+                        FamilyStatusId = _db.FamilyStatuses.GetAll().FirstOrDefault().Id,
+                        FinanceStatusId = _db.FinanceStatuses.GetAll().FirstOrDefault().Id,
+                        NationalityId = _db.Nationalities.GetAll().FirstOrDefault().Id,
+                        ZodiacId = _db.Zodiacs.GetAll().FirstOrDefault().Id,
+                    }
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    throw new Exception("Register error");
                 }
-            };  
-                var result = await _userManager.CreateAsync(user, model.Password); 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var encode = HttpUtility.UrlEncode(code);
                 var callbackUrl = new StringBuilder("https://")
@@ -73,7 +78,7 @@ namespace App.BLL.Services
 
                 //await _emailService.SendEmailAsync(user.Email, "Confirm your account",   !!!
                 //    $"Confirm the registration by clicking on the link: <a href='{callbackUrl}'>link</a>");
-                return result;
+                return user.Id;
             }
             catch (Exception ex)
             {

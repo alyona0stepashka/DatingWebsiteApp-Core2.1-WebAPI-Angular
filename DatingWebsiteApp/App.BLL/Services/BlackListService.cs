@@ -33,17 +33,12 @@ namespace App.BLL.Services
         {
             try
             {
-                var black = _db.BlackLists.GetWhere(m => (m.UserFromId == user_id && m.UserToId == bad_guy_id));
+                var black = _db.BlackLists.GetWhere(m => (m.UserFromId == user_id && m.UserToId == bad_guy_id)).FirstOrDefault();
                 if (black == null)
                 {
                     return null;
-                }
-                var one_black = black.FirstOrDefault();
-                if (one_black == null)
-                {
-                    return null;
-                }
-                return one_black;
+                } 
+                return black;
             }
             catch (Exception ex)
             {
@@ -55,16 +50,15 @@ namespace App.BLL.Services
         {
             try
             {
-                var me = await _userService.GetDbUserAsync(user_id);
-                if (me == null)
-                {
-                    return null;
-                }
-                var black_list = me.BlackListsFrom;
                 var ret_list = new List<UserTabVM>();
-                foreach (var black in black_list)
+                var me = await _userService.GetDbUserAsync(user_id); 
+                var black_list = me.BlackListsFrom;
+                if (black_list != null)
                 {
-                    ret_list.Add(new UserTabVM(black.UserTo));
+                    foreach (var black in black_list)
+                    {
+                        ret_list.Add(new UserTabVM(black.UserTo));
+                    }
                 }
                 return ret_list;
             }
@@ -78,16 +72,15 @@ namespace App.BLL.Services
         {
             try
             {
-                var me = await _userService.GetDbUserAsync(user_id);
-                if (me == null)
-                {
-                    return null;
-                }
-                var black_list = me.BlackListsTo;
                 var ret_list = new List<UserTabVM>();
-                foreach (var black in black_list)
+                var me = await _userService.GetDbUserAsync(user_id); 
+                var black_list = me.BlackListsTo;
+                if (black_list != null)
                 {
-                    ret_list.Add(new UserTabVM(black.UserFrom));
+                    foreach (var black in black_list)
+                    {
+                        ret_list.Add(new UserTabVM(black.UserFrom));
+                    }
                 }
                 return ret_list;
             }
@@ -101,15 +94,11 @@ namespace App.BLL.Services
         {
             try
             {
-                var bad_guy = await _userService.GetDbUserAsync(bad_guy_id);
-                if (bad_guy == null)
-                {
-                    return null;
-                }
+                var bad_guy = await _userService.GetDbUserAsync(bad_guy_id); 
                 var is_exist = GetBlackFor(user_id, bad_guy_id);
                 if (is_exist != null)
                 {
-                    return null;
+                    throw new Exception("User already in your BlackList");
                 }
                 await _db.BlackLists.CreateAsync(new BlackList
                 {
@@ -131,12 +120,12 @@ namespace App.BLL.Services
         {
             try
             {
-                var bad_guy = await _userService.GetDbUserAsync(bad_guy_id);
-                if (bad_guy == null)
-                {
-                    return null;
-                }
+                var bad_guy = await _userService.GetDbUserAsync(bad_guy_id); 
                 var black = GetBlackFor(user_id, bad_guy_id);
+                if (black == null)
+                {
+                    throw new Exception("User not in your BlackList");
+                }
                 await _db.BlackLists.DeleteAsync(black.Id);
                 var new_good = new UserTabVM(bad_guy);
                 return new_good;

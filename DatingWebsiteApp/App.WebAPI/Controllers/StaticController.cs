@@ -29,13 +29,13 @@ namespace App.WebAPI.Controllers
                 var statics = _staticService.GetAll();
                 if (statics == null)
                 {
-                    return NotFound(new { message = "Statics not found (error from service)." });
+                    throw new Exception("Statics not found (error from service).");
                 }
                 return Ok(statics);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { error_message = "Exception from StaticController: " + ex.Message });
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -37,13 +37,29 @@ namespace App.BLL.Services
             {
                 throw ex;
             }
-        } 
+        }
+        public int GetChatIdByUsersAsync(string me_id, string friend_id)
+        {
+            try
+            {
+                var chat = _db.Chats.GetWhere(m=> (m.UserFromId==me_id && m.UserToId==friend_id) || (m.UserToId == me_id && m.UserFromId == friend_id)).FirstOrDefault();
+                if (chat == null)
+                {
+                    throw new Exception("Chat Not Found");
+                }
+                return chat.Id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public bool IsChatExist(string caller_id, string receiver_id)
         {
             try
             {
-                var chat = _db.Chats.GetWhere(m => (m.UserFromId == caller_id && m.UserToId == receiver_id) || (m.UserToId == caller_id && m.UserFromId == receiver_id));
+                var chat = _db.Chats.GetWhere(m => (m.UserFromId == caller_id && m.UserToId == receiver_id) || (m.UserToId == caller_id && m.UserFromId == receiver_id)); 
                 return chat.Any();
             }
             catch (Exception ex)
@@ -57,6 +73,10 @@ namespace App.BLL.Services
             try
             {
                 var chat = await GetDbChatAsync(chat_id);
+                if (chat == null)
+                {
+                    throw new Exception("Chat not found");
+                }
                 return (chat.UserToId==me_id) ? chat.UserFromId : chat.UserToId;
             }
             catch (Exception ex)
@@ -71,6 +91,10 @@ namespace App.BLL.Services
             {
                 var chat_list = new List<ChatTabVM>();
                 var db_chats = _db.Chats.GetWhere(m => m.UserFromId == user_id || m.UserToId == user_id);
+                if (db_chats == null)
+                {
+                    return chat_list;
+                }
                 foreach (var chat in db_chats)
                 {
                     chat_list.Add(new ChatTabVM(chat, user_id));
@@ -89,7 +113,15 @@ namespace App.BLL.Services
             {
                 var message_list = new List<ChatMessageVM>();
                 var db_chat = await GetDbChatAsync(chat_id);
-                var db_messages = db_chat.Messages.Where(m=>(db_chat.UserToId==user_id && m.DateSend>db_chat.UserToClearHistory) || (db_chat.UserFromId == user_id && m.DateSend > db_chat.UserFromClearHistory)); 
+                if (db_chat == null)
+                {
+                    throw new Exception("Chat not found");
+                }
+                var db_messages = db_chat.Messages.Where(m=>(db_chat.UserToId==user_id && m.DateSend>db_chat.UserToClearHistory) || (db_chat.UserFromId == user_id && m.DateSend > db_chat.UserFromClearHistory));
+                if (db_messages == null)
+                {
+                    return message_list;
+                }
                 foreach (var msg in db_messages)
                 {
                     message_list.Add(new ChatMessageVM(msg));
@@ -147,11 +179,15 @@ namespace App.BLL.Services
             }
         }
 
-        public async Task<int?> ClearChatHistoryAsync(int chat_id, string me_id)
+        public async Task ClearChatHistoryAsync(int chat_id, string me_id)
         {
             try
             {
                 var chat = await _db.Chats.GetByIdAsync(chat_id);
+                if (chat == null)
+                {
+                    throw new Exception("Chat not found");
+                }
                 if (chat.UserFromId == me_id)
                 {
                     chat.UserFromClearHistory = DateTime.Now;
@@ -160,8 +196,7 @@ namespace App.BLL.Services
                 {
                     chat.UserToClearHistory = DateTime.Now;
                 }
-                await _db.Chats.UpdateAsync(chat);
-                return 0;
+                await _db.Chats.UpdateAsync(chat); 
             }
             catch (Exception ex)
             {
