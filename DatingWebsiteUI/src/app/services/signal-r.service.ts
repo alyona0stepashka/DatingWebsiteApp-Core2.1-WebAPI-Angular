@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { MessageTab } from '../models/message-tab.model';
+import { MessageSend } from '../models/message-send.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
 
-  public incoming_message: MessageTab;
-  public outgoing_message: MessageSend;
-  public sound_notify = '';
-  private hubConnection: signalR.HubConnection;
+  public incomingMessage: MessageTab;
+ // public outgoing_message: MessageSend;
+  public soundNotify = new Audio('assets/sounds/message.mp3');
+  public hubConnection: signalR.HubConnection;
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -21,18 +22,33 @@ export class SignalRService {
                       .then(() => console.log('Connection started'))
                       .catch(err => console.log('Error while starting connection: ' + err));
   }
-  public addSoundNotifyListener = () => {
-    this.hubConnection.on('SoundNotify', (data) => {
-      this.sound_notify = data;
-      console.log(data);
-    });
+  // public addSendListener() {
+  //   this.hubConnection.on('Send', (data) => {
+  //     this.incomingMessage = data as MessageTab;
+  //     this.soundNotify.play();
+  //     console.log(data);
+  //   });
+  // }
+  // public addSendMyselfListener() {
+  //   this.hubConnection.on('SendMyself', (data) => {
+  //     this.incomingMessage = data as MessageTab;
+  //     console.log(data);
+  //   });
+  // }
+  public sendMessage(outgoingMessage: MessageSend) {
+    this.hubConnection.invoke('Send', outgoingMessage)
+    .catch(err => console.error(err));
   }
-  public addSendListener = () => {
-    this.hubConnection.on('Send', (data) => {
-      this.incoming_message = data;
-      console.log(data);
-    });
+  public sendMessageFromProfile(outgoingMessage: MessageSend) {
+    this.hubConnection.invoke('SendFromProfile', outgoingMessage)
+    .catch(err => console.error(err));
   }
+  // public addSoundNotifyListener = () => {
+  //   this.hubConnection.on('SoundNotify', (data) => {
+  //     this.sound_notify = data;
+  //     console.log(data);
+  //   });
+  // }
   // public addNewChatRoomListener = () => {
   //   this.hubConnection.on('NewChatRoom', (data) => {
   //     this.incoming_message = data;

@@ -114,11 +114,11 @@ namespace App.API.Chat
                 FindCallerReceiver(receiver_id, out caller, out receiver); 
                 var db_message = await _chatService.SendMessageAsync(message, caller.UserId);
                 await AttachFilesAsync(db_message);
-                await Clients.Client(caller.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId);
+                await Clients.Client(caller.ConnectionId).SendAsync("SendMyself", new ChatMessageVM(db_message), caller.UserId);
                 if (receiver != null)
                 {
                     await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId);
-                    await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
+                    //await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
                 } 
             }
             catch (Exception e)
@@ -135,22 +135,16 @@ namespace App.API.Chat
                 var isChatExist = _chatService.IsChatExist(caller.UserId, message.ReceiverId);
                 if (isChatExist)
                 {
-                    var db_message = await _chatService.SendMessageAsync(message, caller.UserId);
-                    await AttachFilesAsync(db_message);
-                    await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId);
-                    await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
-                }
-                else
-                {
-                    await _chatService.CreateChatAsync(caller.UserId, message.ReceiverId);
-                    var db_message = await _chatService.SendMessageAsync(message, caller.UserId);
-                    await AttachFilesAsync(db_message);
-                    if (receiver != null)
-                    {
-                        await Clients.Client(receiver.ConnectionId).SendAsync("NewChatRoom", new ChatMessageVM(db_message), caller.UserId);
-                        await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
-                    }
+                    await _chatService.CreateChatAsync(caller.UserId, message.ReceiverId); 
+                    //await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify");
                 } 
+                var db_message = await _chatService.SendMessageAsync(message, caller.UserId);
+                await AttachFilesAsync(db_message);
+                if (receiver != null)
+                {
+                    await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId);
+                    //await Clients.Client(receiver.ConnectionId).SendAsync("SoundNotify", "/sounds/message.mp3");
+                }
             }
             catch (Exception e)
             {

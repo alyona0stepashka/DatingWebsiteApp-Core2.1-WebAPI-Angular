@@ -5,6 +5,8 @@
   grid-row-gap: 30px;
   grid-column-gap: 10px;
   width: 90%;
+  height: 90%;
+  overflow:auto;
   margin: 0 auto;
   list-style: none;
   padding-left:0; 

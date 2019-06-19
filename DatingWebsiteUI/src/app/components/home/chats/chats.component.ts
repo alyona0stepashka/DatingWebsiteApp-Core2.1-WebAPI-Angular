@@ -32,11 +32,11 @@ export class ChatsComponent implements OnInit {
               private activateRoute: ActivatedRoute
               ) { }
 
-  async ngOnInit() { 
+  async ngOnInit() {
     this.resetList();
   }
 
-  resetList() { 
+  resetList() {
       this.chatService.getMyChats().subscribe(
         res => {
           this.chatList = res as ChatTab[];

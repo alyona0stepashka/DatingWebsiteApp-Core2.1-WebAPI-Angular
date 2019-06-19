@@ -1,20 +1,23 @@
 <div class="row" style="width: 100%; margin-left: 1%"> 
-        <!-- <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  -->
-        <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
-        <ngx-dropzone class="col-10" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
-        <button class="col-1" (click)="onUploadFiles()">Add to message</button>
-        <button class="col-1" (click)="dropzone.reset()">Reset</button>
-    </div>
-    <div *ngIf="messages.length>0" style="padding-bottom: 1%;margin-top: 1%" class="container"> 
-        <div *ngFor="let mess of messages" class="item text-center" > 
+    <!-- <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  -->
+    <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
+    <ngx-dropzone class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
+    <button class="col-2" (click)="dropzone.reset()">ResetFiles</button> 
+</div>
+<div class="row" style="width: 100%; margin-left: 1%">
+    <textarea rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
+    <button class="col-1" (click)="onSendMessage()">Reset</button> 
+</div>
+<div *ngIf="messages.length>0" style="padding-bottom: 1%;margin-top: 1%" class="container"> 
+    <div *ngFor="let mess of messages" class="item text-center" > 
 
-            <div *ngIf="mess.FilePathes.length>0" style="padding-bottom: 1%;margin-top: 1%; width: 100%" class="container"> 
-                <div *ngFor="let img of mess.FilePathes; let i = index" class="item text-center" >
-                    <img  (click)="open(i)" style="max-height: 200px; max-width: 200px;" src="https://localhost:44394{{img.Value}}" /> 
-                </div>
-            </div>          
-        </div> 
-    </div>
-    <div *ngIf="messages.length<1" > 
-        <label class="text-center">No Message Yet</label>
-    </div>
+        <div *ngIf="mess.FilePathes.length>0" style="padding-bottom: 1%;margin-top: 1%; width: 100%" class="container"> 
+            <div *ngFor="let img of mess.FilePathes; let i = index" class="item text-center" >
+                <img  (click)="open(i)" style="max-height: 200px; max-width: 200px;" src="https://localhost:44394{{img.Value}}" /> 
+            </div>
+        </div>          
+    </div> 
+</div>
+<div *ngIf="messages.length<1" > 
+    <label class="text-center">No Message Yet</label>
+</div>
