@@ -83,9 +83,20 @@ namespace App.BLL.Services
 
         public async Task<OperationDetails> ConfirmEmailAsync(string user_id, string code)
         {
-            var db_user = await _userManager.FindByIdAsync(user_id);
-            var success = await _userManager.ConfirmEmailAsync(db_user, code);
-            return success.Succeeded ? new OperationDetails(true, "Success", "") : new OperationDetails(false, "Error", ""); 
+            try
+            {
+                var db_user = await _userManager.FindByIdAsync(user_id);
+                if (db_user == null)
+                {
+                    throw new Exception("User not found");
+                }
+                var success = await _userManager.ConfirmEmailAsync(db_user, code);
+                return success.Succeeded ? new OperationDetails(true, "Success", "") : new OperationDetails(false, "Error", "");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<object> LoginUserAsync(LoginVM model)
@@ -115,7 +126,7 @@ namespace App.BLL.Services
                     return token;
                 }
                 else
-                    return null;
+                    throw new Exception("User not found or invalid email/password");
             }
             catch (Exception ex)
             {
@@ -157,12 +168,12 @@ namespace App.BLL.Services
                         }
                         else
                         {
-                            return null;
+                            throw new Exception("Change password fail");
                         }
                     }
                     else
                     {
-                        return null;
+                        throw new Exception("User not found or invalid OldPassword");
                     }
                 }
                 if (!String.IsNullOrEmpty(model.Name)) { user.Name = model.Name; }
@@ -174,7 +185,7 @@ namespace App.BLL.Services
                 }
                 else
                 {
-                    return null;
+                    throw new Exception("Edit user info fail");
                 }
             }
             catch (Exception ex)

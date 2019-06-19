@@ -33,7 +33,7 @@ namespace App.BLL.Services
                 var db_album = await _db.PhotoAlbums.GetByIdAsync(album_id);
                 if (db_album == null)
                 {
-                    return null;
+                    throw new Exception("PhotoAlbum not found");
                 }
                 return db_album;
             }
@@ -71,7 +71,7 @@ namespace App.BLL.Services
                 var album = await _db.PhotoAlbums.GetByIdAsync(album_id);
                 if (album == null)
                 {
-                    return null;
+                    throw new Exception("PhotoAlbum not found");
                 }
                 var ret_album = new AlbumShowVM(album);
                 return ret_album;
@@ -105,12 +105,12 @@ namespace App.BLL.Services
                 var delete_res = await _fileService.DeletePhotoForAlbumAsync(model.file_path, model.Id);
                 if (delete_res == null)
                 {
-                    return null;
+                    throw new Exception("Delete Photo Fail");
                 }
                 var album = await GetDbAlbum(model.Id);
                 if (album == null)
                 {
-                    return null;
+                    throw new Exception("PhotoAlbum not found");
                 }
                 var ret_album = new AlbumShowVM(album);
                 return ret_album;
@@ -127,12 +127,12 @@ namespace App.BLL.Services
                 var photo = _db.FileModels.GetWhere(m => m.Id == id);
                 if (photo==null)
                 {
-                    return null;
+                    throw new Exception("Photo not found");
                 }
                 var delete_res = await _fileService.DeletePhoto(id);
                 if (delete_res == null)
                 {
-                    return null;
+                    throw new Exception("Delete Photo Fail");
                 } 
                 return delete_res;
             }
@@ -149,7 +149,7 @@ namespace App.BLL.Services
                 var album = await GetDbAlbum(album_id);
                 if (album == null)
                 {
-                    return null;
+                    throw new Exception("PhotoAlbum not found");
                 }
                 album = await _db.PhotoAlbums.DeleteAsync(album_id);
                 var ret_album = new AlbumShowVM(album);

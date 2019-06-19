@@ -37,7 +37,7 @@ namespace App.BLL.Services
             {
                 throw ex;
             }
-        }
+        } 
 
         public bool IsChatExist(string caller_id, string receiver_id)
         {

@@ -10,6 +10,8 @@ namespace App.BLL.ViewModels
     {
         public int Id { get; set; }
 
+        public int ChatId { get; set; }
+
         public string SenderAvatarPath { get; set; }
 
         public string SenderName { get; set; }
@@ -25,6 +27,7 @@ namespace App.BLL.ViewModels
         public ChatMessageVM(ChatMessage message)
         {
             Id = message.Id;
+            ChatId = message.ChatId;
             SenderAvatarPath = message.UserSender.File.Path;
             SenderName = message.UserSender.Name;
             Text = message.Text;
