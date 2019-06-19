@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home/search');
       },
       err => { 
-        this.toastr.error(err, 'Error');
+        this.toastr.error(err.error, 'Error');
       }
     );
 

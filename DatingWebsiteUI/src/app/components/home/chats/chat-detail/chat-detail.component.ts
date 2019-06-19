@@ -73,6 +73,7 @@ export class ChatDetailComponent implements OnChanges {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error, 'Error');
         }
       );
   } 

@@ -30,6 +30,7 @@ export class MyFriendsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
@@ -49,6 +50,7 @@ export class MyFriendsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     this.resetUserList();
@@ -61,6 +63,7 @@ export class MyFriendsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     this.resetUserList();

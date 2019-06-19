@@ -54,6 +54,7 @@ export class AlbumDetailComponent implements OnChanges {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error, 'Error');
         }
       );
   }
@@ -66,7 +67,7 @@ export class AlbumDetailComponent implements OnChanges {
       },
       err => {
         console.log(err);
-        this.toastr.error('Photo deleted Error!', 'Deleting error.');
+        this.toastr.error(err.error, 'Error');
       }
     );
   } 
@@ -97,7 +98,7 @@ export class AlbumDetailComponent implements OnChanges {
       },
       err => {
         console.log(err);
-        this.toastr.error('New photo created error!', 'Creating error.');
+        this.toastr.error(err.error, 'Error');
       }
     );
     });

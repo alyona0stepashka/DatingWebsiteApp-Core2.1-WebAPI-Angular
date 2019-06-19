@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
 
   public userId: any;
   public userProfile = new UserProfile();
+  UserAge = 0;
   outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   _albums: any[] = new Array();
@@ -36,6 +37,7 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit() { 
     await this.activateRoute.params.subscribe(params => this.userId = params.id);
+    this.signalRService.startConnection(); 
     if (this.userId == 0) {
       this.service.getMyProfile().subscribe(
         res => {
@@ -44,14 +46,15 @@ export class ProfileComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error, 'Error');
         }
       );
     }
     else {
       this.service.getUserProfileById(this.userId).subscribe(
-        async res => {
+         res => {
           this.userProfile = res as UserProfile;
-          await this.service.getMyProfile().subscribe(
+           this.service.getMyProfile().subscribe(
             res2 => {
               const myProfile = res2 as UserProfile;
               this.light_image_path = this.baseURL + myProfile.PhotoPath;
@@ -61,14 +64,17 @@ export class ProfileComponent implements OnInit {
             },
             err => {
               console.log(err);
+              this.toastr.error(err.error, 'Error');
             }
           ); 
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error, 'Error');
         }
       );
-    }
+    } 
+    this._albums = new Array();
     const album = {
       src: this.light_image_path,
       caption: '',
@@ -76,9 +82,8 @@ export class ProfileComponent implements OnInit {
    };
 
     this._albums.push(album);
+    this.UserAge = new Date().getFullYear() - this.userProfile.DateBirth.getFullYear();
     this.outgoingMessage.ReceiverId = this.userId;
-
-    this.signalRService.startConnection(); 
   } 
 
   goToChat(id: string) {
@@ -93,9 +98,11 @@ export class ProfileComponent implements OnInit {
     this.friendService.sendRequest(id).subscribe(
     res => {
       this.toastr.success('Success send request', 'Sending request');
+      this.userProfile.IsFriend = true;
     },
     err => {
       console.log(err);
+      this.toastr.error(err.error, 'Error');
     }
   );
   }
@@ -104,9 +111,11 @@ export class ProfileComponent implements OnInit {
     this.friendService.deleteRequest(id).subscribe(
     res => {
       this.toastr.success('Success delete request', 'Sending delete request');
+      this.userProfile.IsFriend = false;
     },
     err => {
       console.log(err);
+      this.toastr.error(err.error, 'Error');
     }
   );
   }
@@ -115,9 +124,11 @@ export class ProfileComponent implements OnInit {
     this.blackService.sendRequest(id).subscribe(
       res => {
         this.toastr.success('Added to BlackList', 'Sending request');
+        this.userProfile.IsBlack = true; 
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
@@ -125,10 +136,12 @@ export class ProfileComponent implements OnInit {
   async removeFromBlackList(id: string) {
     this.blackService.removeRequest(id).subscribe(
       res => {
-        this.toastr.success('Success delete request', 'Sending request');
+        this.toastr.success('Success delete request', 'Sending request'); 
+        this.userProfile.IsBlack = false; 
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     ); 
   } 

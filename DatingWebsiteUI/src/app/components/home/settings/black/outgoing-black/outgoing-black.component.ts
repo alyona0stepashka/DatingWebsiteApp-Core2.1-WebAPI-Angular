@@ -19,17 +19,18 @@ export class OutgoingBlackComponent implements OnInit {
               private blackService: BlackListService,
               private router: Router) { }
 
-  async ngOnInit() {
-    await this.resetUserList();
+  ngOnInit() {
+    this.resetUserList();
   }
 
-  async resetUserList() {
-    await this.blackService.getMyBlackList().subscribe(
+  resetUserList() {
+    this.blackService.getMyBlackList().subscribe(
       res => {
         this.userList = res as UserTab[];
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
@@ -38,17 +39,17 @@ export class OutgoingBlackComponent implements OnInit {
     this.router.navigate(['/home/profile/' + id]);
   }
 
-  async removeRequest(id: string) {
+  removeRequest(id: string) {
     this.blackService.removeRequest(id).subscribe(
       res => {
         this.toastr.success('Success delete request', 'Sending request');
       },
       err => {
-        this.toastr.error(err);
+        this.toastr.error(err.error, 'Error');
         console.log(err);
       }
     );
-    await this.resetUserList();
+    this.resetUserList();
   }
 
 }

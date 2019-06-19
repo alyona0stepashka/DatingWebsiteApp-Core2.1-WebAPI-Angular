@@ -5,6 +5,7 @@ import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
 import { Static } from 'src/app/models/static.model';
 import { StaticService } from 'src/app/services/static.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-search',
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private searchService: SearchService,
               private staticService: StaticService,
+              private toastr: ToastrService,
               private router: Router) { }
 
   async ngOnInit() {
@@ -28,6 +30,7 @@ export class SearchComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     await this.staticService.getAll().subscribe(
@@ -36,6 +39,7 @@ export class SearchComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
@@ -51,6 +55,7 @@ export class SearchComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }

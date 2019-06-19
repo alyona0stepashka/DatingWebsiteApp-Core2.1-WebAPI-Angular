@@ -19,17 +19,18 @@ export class IncomingBlackComponent implements OnInit {
               private blackService: BlackListService,
               private router: Router) { }
 
-  async ngOnInit() {
-    await this.resetUserList();
+  ngOnInit() {
+    this.resetUserList();
   }
 
-  async resetUserList() {
-    await this.blackService.getBlackListWithMe().subscribe(
+  resetUserList() {
+    this.blackService.getBlackListWithMe().subscribe(
       res => {
         this.userList = res as UserTab[];
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }

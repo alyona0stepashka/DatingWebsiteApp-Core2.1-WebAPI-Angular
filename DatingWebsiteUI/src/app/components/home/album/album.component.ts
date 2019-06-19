@@ -43,6 +43,7 @@ export class AlbumComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error, 'Error');
         }
       );
     } else {
@@ -52,6 +53,7 @@ export class AlbumComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error, 'Error');
         }
           );
     }
@@ -65,6 +67,7 @@ export class AlbumComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
@@ -78,6 +81,7 @@ export class AlbumComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }

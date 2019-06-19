@@ -1,4 +1,5 @@
 ﻿using App.BLL.ViewModels;
+using App.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,6 @@ namespace App.BLL.Interfaces
         Task<List<UserTabVM>> GetIncomingsAsync(string user_id);
         Task<List<UserTabVM>> GetOutgoingsAsync(string user_id);
         Task<List<UserTabVM>> GetFriendsAsync(string user_id);
+        Friendship GetFriendshipFor(string user_id, string friend_id);
     }
 }

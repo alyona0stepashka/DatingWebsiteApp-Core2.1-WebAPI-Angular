@@ -72,12 +72,12 @@ namespace App.WebAPI.Controllers
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 if (user_id == id)
                 {
-                    return BadRequest(new { message = "You cannot (user_id == bad_guy_id)." });
+                    throw new Exception("You cannot (user_id == bad_guy_id).");
                 }
                 var new_bad = await _blackListService.AddToBlackListAsync(user_id, id);
                 if (new_bad == null)
                 {
-                    return NotFound(new { message = "User not found by id (or user_in_black_list already exist)." });
+                    throw new Exception("User not found by id.");
                 }
                 return Ok(new_bad);
             }

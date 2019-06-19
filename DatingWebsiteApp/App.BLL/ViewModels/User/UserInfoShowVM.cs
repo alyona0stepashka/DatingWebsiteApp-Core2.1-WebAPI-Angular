@@ -21,6 +21,8 @@ namespace App.BLL.ViewModels
 
         public bool? IsBlack { get; set; }
 
+        public bool? IsIBlack { get; set; }
+
         public string PhotoPath { get; set; }
 
         public DateTime DateBirth { get; set; }
@@ -131,6 +133,7 @@ namespace App.BLL.ViewModels
                     }
                 }
                 IsBlack = false;
+                IsIBlack = false;
                 IsFriend = false;
                 if (my_id != null)
                 {
@@ -138,9 +141,16 @@ namespace App.BLL.ViewModels
                     {
                         if (user.BlackListsFrom.Where(m => m.UserToId == my_id).Any())
                         {
+                            IsIBlack = true;
+                        }
+                    }
+                    if (user.BlackListsTo != null)
+                    {
+                        if (user.BlackListsTo.Where(m => m.UserFromId == my_id).Any())
+                        {
                             IsBlack = true;
-                        } 
-                    } 
+                        }
+                    }
 
                     if (user.FriendshipsFrom != null)
                     {

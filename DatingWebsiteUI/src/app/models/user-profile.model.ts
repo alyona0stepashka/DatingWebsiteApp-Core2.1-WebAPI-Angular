@@ -7,6 +7,7 @@ export class UserProfile {
     IsAnonimus: boolean = null;
     IsFriend: boolean = null;
     IsBlack: boolean = null;
+    IsIBlack: boolean = null;
     PhotoPath = '';
     DateBirth: Date = null;
     Sex: StaticBase = null;

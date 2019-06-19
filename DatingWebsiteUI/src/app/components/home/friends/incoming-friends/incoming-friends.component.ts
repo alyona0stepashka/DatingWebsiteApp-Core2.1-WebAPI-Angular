@@ -30,6 +30,7 @@ export class IncomingFriendsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
@@ -49,6 +50,7 @@ export class IncomingFriendsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     this.resetUserList();
@@ -57,10 +59,11 @@ export class IncomingFriendsComponent implements OnInit {
   confirmFriendRequest(id: string) {
     this.friendshipService.confirmRequest(id).subscribe(
       res => {
-        this.toastr.success('Success delete request', 'Sending request');
+        this.toastr.success('Success confirm request', 'Sending request');
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     this.resetUserList();
@@ -73,6 +76,7 @@ export class IncomingFriendsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     this.resetUserList();

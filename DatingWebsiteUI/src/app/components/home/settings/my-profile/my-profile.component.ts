@@ -56,6 +56,7 @@ export class MyProfileComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
     await this.service.getMyProfile().subscribe(
@@ -111,6 +112,7 @@ export class MyProfileComponent implements OnInit {
     },
     err => {
       console.log(err);
+      this.toastr.error(err.error, 'Error');
     }
   );
   }
@@ -130,6 +132,7 @@ export class MyProfileComponent implements OnInit {
       },
       err => {
         console.log(err);
+        // this.toastr.error(err, 'Error');
       }
     );
   }
@@ -148,6 +151,7 @@ export class MyProfileComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error, 'Error');
       }
     );
   }
