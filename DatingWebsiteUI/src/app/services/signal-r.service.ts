@@ -15,9 +15,12 @@ export class SignalRService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl('https://localhost:44394/chat', {skipNegotiation: true,
-                            transport: signalR.HttpTransportType.WebSockets,
-                            accessTokenFactory: () => localStorage.getItem('token')})
+                            .withUrl('https://localhost:44394/chat',
+                            {
+                              skipNegotiation: true,
+                              transport: signalR.HttpTransportType.WebSockets,
+                              accessTokenFactory: () => localStorage.getItem('token')
+                            })
                             .build();
 
     this.hubConnection.start()

@@ -4,7 +4,7 @@
             <div class="col-md-10 offset-md-1"> 
                 <form [formGroup]="editInfoForm" (ngSubmit)="onSubmit()"> 
                     <fieldset title="Account Info">
-                        <legend><h2>Account Info</h2></legend> 
+                        <legend><h2>&nbsp;<i class="fas fa-user-cog"></i>&nbsp;Account Info</h2></legend> 
                         <div class="form-group"> 
                             <label>Username</label><br/>
                             <input type="text" [value]="userProfile.Name" formControlName="Name" class="form-control" placeholder="Name ..." />
@@ -15,12 +15,12 @@
                             <input type="radio" [value]="false" formControlName="IsAnonimus" id="false" placeholder="IsAnonimus false ..." /><label for="false">false</label>
                         </div> 
                         <div *ngIf="!userProfile.IsAnonimus" class="form-group" id="anon"> 
-                            <label>IsAnonimus</label><br/>
+                            <label>&nbsp;<i class="fas fa-user-secret"></i>&nbsp;IsAnonimus</label><br/>
                             <input type="radio" [value]="true" formControlName="IsAnonimus" id="true" placeholder="IsAnonimus true ..." /><label for="true">true</label><br/>
                             <input type="radio" [value]="false" checked formControlName="IsAnonimus" id="false" placeholder="IsAnonimus false ..." /><label for="false">false</label>
                         </div>
                         <fieldset>
-                            <legend><h2>Change Password</h2></legend>
+                            <legend><h2>&nbsp;<i class="fas fa-key"></i>&nbsp;Change Password</h2></legend>
                             <div class="form-group"> 
                                 <label>OldPassword</label><br/>
                             <input type="password" formControlName="OldPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.OldPassword.errors }" placeholder="OldPassword ..." />

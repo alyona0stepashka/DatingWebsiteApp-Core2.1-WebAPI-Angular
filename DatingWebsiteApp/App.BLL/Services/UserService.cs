@@ -78,15 +78,20 @@ namespace App.BLL.Services
                     db_user.SexId = model.Sex.Value;
                 }
                 db_user.Sex = null;
-                if (db_user.Type != null)
-                { 
-                    db_user.Type=await _personalTypeService.EditTypeAsync(db_user.Type, model);
-                    db_user.Type = null;
-                }
-                else
+                //if (db_user.Type != null)
+                //{ 
+                if (model.BadHabits != null || model.Interests != null ||
+                    model.Languages != null || model.Growth != null ||
+                    model.Weight != null || model.FamilyStatus != null ||
+                    model.FinanceStatus != null || model.Zodiac != null ||
+                    model.Nationality != null || model.Education != null ||
+                    model.Weight != null || model.Growth != null)
                 {
-                    db_user.Type = new PersonalType();
+                    db_user.Type = await _personalTypeService.EditTypeAsync(db_user.Type, model);
+                   
                 }
+                //} 
+                db_user.Type = null;
                 db_user.File = null; 
                 await _userManager.UpdateAsync(db_user);
                 var user = new UserInfoShowVM(db_user, null);

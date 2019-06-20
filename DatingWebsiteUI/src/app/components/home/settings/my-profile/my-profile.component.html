@@ -4,7 +4,7 @@
             <div class="col-md-10 offset-md-1"> 
                 <form [formGroup]="editInfoForm" (ngSubmit)="onSubmit()"> 
                     <fieldset> 
-                        <legend><h2>Personal Info</h2></legend>
+                        <legend><h2>&nbsp;<i class="fas fa-user-edit"></i>&nbsp;Personal Info</h2></legend>
                         <div class="form-group row"> 
                             <div class="col-3">
                                <img [src]="imageUrl" style="max-height: 150px; max-width: 150px"> 
@@ -14,73 +14,73 @@
                             </div>                             
                         </div>
                         <div class="form-group">
-                            <label>DateBirth</label>
+                            <label>&nbsp;<i class="fas fa-calendar-alt"></i>&nbsp;DateBirth</label>
                             <input type="date" formControlName="DateBirth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.DateBirth.errors }" placeholder="DateBirth..." />
                         </div>
                         <div class="form-group">
-                            <label>Sex</label>
+                            <label>&nbsp;<i class="fas fa-venus-mars"></i>&nbsp;Sex</label>
                             <select formControlName="Sex" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Sex.errors }" placeholder="Sex..." >
                                 <option *ngFor="let item of staticInfo.Sexes" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group"> 
-                                <label>Weight</label>
+                                <label>&nbsp;<i class="fas fa-weight"></i>&nbsp;Weight, kg</label>
                             <input type="text" formControlName="Weight" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Weight.errors }" placeholder="Weight, kg..." /> 
                         </div>
                         <div class="form-group"> 
-                                <label>Growth</label>
+                                <label>&nbsp;<i class="fas fa-ruler-vertical"></i>&nbsp;Growth, m</label>
                             <input type="text" formControlName="Growth" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Growth.errors }" placeholder="Growth, m..." /> 
                         </div>
                         <div class="form-group">  
-                                <label>MainGoal</label>                     
+                                <label>&nbsp;<i class="fas fa-bullseye"></i>&nbsp;MainGoal</label>                     
                             <select formControlName="MainGoal" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.MainGoal.errors }" placeholder="MainGoal..." >
                                 <option *ngFor="let item of staticInfo.MainGoals" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group">
-                                <label>FamilyStatus</label>                       
+                                <label>&nbsp;<i class="fas fa-heart"></i>&nbsp;FamilyStatus</label>                       
                             <select formControlName="FamilyStatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FamilyStatus.errors }" placeholder="FamilyStatus..." >
                                 <option *ngFor="let item of staticInfo.FamilyStatuses" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group">  
-                                <label>FinanceStatus</label>                     
+                                <label>&nbsp;<i class="fas fa-hand-holding-usd"></i>&nbsp;FinanceStatus</label>                     
                             <select formControlName="FinanceStatus" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FinanceStatus.errors }" placeholder="FinanceStatus..." >
                                 <option *ngFor="let item of staticInfo.FinanceStatuses" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group">
-                                <label>Education</label>                       
+                                <label>&nbsp;<i class="fas fa-graduation-cap"></i>&nbsp;Education</label>                       
                             <select formControlName="Education" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Education.errors }" placeholder="Education..." >
                                 <option *ngFor="let item of staticInfo.Educations" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group"> 
-                                <label>Nationality</label>                      
+                                <label>&nbsp;<i class="fas fa-globe-americas"></i>&nbsp;Nationality</label>                      
                             <select formControlName="Nationality" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Nationality.errors }" placeholder="Nationality..." >
                                 <option *ngFor="let item of staticInfo.Nationalities" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group"> 
-                                <label>Zodiac</label>                      
+                                <label>&nbsp;<i class="fas fa-american-sign-language-interpreting"></i>&nbsp;Zodiac</label>                      
                             <select formControlName="Zodiac" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Zodiac.errors }" placeholder="Zodiac..." >
                                 <option *ngFor="let item of staticInfo.Zodiacs" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group">
-                                <label>BadHabits</label>                       
+                                <label>&nbsp;<i class="fas fa-frown"></i>&nbsp;BadHabits</label>                       
                             <select multiple formControlName="BadHabits" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.BadHabits.errors }" placeholder="BadHabits..." >
                                 <option *ngFor="let item of staticInfo.BadHabits" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group">   
-                                <label>Interests</label>                    
+                                <label>&nbsp;<i class="fas fa-fire-alt"></i>&nbsp;Interests</label>                    
                             <select multiple formControlName="Interests" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Interests.errors }" placeholder="Interests..." >
                                 <option *ngFor="let item of staticInfo.Interests" [value]="item.Id">{{item.Value}}</option>
                             </select> 
                         </div>
                         <div class="form-group"> 
-                                <label>Languages</label>                      
+                                <label>&nbsp;<i class="fas fa-language"></i>&nbsp;Languages</label>                      
                             <select multiple formControlName="Languages" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Languages.errors }" placeholder="Languages..." >
                                 <option *ngFor="let item of staticInfo.Languages" [value]="item.Id">{{item.Value}}</option>
                             </select> 

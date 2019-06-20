@@ -19,8 +19,8 @@ export class ProfileComponent implements OnInit {
 
   public userId: any;
   public userProfile = new UserProfile();
-  UserAge = 0;
-  outgoingMessage = new MessageSend();
+  public UserAge: number = null; 
+  public outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   _albums: any[] = new Array();
   light_image_path = '/assets/img/no-image.png';
@@ -82,8 +82,7 @@ export class ProfileComponent implements OnInit {
    };
 
     this._albums.push(album);
-    this.UserAge = new Date().getFullYear() - this.userProfile.DateBirth.getFullYear();
-    this.outgoingMessage.ReceiverId = this.userId;
+    this.UserAge = (new Date()).getFullYear() - this.userProfile.DateBirth.getFullYear();
   } 
 
   goToChat(id: string) {
@@ -167,6 +166,7 @@ export class ProfileComponent implements OnInit {
       reader.readAsDataURL(file);
     });
 
+      this.outgoingMessage.ReceiverId = this.userId;
       this.signalRService.sendMessageFromProfile(this.outgoingMessage);
       this.outgoingMessage.Text = '';
   }

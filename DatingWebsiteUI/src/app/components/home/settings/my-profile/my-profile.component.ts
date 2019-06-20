@@ -127,7 +127,7 @@ export class MyProfileComponent implements OnInit {
 
     this.service.addUserInfo(this.editInfoForm).subscribe(
       (res: any) => {
-        this.toastr.success('New user created!', 'Registration successful.');
+        this.toastr.success('New info added!', 'Success.');
         this.router.navigate(['/home/search']);
       },
       err => {
@@ -147,7 +147,7 @@ export class MyProfileComponent implements OnInit {
 
     this.service.editUserPhoto(this.UploadFile).subscribe(
       (res: any) => {
-          this.toastr.success('New photo created!', 'Registration successful.');
+          this.toastr.success('New photo created!', 'Success.');
       },
       err => {
         console.log(err);
