@@ -18,13 +18,13 @@ import { MessageSend } from 'src/app/models/message-send.model';
 export class ProfileComponent implements OnInit {
 
   public userId: any;
-  public userProfile = new UserProfile();
-  public UserAge: number = null; 
+  public userProfile = new UserProfile(); 
   public outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   _albums: any[] = new Array();
   light_image_path = '/assets/img/no-image.png';
   private baseURL = 'https://localhost:44394';
+  IsLoad: boolean = false;
 
   constructor(private service: UserService,
               private toastr: ToastrService,
@@ -82,7 +82,8 @@ export class ProfileComponent implements OnInit {
    };
 
     this._albums.push(album);
-    this.UserAge = (new Date()).getFullYear() - this.userProfile.DateBirth.getFullYear();
+    this.IsLoad = true;
+    // this.UserAge = (new Date()).getFullYear() - this.userProfile.DateBirth.getFullYear();
   } 
 
   goToChat(id: string) {

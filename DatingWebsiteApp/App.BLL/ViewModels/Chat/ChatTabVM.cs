@@ -28,8 +28,10 @@ namespace App.BLL.ViewModels
         {
             Id = chat.Id;
             IsBlock = false;
+            HasNew = false;
             if (!String.IsNullOrEmpty(me_id))
             {
+                HasNew = chat.Messages.Where(m => (m.UserSenderId != me_id && m.IsNew)).Any();
                 if (chat.UserFromId == me_id)
                 {
                     Name = chat.UserTo.Name;
@@ -45,6 +47,8 @@ namespace App.BLL.ViewModels
             }
             var last = chat.Messages.LastOrDefault();
             LastSenderAvatarPath = last.UserSender.File.Path;
+            LastMessage = (last.Text.Length > 15) ? last.Text.Substring(0, 15) + " ..."
+                                                  : last.Text; 
             LastMessage = last.Text;
             LastMessageDateTime = last.DateSend;
             HasNew = chat.Messages.Where(m => m.IsNew == true).Any();

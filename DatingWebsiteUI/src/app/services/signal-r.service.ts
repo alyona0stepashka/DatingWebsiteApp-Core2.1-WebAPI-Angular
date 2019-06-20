@@ -10,7 +10,7 @@ export class SignalRService {
 
   public incomingMessage = new MessageTab();
  // public outgoing_message: MessageSend;
-  public soundNotify = new Audio('assets/sounds/message.mp3');
+  public soundNotify = new Audio('../../assets/sounds/message.mp3');
   public hubConnection: signalR.HubConnection;
 
   public startConnection = () => {
@@ -25,7 +25,7 @@ export class SignalRService {
 
     this.hubConnection.start()
                       .then(() => console.log('Connection started'))
-                      .catch(err => console.log('Error while starting connection: ' + err));
+                      .catch(err => console.log('Error while starting connection: ' + err)); 
   }
   // public addSendListener() {
   //   this.hubConnection.on('Send', (data) => {
@@ -60,5 +60,6 @@ export class SignalRService {
   //     console.log(data);
   //   });
   // }
-  constructor() { }
+  constructor() {  
+   }
 }

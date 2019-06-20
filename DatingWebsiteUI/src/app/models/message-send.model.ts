@@ -1,5 +1,5 @@
 export class MessageSend {
     Text = '';
-    ChatId: number = null;
-    ReceiverId: number = null;
+    ChatId: number = 0;
+    ReceiverId: number = 0;
 }

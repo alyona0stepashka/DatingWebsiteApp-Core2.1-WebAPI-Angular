@@ -85,7 +85,23 @@ namespace App.BLL.Services
             }
         }
 
-        public List<ChatTabVM> GetChatListByUserId(string user_id)
+        public async Task ReadAllNewMessages(List<ChatMessage> messages)
+        {
+            try
+            { 
+                foreach (var mess in messages)
+                {
+                    mess.IsNew = false;
+                    await _db.ChatMessages.UpdateAsync(mess);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<ChatTabVM>> GetChatListByUserIdAsync(string user_id)
         {
             try
             {
@@ -98,6 +114,7 @@ namespace App.BLL.Services
                 foreach (var chat in db_chats)
                 {
                     chat_list.Add(new ChatTabVM(chat, user_id));
+                    await ReadAllNewMessages(chat.Messages.Where(m=>m.UserSenderId!=user_id).ToList());
                 }
                 return chat_list;
             }

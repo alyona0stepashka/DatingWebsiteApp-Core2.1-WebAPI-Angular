@@ -1,23 +1,44 @@
 <div class="row" style="width: 100%; margin-left: 1%"> 
     <!-- <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  -->
     <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
-    <ngx-dropzone class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
-    <button class="col-2" (click)="dropzone.reset()">ResetFiles</button> 
+    <ngx-dropzone style="max-width: 50%; max-height: 57px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
+    <button class="col-2" (click)="dropzone.reset()" >ResetFiles</button> 
 </div>
 <div class="row" style="width: 100%; margin-left: 1%">
-    <textarea rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
-    <button class="col-1" (click)="onSendMessage()">Send</button> 
+    <textarea rows="12" placeholder="Enter message ..." cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none; height: 90px; width: 90%;"></textarea>
+    <button class="col-1" (click)="onSendMessage()"><i class="fas fa-envelope"></i>Send</button> 
 </div>
-<div *ngIf="messages.length>0" style="padding-bottom: 1%;margin-top: 1%" class="container"> 
-    <div *ngFor="let mess of messages" class="item text-center" > 
-
-        <div *ngIf="mess.FilePathes.length>0" style="padding-bottom: 1%;margin-top: 1%; width: 100%" class="container"> 
-            <div *ngFor="let img of mess.FilePathes; let i = index" class="item text-center" >
-                <img  (click)="open(i)" style="max-height: 200px; max-width: 200px;" src="https://localhost:44394{{img.Value}}" /> 
-            </div>
-        </div>          
-    </div> 
+<div style="max-height: 500px; overflow: auto; margin-right: -2%;"> 
+    <table *ngIf="messages.length>0" style="margin: 2%; width: 96%; background-color: slategrey; border-bottom-style: solid"> 
+        <tr *ngFor="let mess of messages"> 
+            <td style="width: 14%; padding: 1%;" class="text-center">
+                <img *ngIf="mess.SenderAvatarPath" (click)="goToProfile(mess.SenderId)" class="avatar-chat" style="margin: 1%;" src="https://localhost:44394{{mess.SenderAvatarPath}}"/>
+                <img *ngIf="!mess.SenderAvatarPath" (click)="goToProfile(mess.SenderId)" class="avatar-chat" style="margin: 1%;" src="/assets/img/no-image.png"/>
+            </td>
+            <td>
+                <label style="display: flex;">{{mess.SenderName}}&nbsp;&nbsp;<b style="font-size: 65%">{{this.datepipe.transform(mess.DateSend, 'MMMM d, h:mm a')}}</b></label><br/>
+                <div class="row" style="margin-top: -3%; max-width: 108%; margin-left: 0%;"> 
+                    <b style="font-size: 90%">{{mess.Text}}</b> 
+                </div>
+                <button *ngIf="mess.FilePathes.length>0" (click)="OpenFiles=mess.FilePathes" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-paperclip"></i>Show attachment</button>
+            </td>        
+        </tr> 
+    </table>
 </div>
 <div *ngIf="messages.length<1" > 
     <label class="text-center">No Message Yet</label>
 </div>
+<div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:650px"> 
+          <div class="w3-center"><br>
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+            <div class="row" style="width: 100%; margin-top: 4%; margin-left: 1%"> 
+                <div style="padding-bottom: 1%;margin-top: 1%" class="container"> 
+                    <div *ngFor="let photo of OpenFiles; let i = index" class="item text-center" > 
+                    <img  (click)="open(i)" style="max-height: 200px; max-width: 200px;" src="https://localhost:44394{{photo}}" /> 
+                    </div> 
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>

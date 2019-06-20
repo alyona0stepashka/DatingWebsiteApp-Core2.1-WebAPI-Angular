@@ -6,10 +6,10 @@
                     <fieldset> 
                         <legend><h2>&nbsp;<i class="fas fa-user-edit"></i>&nbsp;Personal Info</h2></legend>
                         <div class="form-group row"> 
-                            <div class="col-3">
-                               <img [src]="imageUrl" style="max-height: 150px; max-width: 150px"> 
+                            <div class="col-2">
+                               <img [src]="imageUrl" class="avatar"> 
                             </div>                            
-                            <div class="col-9">
+                            <div class="col-10">
                                 <input type="file" formControlName="Photo" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." />
                             </div>                             
                         </div>

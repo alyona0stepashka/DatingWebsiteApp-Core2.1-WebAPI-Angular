@@ -10,6 +10,8 @@ import { ChatService } from 'src/app/services/chat.service';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { MessageSend } from 'src/app/models/message-send.model';
+import { DatePipe } from '@angular/common'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-detail',
@@ -22,8 +24,9 @@ export class ChatDetailComponent implements OnChanges {
   messages: MessageTab[] = new Array();
   outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
+  OpenFiles: string[] = new Array();
   submitted = false;
-  private message_images: any[] = new Array();
+  private message_images: any[] = new Array(); 
   private baseURL = 'https://localhost:44394';
 
   
@@ -36,7 +39,10 @@ export class ChatDetailComponent implements OnChanges {
               private chatService: ChatService,
               private lbLightbox: Lightbox,
               public dropzone: NgxDropzoneModule,
-              public signalRService: SignalRService) { }
+              public signalRService: SignalRService,
+              public datepipe: DatePipe,
+              private router: Router
+              ) { }
 
   // async ngOnInit() {
   //   this.resetList();
@@ -47,7 +53,6 @@ export class ChatDetailComponent implements OnChanges {
     this.addSendListener();
     this.addSendMyselfListener();
     this.resetList();
-    this.outgoingMessage.ChatId = this.chatId;
   }
 
   resetList() {
@@ -94,6 +99,9 @@ export class ChatDetailComponent implements OnChanges {
     });
   }
 
+  goToProfile(id: string) {
+    this.router.navigate(['/home/profile/' + id]);
+  }
   
   open(index: number): void { 
     this.lbLightbox.open(this.message_images, index);
@@ -111,7 +119,8 @@ export class ChatDetailComponent implements OnChanges {
     this.UploadFiles.forEach(file => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-
+      this.outgoingMessage.ChatId = this.chatId;
+      debugger;
       this.signalRService.sendMessage(this.outgoingMessage);
       this.outgoingMessage.Text = '';
 

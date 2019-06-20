@@ -7,5 +7,4 @@ export class ChatTab {
     LastMessageDateTime = null;
     HasNew = false;
     IsBlock = false;
-
 }

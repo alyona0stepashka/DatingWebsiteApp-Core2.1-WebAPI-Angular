@@ -17,6 +17,7 @@ export class UserProfile {
     Education: StaticBase = null;
     Nationality: StaticBase = null;
     Zodiac: StaticBase = null;
+    Age: number = null;
     Growth: number = null;
     Weight: number = null;
     Languages: StaticBase[] = new Array();

@@ -1,6 +1,7 @@
 export class MessageTab {
     Id: number = null;
     ChatId: number = null;
+    SenderId = '';
     SenderAvatarPath = '';
     SenderName = '';
     Text = '';

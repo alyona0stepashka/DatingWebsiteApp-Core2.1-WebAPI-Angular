@@ -5,6 +5,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxGalleryModule } from 'ngx-gallery';
+
+import { DatePipe } from '@angular/common';
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -99,6 +101,7 @@ import 'hammerjs';
     FriendshipService,
     PhotoAlbumService,
     SearchService,
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

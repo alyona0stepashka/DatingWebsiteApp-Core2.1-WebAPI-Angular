@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
     this.signalRService.hubConnection.on('Send', (data) => {
       const mess = data as MessageTab;
       this.toastrService.info(mess.SenderName + ': ' + mess.Text, 'New Message');
+      this.signalRService.soundNotify.load();
       this.signalRService.soundNotify.play();
       console.log(data);
     });

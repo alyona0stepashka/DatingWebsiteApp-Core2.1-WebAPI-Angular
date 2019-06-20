@@ -48,6 +48,7 @@ namespace App.BLL.ViewModels
         public List<StaticBaseVM> Interests { get; set; }
 
         public double Growth { get; set; }
+        public int Age { get; set; }
 
         public double Weight { get; set; }
 
@@ -62,6 +63,7 @@ namespace App.BLL.ViewModels
             Name = user.Name;
             Email = user.Email;
             IsAnonimus = user.IsAnonimus;
+            Age = DateTime.Now.Year - user.DateBirth.Year;
             if (user.File != null)
             {
                 PhotoPath = user.File.Path;

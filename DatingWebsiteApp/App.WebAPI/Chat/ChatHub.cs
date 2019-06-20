@@ -123,11 +123,11 @@ namespace App.API.Chat
                 Connect receiver, caller; 
                 FindCallerReceiver(message.ReceiverId, out caller, out receiver);
                 var isChatExist = _chatService.IsChatExist(caller.UserId, message.ReceiverId);
-                message.ChatId = isChatExist ? (await _chatService.CreateChatAsync(caller.UserId, message.ReceiverId)).Id
-                                             : _chatService.GetChatIdByUsersAsync(caller.UserId, receiver.UserId); 
+                message.ChatId = !isChatExist ? (await _chatService.CreateChatAsync(caller.UserId, message.ReceiverId)).Id
+                                             : _chatService.GetChatIdByUsersAsync(caller.UserId, message.ReceiverId); 
 
                 var db_message = await _chatService.SendMessageAsync(message, caller.UserId);
-                await AttachFilesAsync(db_message);
+                //await AttachFilesAsync(db_message);
                 if (receiver != null)
                 {
                     await Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message), caller.UserId); 

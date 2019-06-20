@@ -1,7 +1,7 @@
 
 .container {
     display: grid;
-    grid-template-columns: repeat(1, 125px);
+    grid-template-columns: repeat(1, 290px);
     grid-row-gap: 30px;
     grid-column-gap: 10px;
     width: 90%;
@@ -10,13 +10,16 @@
     list-style: none;
     padding-left:0;    
     align-content: center; 
-    overflow: auto;
+    overflow: auto;    
+    vertical-align: top;
+    align-content: flex-start;
   }
   
   .container>.item {
     padding: 12px; 
     align-content: center;
     background-color: #090909;
+    cursor: pointer;
   }
   
   .avatar {
@@ -24,6 +27,7 @@
     border-radius:50%;
     width: 100px;
     height: 100px;
+    opacity: 0.7;
   }
 
   h2{ 
@@ -32,6 +36,19 @@
 
   label{
     color: #adadad;
+
   }
 
   
+.avatar {
+  object-fit: cover;
+  border-radius:50%;
+  width: 30px;
+  height: 30px;
+}
+.avatar-chat {
+  object-fit: cover;
+  border-radius:50%;
+  width: 70px;
+  height: 70px;
+}

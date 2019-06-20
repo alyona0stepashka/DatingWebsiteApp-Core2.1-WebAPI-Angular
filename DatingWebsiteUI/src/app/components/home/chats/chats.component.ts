@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import * as signalR from '@aspnet/signalr';
 import { ChatService } from 'src/app/services/chat.service';
 import { ChatTab } from 'src/app/models/chat-tab.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-chats',
@@ -29,7 +30,8 @@ export class ChatsComponent implements OnInit {
   constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
               private chatService: ChatService,
-              private activateRoute: ActivatedRoute
+              private activateRoute: ActivatedRoute,
+              public datepipe: DatePipe
               ) { }
 
   async ngOnInit() {

@@ -15,7 +15,7 @@
 .container>.item {
   padding: 12px;
   background-color: #ffff;
-  align-content:center;
+  align-content:center; 
 }
 
 .avatar {
@@ -23,4 +23,11 @@
   border-radius:50%;
   width: 100px;
   height: 100px;
+}
+
+.avatar-chat {
+  object-fit: cover;
+  border-radius:50%;
+  width: 70px;
+  height: 70px;
 }

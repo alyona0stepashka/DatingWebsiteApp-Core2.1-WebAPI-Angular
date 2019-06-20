@@ -26,12 +26,12 @@ namespace App.WebAPI.Controllers
         [HttpGet]
         [Route("my")]
         [Authorize]
-        public IActionResult GetMyChatRooms()
+        public async Task<IActionResult> GetMyChatRooms()
         {
             try
             {
                 var me_id = User.Claims.First(c => c.Type == "UserID").Value;
-                var chat_list = _chatService.GetChatListByUserId(me_id);
+                var chat_list = await _chatService.GetChatListByUserIdAsync(me_id);
                 if (chat_list == null)
                 {
                     throw new Exception("Chat not found by id." );
