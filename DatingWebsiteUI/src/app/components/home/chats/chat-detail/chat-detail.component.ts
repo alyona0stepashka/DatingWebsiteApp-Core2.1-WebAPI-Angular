@@ -115,29 +115,27 @@ export class ChatDetailComponent implements OnChanges {
     this.UploadFiles = files;
   }
 
-  onSendMessage() {
+  onSendMessage() { 
+    debugger;
+    this.outgoingMessage.ChatId = this.chatId; 
+    var formData = new FormData();
+    formData.append("ChatId", (this.chatId).toString());
+    formData.append("ReceiverId", "0");
+    formData.append("Text", this.outgoingMessage.Text);
     this.UploadFiles.forEach(file => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      this.outgoingMessage.ChatId = this.chatId; 
-      var formData = new FormData();
-      formData.append("ChatId", (this.chatId).toString());
-      formData.append("ReceiverId", "0");
-      formData.append("Text", this.outgoingMessage.Text);
-      this.UploadFiles.forEach(file => {
-        formData.append("UploadFiles", file);
-      });
-  
-     
-      this.chatService.sendMessage(formData).subscribe(
-        res => { 
-        },
-        err => {
-          console.log(err);
-          this.toastr.error(err.error, 'Error');
-        }
-      );
-      this.outgoingMessage.Text = '';
+      formData.append("UploadFiles", file);
+    });
+
+    
+    this.chatService.sendMessage(formData).subscribe(
+      res => { 
+      },
+      err => {
+        console.log(err);
+        this.toastr.error(err.error, 'Error');
+      }
+    );
+    this.outgoingMessage.Text = '';
 
     //   this.albumService.createAlbumPhoto(file, this.albumId).subscribe(
     //   (res: any) => {
@@ -148,8 +146,7 @@ export class ChatDetailComponent implements OnChanges {
     //     console.log(err);
     //     this.toastr.error('New photo created error!', 'Creating error.');
     //   }
-    // );
-    });
+    // ); 
   }
 
   onFilesRejected(files: File[]) {
