@@ -1,8 +1,11 @@
-﻿using App.BLL.Interfaces;
+﻿using App.BLL.Chat;
+using App.BLL.Infrastructure;
+using App.BLL.Interfaces;
 using App.BLL.ViewModels;
 using App.DAL.Interfaces;
 using App.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +19,12 @@ namespace App.BLL.Services
         private IUnitOfWork _db { get; set; }
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFileService _fileService;
+        private readonly IHubContext<ChatHub> _hub;
 
         public ChatService(IUnitOfWork uow,
             UserManager<ApplicationUser> userManager,
-            IFileService fileService)
+            IFileService fileService, 
+            IHubContext<ChatHub> hub)
         {
             _db = uow;
             _userManager = userManager;
@@ -32,6 +37,40 @@ namespace App.BLL.Services
             {
                 var chat = await _db.Chats.GetByIdAsync(chat_id);
                 return chat;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task SendSignalRService(ChatMessageSendVM message, string me_id)
+        {
+            try
+            {
+                Connect receiver = null;
+                var caller = ChatHub.connects.Find(m => m.UserId == me_id);
+                ChatMessage db_message = new ChatMessage();                
+
+                if (message.ReceiverId != "0" && message.ChatId == 0)
+                {                    
+                    var isChatExist = IsChatExist(me_id, message.ReceiverId);
+                    message.ChatId = !isChatExist ? (await CreateChatAsync(me_id, message.ReceiverId)).Id
+                                                  : GetChatIdByUsersAsync(me_id, message.ReceiverId); 
+                    db_message = await SendMessageAsync(message, me_id); 
+                }
+                else if (message.ReceiverId == "0" && message.ChatId != 0)
+                { 
+                    db_message = await SendMessageAsync(message, me_id);  
+                    message.ReceiverId = await GetChatReceiverIdAsync(message.ChatId, me_id); 
+                }
+                receiver = ChatHub.connects.Find(m => m.UserId == message.ReceiverId);
+                db_message = await _db.ChatMessages.GetByIdAsync(db_message.Id);
+                await _hub.Clients.Client(caller.ConnectionId).SendAsync("SendMyself", new ChatMessageVM(db_message)); 
+                if (receiver != null)
+                {
+                    await _hub.Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message));
+                }
+
             }
             catch (Exception ex)
             {
@@ -101,7 +140,7 @@ namespace App.BLL.Services
             }
         }
 
-        public async Task<List<ChatTabVM>> GetChatListByUserIdAsync(string user_id)
+        public List<ChatTabVM> GetChatListByUserId(string user_id)
         {
             try
             {
@@ -114,7 +153,6 @@ namespace App.BLL.Services
                 foreach (var chat in db_chats)
                 {
                     chat_list.Add(new ChatTabVM(chat, user_id));
-                    await ReadAllNewMessages(chat.Messages.Where(m=>m.UserSenderId!=user_id).ToList());
                 }
                 return chat_list;
             }
@@ -143,6 +181,7 @@ namespace App.BLL.Services
                 {
                     message_list.Add(new ChatMessageVM(msg));
                 }
+                await ReadAllNewMessages(db_chat.Messages.Where(m => m.UserSenderId != user_id).ToList());
                 return message_list;
             }
             catch (Exception ex)
@@ -173,21 +212,19 @@ namespace App.BLL.Services
         {
             try
             {
-                 var new_message = await _db.ChatMessages.CreateAsync(new ChatMessage
-                 {
-                     ChatId = message.ChatId,
-                     DateSend = DateTime.Now,
-                     UserSenderId = me_id,
-                     IsNew = true,
-                     Text = message.Text 
-                 });
-                //if (message.UploadFiles != null)
-                //{
-                //    foreach (var file in message.UploadFiles)
-                //    {
-                //        await _fileService.CreatePhotoForMessageAsync(file, new_message);
-                //    }
-                //}
+                var new_message = await _db.ChatMessages.CreateAsync(new ChatMessage
+                {
+                    ChatId = message.ChatId,
+                    DateSend = DateTime.Now,
+                    UserSenderId = me_id,
+                    IsNew = true,
+                    Text = message.Text 
+                }); 
+                foreach (var UploadPhoto in message.UploadFiles)
+                {
+                    _fileService.IsValidFile(UploadPhoto, 2);
+                    await _fileService.CreatePhotoForMessageAsync(UploadPhoto, new_message);
+                } 
                 return new_message;
             }
             catch (Exception ex)

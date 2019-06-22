@@ -79,6 +79,7 @@ export class IncomingFriendsComponent implements OnInit {
         this.toastr.error(err.error, 'Error');
       }
     );
+    //this.userList.indexOf()
     this.resetUserList();
   }
 

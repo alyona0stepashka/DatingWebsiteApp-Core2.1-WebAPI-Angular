@@ -36,7 +36,7 @@ namespace App.BLL.Services
                 var buffer_int = new List<int>();
                 var now_year = DateTime.Now.Year;
                 var ret_list = new List<UserTabVM>();
-                var user_list = _userManager.Users./*AsNoTracking().*/Where(m => (m.IsAnonimus == false) && (m.Id != my_id));
+                var user_list = _userManager.Users./*AsNoTracking().*/Where(m => m.IsAnonimus == false && m.Id != my_id && m.DateBirth>new DateTime(1900,1,1));
 
                 if (search.AgeFrom != null)
                 {
@@ -48,7 +48,7 @@ namespace App.BLL.Services
                     user_list = user_list.Where(m => (now_year - m.DateBirth.Year <= search.AgeTo));
                 } 
 
-                if (search.Education != null)
+                if (search.Education != null && search.Education.Count>0)
                 {
                     foreach (var item in search.Education)
                     {
@@ -60,7 +60,7 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.FamilyStatus != null)
+                if (search.FamilyStatus != null && search.FamilyStatus.Count > 0)
                 {
                     foreach (var item in search.FamilyStatus)
                     {
@@ -73,7 +73,7 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.FinanceStatus != null)
+                if (search.FinanceStatus != null && search.FinanceStatus.Count > 0)
                 {
                     foreach (var item in search.FinanceStatus)
                     {
@@ -85,7 +85,7 @@ namespace App.BLL.Services
                     }
                 } 
 
-                if (search.MainGoal != null)
+                if (search.MainGoal != null && search.MainGoal.Count > 0)
                 {
                     foreach (var item in search.MainGoal)
                     {
@@ -97,7 +97,7 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.Nationality != null)
+                if (search.Nationality != null && search.Nationality.Count > 0)
                 {
                     foreach (var item in search.Nationality)
                     {
@@ -109,7 +109,7 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.Zodiac != null)
+                if (search.Zodiac != null && search.Zodiac.Count > 0)
                 {
                     foreach (var item in search.Zodiac)
                     {
@@ -121,7 +121,7 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.Sex != null)
+                if (search.Sex != null && search.Sex.Count > 0)
                 {
                     foreach (var item in search.Sex)
                     {
@@ -133,7 +133,7 @@ namespace App.BLL.Services
                     }
                 }
 
-                if (search.Interest != null)
+                if (search.Interest != null && search.Interest.Count > 0)
                 {
                     user_list = user_list.Where(user =>
                         user.Type.Interests
@@ -142,7 +142,7 @@ namespace App.BLL.Services
                             .Any());
                 }
 
-                if (search.BadHabit != null)
+                if (search.BadHabit != null && search.BadHabit.Count > 0)
                 {
                     user_list = user_list.Where(user =>
                         user.Type.BadHabits
@@ -151,7 +151,7 @@ namespace App.BLL.Services
                             .Any());
                 }
 
-                if (search.Language != null)
+                if (search.Language != null && search.Language.Count > 0)
                 {
                     user_list = user_list.Where(user =>
                         user.Type.Languages

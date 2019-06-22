@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
+using App.BLL.Chat;
 using App.BLL.Interfaces;
 using App.BLL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace App.WebAPI.Controllers
 {
@@ -15,10 +17,12 @@ namespace App.WebAPI.Controllers
     public class FriendsController : ControllerBase
     {
         private readonly IFriendService _friendService;
+        private readonly IHubContext<ChatHub> _hub;
 
-        public FriendsController(IFriendService friendService)
+        public FriendsController(IFriendService friendService, IHubContext<ChatHub> hub)
         {
             _friendService = friendService;
+            _hub = hub;
         }
 
         [HttpGet]
@@ -90,15 +94,20 @@ namespace App.WebAPI.Controllers
         {
             try
             {
-                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-                if (user_id == id)
+                var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+                if (me_id == id)
                 {
-                    return BadRequest(new { message = "You cannot (user_id == friend_id)." });
+                    return BadRequest(new { message = "You cannot (me_id == friend_id)." });
                 }
-                var new_friend = await _friendService.CreateFriendRequestAsync(user_id, id);
+                var new_friend = await _friendService.CreateFriendRequestAsync(me_id, id);
                 if (new_friend == null)
                 {
                     return NotFound(new { message = "User not found by id (or user_in_friend_list already exist)." });
+                }
+                var connect = ChatHub.connects.Find(m => m.UserId == new_friend.Id);
+                if (connect != null)
+                {
+                    await _hub.Clients.Client(connect.ConnectionId).SendAsync("SendFriendRequest", new_friend.Name + ", " + new_friend.Age);
                 }
                 return Ok(new_friend);
             }

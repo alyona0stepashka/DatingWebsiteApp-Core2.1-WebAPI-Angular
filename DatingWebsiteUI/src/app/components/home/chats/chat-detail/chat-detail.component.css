@@ -1,7 +1,7 @@
 
 .container {
   display: grid;
-  grid-template-columns: repeat(1, 500px);
+  grid-template-columns: repeat(4, 120px);
   grid-row-gap: 30px;
   grid-column-gap: 10px;
   width: 90%;
@@ -30,4 +30,8 @@
   border-radius:50%;
   width: 70px;
   height: 70px;
+}
+
+td{
+  vertical-align: top;
 }

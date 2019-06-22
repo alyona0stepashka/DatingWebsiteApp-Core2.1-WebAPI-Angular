@@ -42,16 +42,18 @@ export class ChatDetailComponent implements OnChanges {
               public signalRService: SignalRService,
               public datepipe: DatePipe,
               private router: Router
-              ) { }
+              ) 
+  {
+    //this.signalRService.startConnection();
+    this.addSendListener();
+    this.addSendMyselfListener(); 
+  }
 
   // async ngOnInit() {
   //   this.resetList();
   // }
 
   ngOnChanges() {
-    this.signalRService.startConnection();
-    this.addSendListener();
-    this.addSendMyselfListener();
     this.resetList();
   }
 
@@ -59,22 +61,8 @@ export class ChatDetailComponent implements OnChanges {
     this.chatService.getChatById(this.chatId).subscribe(
         res => {
           this.messages = res as MessageTab[];
-          this.message_images = new Array();
-          this.messages.forEach(element => {
-            if (element.FilePathes.length > 0) {
-              element.FilePathes.forEach(file => {
-                const src = this.baseURL + file;
-                const caption = '';
-                const thumb = '';
-                const img = { 
-                  src,
-                  caption,
-                  thumb
-                };
-                this.message_images.push(img);
-              });
-            }
-          });
+          this.messages.sort(m => m.DateSend);
+          this.messages.reverse();
         },
         err => {
           console.log(err);
@@ -86,7 +74,7 @@ export class ChatDetailComponent implements OnChanges {
   public addSendListener() {
     this.signalRService.hubConnection.on('Send', (data) => {
       this.signalRService.incomingMessage = data as MessageTab;
-      this.messages.push(this.signalRService.incomingMessage);
+      this.messages.unshift(this.signalRService.incomingMessage);
       this.signalRService.soundNotify.play();
       console.log(data);
     });
@@ -94,7 +82,7 @@ export class ChatDetailComponent implements OnChanges {
   public addSendMyselfListener() {
     this.signalRService.hubConnection.on('SendMyself', (data) => {
       this.signalRService.incomingMessage = data as MessageTab;
-      this.messages.push(this.signalRService.incomingMessage);
+      this.messages.unshift(this.signalRService.incomingMessage);
       console.log(data);
     });
   }
@@ -104,7 +92,19 @@ export class ChatDetailComponent implements OnChanges {
   }
   
   open(index: number): void { 
-    this.lbLightbox.open(this.message_images, index);
+    this.message_images = new Array(); 
+    this.OpenFiles.forEach(file => {
+      const src = this.baseURL + file;
+      const caption = '';
+      const thumb = '';
+      const img = { 
+        src,
+        caption,
+        thumb
+      };
+      this.message_images.push(img);
+    }); 
+    this.lbLightbox.open(this.message_images, index); 
   }
 
   close(): void { 
@@ -119,9 +119,24 @@ export class ChatDetailComponent implements OnChanges {
     this.UploadFiles.forEach(file => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      this.outgoingMessage.ChatId = this.chatId;
-      debugger;
-      this.signalRService.sendMessage(this.outgoingMessage);
+      this.outgoingMessage.ChatId = this.chatId; 
+      var formData = new FormData();
+      formData.append("ChatId", (this.chatId).toString());
+      formData.append("ReceiverId", "0");
+      formData.append("Text", this.outgoingMessage.Text);
+      this.UploadFiles.forEach(file => {
+        formData.append("UploadFiles", file);
+      });
+  
+     
+      this.chatService.sendMessage(formData).subscribe(
+        res => { 
+        },
+        err => {
+          console.log(err);
+          this.toastr.error(err.error, 'Error');
+        }
+      );
       this.outgoingMessage.Text = '';
 
     //   this.albumService.createAlbumPhoto(file, this.albumId).subscribe(

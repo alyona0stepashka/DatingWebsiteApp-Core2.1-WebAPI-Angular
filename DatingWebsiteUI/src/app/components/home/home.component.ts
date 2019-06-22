@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.signalRService.startConnection();
     this.addSendListener();
-    // this.signalRService.soundNotify.play();
+    this.addSendFriendRequestListener();
   }
 
   onLogout() {
@@ -28,8 +28,18 @@ export class HomeComponent implements OnInit {
 
   public addSendListener() {
     this.signalRService.hubConnection.on('Send', (data) => {
+      debugger;
       const mess = data as MessageTab;
       this.toastrService.info(mess.SenderName + ': ' + mess.Text, 'New Message');
+      this.signalRService.soundNotify.load();
+      this.signalRService.soundNotify.play();
+      console.log(data);
+    });
+  }
+  public addSendFriendRequestListener() {
+    this.signalRService.hubConnection.on('SendFriendRequest', (data) => {
+      console.log("friend-reqiest: "+ data);
+      this.toastrService.info(data, 'New Friend Request');
       this.signalRService.soundNotify.load();
       this.signalRService.soundNotify.play();
       console.log(data);

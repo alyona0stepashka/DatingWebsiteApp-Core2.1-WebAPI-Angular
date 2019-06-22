@@ -9,6 +9,7 @@ import { Lightbox } from 'ngx-lightbox';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { MessageSend } from 'src/app/models/message-send.model';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-profile',
@@ -33,11 +34,12 @@ export class ProfileComponent implements OnInit {
               private activateRoute: ActivatedRoute,
               private router: Router,
               private _lightbox: Lightbox,
+              private chatService: ChatService,
               public signalRService: SignalRService) { }
 
   async ngOnInit() { 
     await this.activateRoute.params.subscribe(params => this.userId = params.id);
-    this.signalRService.startConnection(); 
+    //this.signalRService.startConnection();
     if (this.userId == 0) {
       this.service.getMyProfile().subscribe(
         res => {
@@ -162,14 +164,29 @@ export class ProfileComponent implements OnInit {
   }
 
   onSendMessage() {
+    // this.UploadFiles.forEach(file => {
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(file);
+    // });
+    //this.outgoingMessage.UploadFiles = this.UploadFiles; 
+    // this.outgoingMessage.ReceiverId = this.userId; 
+    var formData = new FormData();
+    formData.append("ChatId", "0");
+    formData.append("ReceiverId", (this.userId).toString());
+    formData.append("Text", this.outgoingMessage.Text);
     this.UploadFiles.forEach(file => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
+      formData.append("UploadFiles", file);
     });
 
-      this.outgoingMessage.ReceiverId = this.userId;
-      this.signalRService.sendMessageFromProfile(this.outgoingMessage);
-      this.outgoingMessage.Text = '';
+    this.chatService.sendMessage(formData).subscribe(
+      res => { 
+      },
+      err => {
+        console.log(err);
+        this.toastr.error(err.error, 'Error');
+      }
+    );
+    this.outgoingMessage.Text = '';
   }
 
   onFilesRejected(files: File[]) {

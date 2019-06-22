@@ -20,6 +20,8 @@ export class UserProfile {
     Age: number = null;
     Growth: number = null;
     Weight: number = null;
+    Views: number = null;
+    ReplyRate: number = null;
     Languages: StaticBase[] = new Array();
     BadHabits: StaticBase[] = new Array();
     Interests: StaticBase[] = new Array();

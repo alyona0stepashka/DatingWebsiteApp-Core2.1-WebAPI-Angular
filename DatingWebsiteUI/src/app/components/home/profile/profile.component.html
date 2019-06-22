@@ -1,6 +1,10 @@
 <div *ngIf="IsLoad">
-  <div style="position: inherit">
+  <div style="position: inherit" class="row">
       <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" style="max-width: 350px; max-height: 350px;" class="pre-image">
+      <div style="color:#ffff; margin-left:-5%;height: 50%; background-color: #2e3137;"><br/>
+        <label>&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;</label>{{userProfile.Views}}&nbsp;&nbsp;<br/>
+        <label>&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;</label>{{userProfile.ReplyRate}}&nbsp;&nbsp;
+      </div>
   </div>
   <div class="jumbotron" style="height: auto;">
     <div class="container"> 
@@ -51,8 +55,8 @@
           <div class="w3-center"><br>
             <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
             <div class="row" style="width: 100%; margin-top: 4%; margin-left: 1%">      
-              <ngx-dropzone style="max-height: 50px;" class="col-10" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
-              <button class="col-2" (click)="dropzone.reset()">ResetFiles</button> 
+              <ngx-dropzone style="max-height: 50px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
+              <button class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
             </div>
             <div class="row" style="width: 100%; margin-left: 1%">
                 <textarea class="col-10" rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>

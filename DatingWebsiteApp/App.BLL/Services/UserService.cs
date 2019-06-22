@@ -42,6 +42,23 @@ namespace App.BLL.Services
                 throw ex;
             }
         }
+        public async Task AddProfileVisitAsync(string user_id, string my_id)
+        {
+            try
+            {
+                var my_last_visit = _db.ProfileVisitors.GetWhere(m => m.OwnerProfileId == user_id && m.VisitorId == my_id &&
+                                                                      m.LastVisit.Month == DateTime.Now.Month &&
+                                                                      m.LastVisit.Year == DateTime.Now.Year).FirstOrDefault();
+                if (my_last_visit == null)
+                {
+                    await _db.ProfileVisitors.CreateAsync(new ProfileVisitor { LastVisit = DateTime.Now, VisitorId = my_id, OwnerProfileId = user_id }); 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public async Task<ApplicationUser> GetDbUserAsync(string user_id)
         {

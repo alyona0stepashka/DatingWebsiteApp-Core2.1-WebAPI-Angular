@@ -86,22 +86,31 @@ export class AlbumDetailComponent implements OnChanges {
     this.UploadFiles = files;
   }
 
+  onClearPhoto() {
+    this.UploadFiles = new Array();
+  }
+
   onUploadFiles() {
+    let isSuccess = false;
     this.UploadFiles.forEach(file => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
       this.albumService.createAlbumPhoto(file, this.albumId).subscribe(
       (res: any) => {
-          this.toastr.success('New photo created!', 'Creating successful.');
           this.resetList();
       },
       err => {
         console.log(err);
-        this.toastr.error(err.error, 'Error');
+        isSuccess = false;
       }
     );
     });
+    if (isSuccess) {
+      this.toastr.success('New photo added!', 'Process successful.');
+    } else {
+      this.toastr.error('Some of files not added', 'Process error');
+    }
   }
 
   onFilesRejected(files: File[]) {

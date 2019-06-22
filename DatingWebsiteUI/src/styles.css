@@ -68,9 +68,11 @@ table{
 }
 
 body{
-    background-color: #3568dc7d;;
+    background-color: #3568dc7d;
+    background-image: url(https://i.ytimg.com/vi/ikVXM-gwb4o/maxresdefault.jpg);
+    background-size: cover;
 }
-
+/* https://cdn.pixabay.com/photo/2016/11/29/06/20/blonde-1867768_1280.jpg */
 input.form-control,input.form-control:focus{
     background-color: #636b7b;
     color: #fff;
@@ -173,3 +175,6 @@ div.form-group.required>label:first-child:after{
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+label{word-wrap: break-word;}
+span{word-wrap: break-word;}
+div{word-wrap: break-word;}

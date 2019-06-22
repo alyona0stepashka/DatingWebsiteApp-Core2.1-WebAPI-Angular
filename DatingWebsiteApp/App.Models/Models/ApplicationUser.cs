@@ -40,6 +40,10 @@ namespace App.Models
 
         public virtual MainGoal MainGoal { get; set; }
 
+        public virtual List<ProfileVisitor> ProfileOwner { get; set; }
+
+        public virtual List<ProfileVisitor> ProfileVisitor { get; set; }
+
         public virtual List<Friendship> FriendshipsFrom { get; set; }
 
         public virtual List<Friendship> FriendshipsTo { get; set; } 

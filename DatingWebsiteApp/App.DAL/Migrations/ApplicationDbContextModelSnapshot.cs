@@ -314,20 +314,16 @@ namespace App.DAL.Migrations
 
             modelBuilder.Entity("App.Models.LanguageUser", b =>
                 {
-                    b.Property<int>("LanguageId")
-                        .HasColumnName("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonalTypeId")
-                        .HasColumnName("PersonalTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.HasKey("LanguageId", "PersonalTypeId");
+                    b.Property<int>("LanguageId");
 
-                    b.HasAlternateKey("Id");
+                    b.Property<int>("PersonalTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("PersonalTypeId");
 
@@ -408,6 +404,26 @@ namespace App.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PhotoAlbums");
+                });
+
+            modelBuilder.Entity("App.Models.ProfileVisitor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("LastVisit");
+
+                    b.Property<string>("OwnerProfileId");
+
+                    b.Property<string>("VisitorId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OwnerProfileId");
+
+                    b.HasIndex("VisitorId");
+
+                    b.ToTable("ProfileVisitors");
                 });
 
             modelBuilder.Entity("App.Models.Sex", b =>
@@ -650,7 +666,7 @@ namespace App.DAL.Migrations
             modelBuilder.Entity("App.Models.LanguageUser", b =>
                 {
                     b.HasOne("App.Models.Language", "Language")
-                        .WithMany("Languages")
+                        .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -688,6 +704,17 @@ namespace App.DAL.Migrations
                     b.HasOne("App.Models.ApplicationUser", "User")
                         .WithMany("PhotoAlbums")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("App.Models.ProfileVisitor", b =>
+                {
+                    b.HasOne("App.Models.ApplicationUser", "OwnerProfile")
+                        .WithMany("ProfileOwner")
+                        .HasForeignKey("OwnerProfileId");
+
+                    b.HasOne("App.Models.ApplicationUser", "Visitor")
+                        .WithMany("ProfileVisitor")
+                        .HasForeignKey("VisitorId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

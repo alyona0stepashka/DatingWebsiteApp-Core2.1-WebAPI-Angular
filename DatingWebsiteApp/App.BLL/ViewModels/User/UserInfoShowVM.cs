@@ -48,9 +48,11 @@ namespace App.BLL.ViewModels
         public List<StaticBaseVM> Interests { get; set; }
 
         public double Growth { get; set; }
-        public int Age { get; set; }
-
         public double Weight { get; set; }
+        public int Age { get; set; }
+        public int Views { get; set; }
+        public double ReplyRate { get; set; }
+
 
         public UserInfoShowVM()
         {
@@ -167,8 +169,20 @@ namespace App.BLL.ViewModels
                         {
                             IsFriend = true;
                         } 
-                    } 
-                } 
+                    }
+                }
+                if (user.ProfileOwner != null)
+                {
+                    Views = user.ProfileOwner.Where(m=> m.LastVisit.Month == DateTime.Now.Month && m.LastVisit.Year == DateTime.Now.Year).Count();
+                }
+                if (user.ChatMessages != null)
+                {
+                    var all = user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
+                    var answered = user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m=>m.ChatId).Distinct().Count();
+                    ReplyRate = all!=0 ? (double)(answered / all)
+                                       : 0;
+                }
+
             }
         }
     }

@@ -10,7 +10,7 @@ namespace App.BLL.Interfaces
     public interface IChatService
     {
         Task<ChatRoom> GetDbChatAsync(int chat_id);
-        Task<List<ChatTabVM>> GetChatListByUserIdAsync(string user_id);
+        List<ChatTabVM> GetChatListByUserId(string user_id);
         Task<List<ChatMessageVM>> GetChatByIdAsync(int chat_id, string user_id);
         Task<ChatMessage> SendMessageAsync(ChatMessageSendVM message, string me_id);
         Task ClearChatHistoryAsync(int chat_id, string me_id);
@@ -19,5 +19,6 @@ namespace App.BLL.Interfaces
         Task<string> GetChatReceiverIdAsync(int chat_id, string me_id);
         int GetChatIdByUsersAsync(string me_id, string friend_id);
         Task ReadAllNewMessages(List<ChatMessage> messages);
+        Task SendSignalRService(ChatMessageSendVM message, string me_id);
     }
 }

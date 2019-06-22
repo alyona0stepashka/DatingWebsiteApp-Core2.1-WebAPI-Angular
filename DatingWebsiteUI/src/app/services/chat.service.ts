@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ChatService {
+export class ChatService { 
 
   constructor(private http: HttpClient) { }
   readonly BaseURI = 'https://localhost:44394/api';
@@ -19,5 +19,8 @@ export class ChatService {
 
   clearChatHistory(id: number) {
     return this.http.get(this.BaseURI + '/chats/clear/' + id.toString());
+  }
+  sendMessage(formData: FormData) {
+    return this.http.post(this.BaseURI + '/chats', formData);
   }
 }

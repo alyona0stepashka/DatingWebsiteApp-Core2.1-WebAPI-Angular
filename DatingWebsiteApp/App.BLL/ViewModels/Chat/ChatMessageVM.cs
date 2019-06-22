@@ -34,6 +34,8 @@ namespace App.BLL.ViewModels
             SenderId = message.UserSenderId;
             SenderName = message.UserSender.Name;
             Text = message.Text;
+            //Text = message.Text.Replace("\n", "<br/>");
+            //Text = message.Text.Replace("\n", "&#10;");
             FilePathes = new List<string>();
             if (message.Files != null)
             {

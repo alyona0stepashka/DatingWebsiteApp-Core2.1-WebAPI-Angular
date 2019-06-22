@@ -48,10 +48,9 @@ namespace App.BLL.ViewModels
             var last = chat.Messages.LastOrDefault();
             LastSenderAvatarPath = last.UserSender.File.Path;
             LastMessage = (last.Text.Length > 15) ? last.Text.Substring(0, 15) + " ..."
-                                                  : last.Text; 
-            LastMessage = last.Text;
-            LastMessageDateTime = last.DateSend;
-            HasNew = chat.Messages.Where(m => m.IsNew == true).Any();
+                                                  : last.Text;  
+
+            LastMessageDateTime = last.DateSend; 
         }
     }
 }

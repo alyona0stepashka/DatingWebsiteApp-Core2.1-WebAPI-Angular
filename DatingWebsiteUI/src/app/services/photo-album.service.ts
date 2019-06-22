@@ -23,7 +23,7 @@ deleteAlbumPhoto(id: number) {
 }
 
 createAlbumPhoto(fileToUpload: File, album_id: number) {
-  const formData: FormData = new FormData();
+  const formData: FormData = new FormData(); 
   formData.append('Image', fileToUpload); 
   return this.http.post(this.BaseURI +  '/albums/photo/' + album_id.toString(), formData);
 }

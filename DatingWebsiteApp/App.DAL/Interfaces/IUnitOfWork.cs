@@ -7,6 +7,7 @@ namespace App.DAL.Interfaces
     public interface IUnitOfWork : IDisposable
     { 
         IRepository<BlackList> BlackLists { get; }
+        IStaticRepository<ProfileVisitor> ProfileVisitors { get; }
         IRepository<ChatRoom> Chats { get; }
         IRepository<ChatMessage> ChatMessages { get;}
         IRepository<FileModel> FileModels { get; }

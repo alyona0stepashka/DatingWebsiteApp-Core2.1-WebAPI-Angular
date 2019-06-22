@@ -57,8 +57,9 @@ namespace App.WebAPI.Controllers
         {
             try
             {
-                var user_id = User.Claims.First(c => c.Type == "UserID").Value;
-                var user = await _userService.GetVMUserAsync(id, user_id);
+                var me_id = User.Claims.First(c => c.Type == "UserID").Value;
+                var user = await _userService.GetVMUserAsync(id, me_id);
+                await _userService.AddProfileVisitAsync(id, me_id);
                 if (user == null)
                 {
                     throw new Exception("UserNotFound.");

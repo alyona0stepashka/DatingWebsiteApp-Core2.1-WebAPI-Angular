@@ -14,7 +14,7 @@ namespace App.WebAPI.Controllers
     [Route("api/albums")]
     [ApiController]
     public class PhotoAlbumController : ControllerBase
-    { 
+    {
         private readonly IAlbumService _albumService;
         private readonly IFileService _fileService;
 
@@ -109,7 +109,39 @@ namespace App.WebAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        } 
+        }
+
+        //[HttpPost]
+        //[Route("test")]
+        ////[Authorize]
+        //public async Task<IActionResult> AddPhoto(IFormCollection formdata)
+        //{
+        //    int id = 3;
+        //    var names = formdata["name"];
+        //    var file = formdata.Files;
+        //    try
+        //    {
+        //        var UploadPhoto = HttpContext.Request.Form.Files[0];
+
+        //        if (UploadPhoto == null)
+        //        {
+        //            throw new Exception("Null File");
+        //        }
+
+        //        _fileService.IsValidFile(UploadPhoto, 5);
+
+        //        var album = await _albumService.AddPhotoAsync(new AlbumAddPhotoVM { Id = id, UploadPhoto = UploadPhoto });
+        //        if (album == null)
+        //        {
+        //            throw new Exception("Album not found by id (or error on create photo).");
+        //        }
+        //        return Ok(album);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         [HttpDelete("{id}")]
         [Authorize]
@@ -136,7 +168,7 @@ namespace App.WebAPI.Controllers
         {
             try
             {
-                await _albumService.DeletePhotoAsync(id); 
+                await _albumService.DeletePhotoAsync(id);
                 return Ok();
             }
             catch (Exception ex)
