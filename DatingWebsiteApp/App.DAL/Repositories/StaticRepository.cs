@@ -41,6 +41,17 @@ namespace App.DAL.Repositories
             await _db.SaveChangesAsync();
             return entity;
         }
+        public IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _db.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query;
+        } 
 
         //public async Task<TEntity> UpdateAsync(TEntity entity)
         //{

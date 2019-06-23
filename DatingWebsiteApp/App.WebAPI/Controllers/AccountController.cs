@@ -93,13 +93,14 @@ namespace App.WebAPI.Controllers
                 }  
                 var user_id = User.Claims.First(c => c.Type == "UserID").Value;
                 editUser.Id = user_id;
-
-                var user = await _accountService.EditAccountInfo(editUser);
-                if (user == null)
-                {
-                    throw new Exception("User not found");
-                }
-                return Ok(user);
+                await _accountService.EditAccountInfo(editUser);
+                //var user = await _accountService.EditAccountInfo(editUser);
+                //if (user == null)
+                //{
+                //    throw new Exception("User not found");
+                //}
+                //return Ok(user);
+                return Ok();
             }
             catch (Exception ex)
             {

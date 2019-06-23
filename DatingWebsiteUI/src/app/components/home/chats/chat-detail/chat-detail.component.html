@@ -1,4 +1,6 @@
-<br/>
+
+        <span *ngIf="isOnline" style="float:right; font-size: 80%; color:darkgrey; margin-right: 3%;">last seen {{this.datepipe.transform(isOnline, 'MMMM d, h:mm a')}}</span>
+        <span *ngIf="isOnline == null" style="float:right; font-size: 80%; color:darkgrey; margin-right: 3%;">online</span><br/>
 <div id="table_scroll" style="max-height: 500px; overflow: auto; margin-right: -2%;"> 
     <table *ngIf="messages.length>0" style="margin: 2%; width: 96%; background-color: slategrey; border-bottom-style: solid"> 
         <tr *ngFor="let mess of messages"> 
@@ -7,9 +9,12 @@
                 <img *ngIf="!mess.SenderAvatarPath" (click)="goToProfile(mess.SenderId)" class="avatar-chat" style="margin: 1%;" src="/assets/img/no-image.png"/>
             </td>
             <td style="border-bottom: solid ">
+                <!-- <div *ngIf="user.IsOnline" style="border-radius:50%; width: 10px; height: 10px; background-color: lawngreen; margin:2%;"></div>
+                <div *ngIf="!user.IsOnline" style="border-radius:50%; width: 10px; height: 10px; background-color:tomato; margin:2%;"></div> -->
                 <label style="display: flex;">{{mess.SenderName}}&nbsp;&nbsp;<b style="font-size: 65%">{{this.datepipe.transform(mess.DateSend, 'MMMM d, h:mm a')}}</b></label><br/>
                 <div class="row" style="margin-top: -3%; max-width: 108%; margin-left: 0%;"> 
-                    <span style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</span> 
+                    <span *ngIf="!mess.IsNew" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</span> 
+                    <span *ngIf="mess.IsNew" onload="changeElement(new_mes)" id="new_mes" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</span> 
                 </div>
                 <button *ngIf="mess.FilePathes.length>0" (click)="OpenFiles=mess.FilePathes" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-paperclip"></i>Show attachment</button><br/>
             </td>        
@@ -19,16 +24,19 @@
 <div *ngIf="messages.length<1" > 
     <label class="text-center">No Message Yet</label>
 </div><br/>
-<div class="row" style="width: 100%; margin-left: 1%">
-    <textarea rows="12" placeholder="Enter message ..." cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none; height: 90px; width: 90%;"></textarea>
+<div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%">
+    <textarea rows="12" placeholder="Enter message ..." cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none; height: 90px; width: 91%;"></textarea>
     <button class="col-1" id="btn_send" (click)="onSendMessage()" onclick="document.getElementById('table_scroll').scrollTop = elem.scrollHeight"><i class="fas fa-envelope"></i></button> 
 </div>
-<div class="row" style="width: 100%; margin-left: 1%"> 
+<div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%"> 
     <!-- <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  -->
     <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
-    <ngx-dropzone style="max-width: 100%; max-height: 57px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
+    <ngx-dropzone style="max-width: 91%; max-height: 57px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
     <button class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
-</div><br/>
+</div>
+<div *ngIf="isBlock" style="margin-left: 2%;">
+    <label><i class="fas fa-user-lock"></i>You are in blackList</label> 
+</div>
 <div id="id01" class="w3-modal">
         <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:650px"> 
           <div class="w3-center"><br>
@@ -43,8 +51,12 @@
         </div>
     </div>
 </div> 
-<script>
-document.getElementById("btn_send").onclick = function () {
-    console.log("btn_click000");
+ <script>
+ function changeElement(id) {
+  var el = document.getElementById(id); 
+  var bgcol = el.css( "background-color" );
+  el.animate( { "background-color": "#84848421" } )
+       .delay( 3000 )
+       .animate( { "background-color": oldColor } ); 
 }
-    </script>
+</script> 

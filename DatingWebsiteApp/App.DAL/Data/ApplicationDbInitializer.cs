@@ -222,6 +222,7 @@ namespace App.DAL.Data
                     DateBirth = new DateTime(1999, 5, 4),
                     IsAnonimus = false,
                     MainGoalId = main_id,
+                    DateLastOnline = DateTime.Now,
                     Type = new PersonalType
                     {
                         Growth = 1.67,
@@ -244,6 +245,7 @@ namespace App.DAL.Data
                     DateBirth = new DateTime(1994, 10, 4),
                     IsAnonimus = false,
                     MainGoalId = main_id,
+                    DateLastOnline = DateTime.Now,
                     Type = new PersonalType
                     {
                         Growth = 1.79,

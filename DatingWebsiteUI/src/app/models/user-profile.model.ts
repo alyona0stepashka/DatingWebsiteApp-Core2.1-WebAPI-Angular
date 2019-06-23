@@ -5,6 +5,7 @@ export class UserProfile {
     Name = '';
     Email = '';
     IsAnonimus: boolean = null;
+    IsOnline: any = null;
     IsFriend: boolean = null;
     IsBlack: boolean = null;
     IsIBlack: boolean = null;

@@ -1,4 +1,6 @@
-﻿using App.BLL.ViewModels;
+﻿using App.BLL.Chat;
+using App.BLL.Infrastructure;
+using App.BLL.ViewModels;
 using App.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,8 @@ namespace App.BLL.ViewModels
         public string Email { get; set; }
 
         public bool IsAnonimus { get; set; }
+
+        public DateTime? IsOnline { get; set; }
 
         public bool? IsFriend { get; set; }
 
@@ -65,6 +69,8 @@ namespace App.BLL.ViewModels
             Name = user.Name;
             Email = user.Email;
             IsAnonimus = user.IsAnonimus;
+            IsOnline = ChatHub.connects.Any(m => m.UserId == user.Id) ? (DateTime?)null
+                                                                      : user.DateLastOnline;
             Age = DateTime.Now.Year - user.DateBirth.Year;
             if (user.File != null)
             {
@@ -179,8 +185,8 @@ namespace App.BLL.ViewModels
                 {
                     var all = user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
                     var answered = user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m=>m.ChatId).Distinct().Count();
-                    var r = (double)(answered / all);
-                    var r2 = 2 / 4;
+                    //var r = (double)(answered / all);
+                    //var r2 = 2 / 4;
                     ReplyRate = all!=0 ? (double)(answered / all)
                                        : 0;
                 }

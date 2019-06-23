@@ -1,4 +1,4 @@
-<div class="jumbotron" style="height: 90%; padding-top: 5%">
+<div class="jumbotron" style="height: 90%; padding-top: 1%">
     <h2>You have {{userList?.length}} blocker(s)</h2>
     <div style="margin-top: 1%" class="container">
       <div *ngFor="let user of userList" class="item"> 
@@ -11,7 +11,11 @@
             </div>
           </div> 
           <div class="col-sm-6" (click)="goToProfile(user.Id)">
-            <h1>{{user.Name}}, {{user.Age}}</h1><br />
+              <div class="row">
+                <div *ngIf="user.IsOnline" style="border-radius:50%; width: 10px; height: 10px; background-color: lawngreen; margin:3%;"></div>
+                <div *ngIf="!user.IsOnline" style="border-radius:50%; width: 10px; height: 10px; background-color:darkgrey; margin:3%;"></div>
+                <h1>{{user.Name}}, {{user.Age}}</h1> 
+              </div>   
             <div style="margin-left: 10px"><i class="fas fa-venus-mars"></i>{{user.Sex}}</div> 
           </div>
         </div> 

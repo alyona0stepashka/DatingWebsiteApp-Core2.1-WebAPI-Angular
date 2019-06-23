@@ -20,6 +20,8 @@ import { Router } from '@angular/router';
 })
 export class ChatDetailComponent implements OnChanges {
   @Input() chatId: number;
+  @Input() isOnline: any = null;
+  @Input() isBlock: boolean;
 
   messages: MessageTab[] = new Array();
   outgoingMessage = new MessageSend();
@@ -115,8 +117,7 @@ export class ChatDetailComponent implements OnChanges {
     this.UploadFiles = files;
   }
 
-  onSendMessage() { 
-    debugger;
+  onSendMessage() {  
     this.outgoingMessage.ChatId = this.chatId; 
     var formData = new FormData();
     formData.append("ChatId", (this.chatId).toString());

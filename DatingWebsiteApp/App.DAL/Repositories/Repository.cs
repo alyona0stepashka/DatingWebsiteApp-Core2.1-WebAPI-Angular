@@ -17,7 +17,18 @@ namespace App.DAL.Repositories
         public Repository(ApplicationDbContext context)
         {
             _db = context;
-        } 
+        }
+        public IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _db.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query;
+        }
         public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _db.Set<TEntity>()

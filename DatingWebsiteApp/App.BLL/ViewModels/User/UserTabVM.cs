@@ -1,6 +1,8 @@
-﻿using App.Models;
+﻿using App.BLL.Chat;
+using App.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace App.BLL.ViewModels
@@ -13,6 +15,8 @@ namespace App.BLL.ViewModels
 
         public string PhotoPath { get; set; }
 
+        public bool IsOnline { get; set; }
+
         public int Age { get; set; }
 
         public string Sex { get; set; }
@@ -22,7 +26,8 @@ namespace App.BLL.ViewModels
         public UserTabVM(ApplicationUser user)
         {
             Id = user.Id;
-            Name = user.Name; 
+            Name = user.Name;
+            IsOnline = ChatHub.connects.Any(m => m.UserId == user.Id);
             if (user.File != null)
             {
                 PhotoPath = user.File.Path;

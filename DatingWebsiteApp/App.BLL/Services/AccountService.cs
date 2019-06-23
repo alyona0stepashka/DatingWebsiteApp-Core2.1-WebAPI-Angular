@@ -25,11 +25,13 @@ namespace App.BLL.Services
         private readonly ApplicationSettings _applicationSettingsOption; 
         private readonly IEmailService _emailService;
         private readonly IFileService _fileService;
+        private readonly IChatService _chatService;
 
         public AccountService(IUnitOfWork uow,
             UserManager<ApplicationUser> userManager, 
             IOptions<ApplicationSettings> applicationSettingsOption,
-            IEmailService emailService, 
+            IEmailService emailService,
+            IChatService chatService,
             IFileService fileService)
         {
             _db = uow;
@@ -37,6 +39,7 @@ namespace App.BLL.Services
             _applicationSettingsOption = applicationSettingsOption.Value; 
             _emailService = emailService;
             _fileService = fileService;
+            _chatService = chatService;
         }
 
         public async Task<string> RegisterUserAsync(RegisterVM model, string url)
@@ -69,6 +72,7 @@ namespace App.BLL.Services
                 {
                     throw new Exception("Register error");
                 }
+                await _chatService.SetLastOnlineAsync(user.Id);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var encode = HttpUtility.UrlEncode(code);
                 var callbackUrl = new StringBuilder("https://")
@@ -111,6 +115,7 @@ namespace App.BLL.Services
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
+                    await _chatService.SetLastOnlineAsync(user.Id);
                     var options = new IdentityOptions();
 
                     var tokenDescriptor = new SecurityTokenDescriptor
@@ -139,7 +144,7 @@ namespace App.BLL.Services
             }
         }
 
-        public async Task<object> EditAccountInfo(UserAccountInfoEditVM model)
+        public async Task EditAccountInfo(UserAccountInfoEditVM model)
         {
             try
             {
@@ -153,23 +158,23 @@ namespace App.BLL.Services
 
                         if (result.Succeeded)
                         {
-                            var options = new IdentityOptions();
+                            //var options = new IdentityOptions();
 
-                            var tokenDescriptor = new SecurityTokenDescriptor
-                            {
-                                Subject = new ClaimsIdentity(new Claim[]
-                                {
-                                    new Claim("UserID", user.Id),
-                                }),
-                                Expires = DateTime.UtcNow.AddDays(1),
-                                SigningCredentials = new SigningCredentials(
-                                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
-                                        SecurityAlgorithms.HmacSha256Signature)
-                            };
-                            var tokenHandler = new JwtSecurityTokenHandler();
-                            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                            var token = tokenHandler.WriteToken(securityToken);
-                            return token;
+                            //var tokenDescriptor = new SecurityTokenDescriptor
+                            //{
+                            //    Subject = new ClaimsIdentity(new Claim[]
+                            //    {
+                            //        new Claim("UserID", user.Id),
+                            //    }),
+                            //    Expires = DateTime.UtcNow.AddDays(1),
+                            //    SigningCredentials = new SigningCredentials(
+                            //            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
+                            //            SecurityAlgorithms.HmacSha256Signature)
+                            //};
+                            //var tokenHandler = new JwtSecurityTokenHandler();
+                            //var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                            //var token = tokenHandler.WriteToken(securityToken);
+                            //return token;
                         }
                         else
                         {
@@ -186,7 +191,7 @@ namespace App.BLL.Services
                 var edit_result = await _userManager.UpdateAsync(user);
                 if (edit_result.Succeeded)
                 {
-                    return new UserInfoShowVM(user, null);
+                    //return new UserInfoShowVM(user, null);
                 }
                 else
                 {

@@ -20,5 +20,6 @@ namespace App.BLL.Interfaces
         int GetChatIdByUsersAsync(string me_id, string friend_id);
         Task ReadAllNewMessages(List<ChatMessage> messages);
         Task SendSignalRService(ChatMessageSendVM message, string me_id);
+        Task SetLastOnlineAsync(string user_id);
     }
 }

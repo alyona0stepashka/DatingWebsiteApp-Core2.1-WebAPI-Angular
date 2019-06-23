@@ -43,6 +43,20 @@ namespace App.BLL.Services
                 throw ex;
             }
         }
+
+        public async Task SetLastOnlineAsync(string user_id)
+        {
+            try
+            {
+                var db_user = await _userManager.FindByIdAsync(user_id);
+                db_user.DateLastOnline = DateTime.Now;
+                await _userManager.UpdateAsync(db_user);  
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task SendSignalRService(ChatMessageSendVM message, string me_id)
         {
             try
@@ -152,7 +166,13 @@ namespace App.BLL.Services
                 }
                 foreach (var chat in db_chats)
                 {
-                    chat_list.Add(new ChatTabVM(chat, user_id));
+                    var ch = new ChatTabVM(chat, user_id);
+                    var date_clear = chat.UserFromId == user_id ? chat.UserFromClearHistory
+                                                                : chat.UserToClearHistory;
+                    if (ch.LastMessageDateTime > date_clear)
+                    {
+                        chat_list.Add(ch);
+                    }
                 }
                 return chat_list;
             }

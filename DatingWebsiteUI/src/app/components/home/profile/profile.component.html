@@ -6,8 +6,10 @@
         <label>&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;</label>{{userProfile.ReplyRate}}&nbsp;&nbsp;
       </div>
   </div>
-  <div class="jumbotron" style="height: auto;">
+  <div class="jumbotron" style="height: auto; padding-top: 3%;">
     <div class="container"> 
+        <span *ngIf="userProfile.IsOnline" style="float:right; font-size: 80%; color:darkgrey;">last seen {{this.datepipe.transform(userProfile.IsOnline, 'MMMM d, h:mm a')}}</span>
+        <span *ngIf="!userProfile.IsOnline" style="float:right; font-size: 80%; color:darkgrey;">online</span><br/> 
       <div *ngIf="userProfile" class="form-row" style="margin:20px"> 
         <div class="col-md-3 text-center" style="margin-left: 15px">
           <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" class="avatar" style="max-width: 215px; max-height: 215px;"><br/> 
@@ -48,7 +50,7 @@
           <div> 
             <label><i class="fas fa-user-lock"></i>You are in blackList</label> 
           </div>  
-        </div>
+        </div> 
       </div>
       <div id="id01" class="w3-modal">
         <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:650px"> 

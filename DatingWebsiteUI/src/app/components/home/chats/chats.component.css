@@ -20,6 +20,8 @@
     align-content: center;
     background-color: #090909;
     cursor: pointer;
+    border-bottom: darkgrey solid;
+    margin-bottom: -10%;
   }
   
   .avatar {
@@ -51,4 +53,25 @@
   border-radius:50%;
   width: 70px;
   height: 70px;
+}
+
+
+table{
+  width: 90%;
+  height: 100%;
+  margin: 0 auto;
+  list-style: none;
+  padding-left:0;    
+  align-content: center; 
+  overflow: auto;    
+  vertical-align: top;
+  align-content: flex-start;
+}
+
+tr{
+  padding: 12px; 
+    align-content: center;
+    background-color: #090909;
+    cursor: pointer;
+    border-bottom: darkgrey solid; 
 }

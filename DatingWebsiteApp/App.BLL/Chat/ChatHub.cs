@@ -17,7 +17,7 @@ namespace App.BLL.Chat
     public class ChatHub : Hub
     { 
         public static List<Connect> connects = new List<Connect>();
-        //private readonly IChatService _chatService;
+        private readonly IChatService _chatService;
         //private readonly IFileService _fileService;
         //private readonly IFriendService _friendService;
         //public ChatHub(IChatService chatService, 
@@ -28,15 +28,16 @@ namespace App.BLL.Chat
         //    _fileService = fileService;
         //    _friendService = friendService;
         //} 
-        public ChatHub()
+        public ChatHub(IChatService chatService)
         {
-
+            _chatService = chatService;
         }
         public async override Task OnConnectedAsync()
         {
             try
             {
-                var callerId = Context.User.Claims.First(c => c.Type == "UserID").Value; 
+                var callerId = Context.User.Claims.First(c => c.Type == "UserID").Value;
+                await _chatService.SetLastOnlineAsync(callerId);
                 UpdateList(callerId);
                 await base.OnConnectedAsync();
             }
@@ -49,7 +50,9 @@ namespace App.BLL.Chat
         {
             try
             {
-                connects.Remove(connects.Find(m => m.ConnectionId == Context.ConnectionId));
+                var con = connects.Find(m => m.ConnectionId == Context.ConnectionId);
+                await _chatService.SetLastOnlineAsync(con.UserId);
+                connects.Remove(con);
                 await base.OnDisconnectedAsync(ex);
             }
             catch (Exception e)

@@ -91,7 +91,7 @@ export class AlbumDetailComponent implements OnChanges {
   }
 
   onUploadFiles() {
-    let isSuccess = false;
+    let isSuccess = true;
     this.UploadFiles.forEach(file => {
       const reader = new FileReader();
       reader.readAsDataURL(file);

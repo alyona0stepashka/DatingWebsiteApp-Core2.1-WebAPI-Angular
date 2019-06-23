@@ -9,6 +9,7 @@ namespace App.DAL.Interfaces
     public interface IStaticRepository<TEntity> 
     {
         IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes);
         Task<TEntity> GetByIdAsync(int id);
         IQueryable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> CreateAsync(TEntity item);

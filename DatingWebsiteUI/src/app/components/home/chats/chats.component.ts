@@ -28,6 +28,8 @@ export class ChatsComponent implements OnInit {
   imageUrl = '/assets/img/no-image.png';
   submitted = false;
   isOpen = false;
+  isBlock = false;
+  isOnline: any;
   chatId: number = null;
 
   constructor(private toastr: ToastrService,
@@ -112,9 +114,17 @@ export class ChatsComponent implements OnInit {
   }
 
   openChat(id: number) {
-    this.chatId = id;
-    this.isOpen = true;
-    console.log(id);
+    if (this.chatId == id){
+      this.isOpen = false;
+      this.chatId = 0;
+    } else {
+      this.chatId = id;
+      let ch = this.chatList.find(m => m.Id == id);
+      this.isBlock = ch.IsBlock;
+      this.isOnline = ch.IsOnline;
+      this.isOpen = true;
+      console.log(id); 
+    }
   }
 
 }

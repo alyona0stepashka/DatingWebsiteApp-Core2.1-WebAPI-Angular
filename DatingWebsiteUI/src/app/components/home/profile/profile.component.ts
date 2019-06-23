@@ -10,6 +10,7 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { MessageSend } from 'src/app/models/message-send.model';
 import { ChatService } from 'src/app/services/chat.service';
+import { DatePipe } from '@angular/common'; 
 
 @Component({
   selector: 'app-profile',
@@ -33,6 +34,7 @@ export class ProfileComponent implements OnInit {
               private friendService: FriendshipService,
               private activateRoute: ActivatedRoute,
               private router: Router,
+              public datepipe: DatePipe,
               private _lightbox: Lightbox,
               private chatService: ChatService,
               public signalRService: SignalRService) { }

@@ -13,6 +13,8 @@ namespace App.Models
 
         public DateTime DateBirth { get; set; }
 
+        public DateTime DateLastOnline { get; set; }
+
         //[ForeignKey("Sex")]
         public int? SexId { get; set; }  
 

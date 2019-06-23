@@ -29,6 +29,8 @@ namespace App.DAL.Migrations
 
                     b.Property<DateTime>("DateBirth");
 
+                    b.Property<DateTime>("DateLastOnline");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
