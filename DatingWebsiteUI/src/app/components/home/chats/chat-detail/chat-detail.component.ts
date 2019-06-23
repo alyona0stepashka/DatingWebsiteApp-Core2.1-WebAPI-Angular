@@ -12,6 +12,7 @@ import { SignalRService } from 'src/app/services/signal-r.service';
 import { MessageSend } from 'src/app/models/message-send.model';
 import { DatePipe } from '@angular/common'; 
 import { Router } from '@angular/router';
+import { EmojiTab } from 'src/app/models/emoji-tab.model';
 
 @Component({
   selector: 'app-chat-detail',
@@ -24,6 +25,8 @@ export class ChatDetailComponent implements OnChanges {
   @Input() isBlock: boolean;
 
   messages: MessageTab[] = new Array();
+  public Emojies: EmojiTab = new EmojiTab();
+  public IsOpenEmoji: boolean = false;
   outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   OpenFiles: string[] = new Array();

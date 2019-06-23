@@ -35,3 +35,26 @@
 td{
   vertical-align: top;
 }
+
+
+.container-chat {
+  display: grid;
+  grid-template-columns: repeat(16, 29px);
+  grid-row-gap: 30px;
+  grid-column-gap: 10px; 
+  height: 90%;
+  overflow:auto;
+  max-height: 90px;
+  margin: 0 auto;
+  list-style: none;
+  padding-left:0; 
+  margin-left: 0;
+  width: 91%;
+  margin-left: -1%;
+}
+
+.container-chat>.item {
+  /* padding: 12px; */
+  background-color: #ffff;
+  align-content:center; 
+}

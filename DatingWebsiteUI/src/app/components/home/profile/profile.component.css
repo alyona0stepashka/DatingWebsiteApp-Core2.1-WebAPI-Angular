@@ -16,3 +16,27 @@ div{
   width: 100px;
   height: 100px;
 }
+
+
+
+.container-chat {
+  display: grid;
+  grid-template-columns: repeat(14, 29px);
+  grid-row-gap: 30px;
+  grid-column-gap: 10px;
+  width: 85%;
+  height: 90%;
+  overflow:auto;
+  max-height: 90px;
+  margin: 0 auto;
+  list-style: none;
+  padding-left:0; 
+  margin-left: 0;
+  width: 91%; 
+}
+
+.container-chat>.item {
+  /* padding: 12px; */
+  background-color: #ffff;
+  align-content:center; 
+}

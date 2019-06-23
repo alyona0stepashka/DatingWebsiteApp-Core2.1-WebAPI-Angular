@@ -11,6 +11,7 @@ import { SignalRService } from 'src/app/services/signal-r.service';
 import { MessageSend } from 'src/app/models/message-send.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { DatePipe } from '@angular/common'; 
+import { EmojiTab } from 'src/app/models/emoji-tab.model';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,8 @@ import { DatePipe } from '@angular/common';
 export class ProfileComponent implements OnInit {
 
   public userId: any;
+  public Emojies: EmojiTab = new EmojiTab();
+  public IsOpenEmoji: boolean = false;
   public userProfile = new UserProfile(); 
   public outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();

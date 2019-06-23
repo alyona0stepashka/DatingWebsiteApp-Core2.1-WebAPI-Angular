@@ -55,15 +55,23 @@
       <div id="id01" class="w3-modal">
         <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:650px"> 
           <div class="w3-center"><br>
-            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
-            <div class="row" style="width: 100%; margin-top: 4%; margin-left: 1%">      
+            <i class="fas fa-times" style="margin-top: -3%; float: right; margin-right: 1%; cursor: pointer;" onclick="document.getElementById('id01').style.display='none'"></i>
+            <div *ngIf="IsOpenEmoji" class="row" style="width: 100%; margin-left: 1%; margin-top: -1%;">
+                <div style="margin-top: 1%" class="container-chat">
+                  <div *ngFor="let em of Emojies.Emoji" class="item" (click)="outgoingMessage.Text = outgoingMessage.Text + em">
+                      {{em}}
+                  </div>
+                </div>
+            </div>
+            <div class="row" style="width: 98%; margin-left: 1%;">
+                <textarea class="col-11" rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
+                <i class="far fa-laugh"style="position: absolute; margin-left: 86%; margin-top: 1%; cursor: pointer;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> 
+                <button class="col-1" (click)="onSendMessage()"><i class="fas fa-envelope"></i></button> 
+            </div>
+            <div class="row" style="width: 98%; margin-left: 1%; margin-bottom: -2%;">      
               <ngx-dropzone style="max-height: 50px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
               <button class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
-            </div>
-            <div class="row" style="width: 100%; margin-left: 1%">
-                <textarea class="col-10" rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
-                <button class="col-2" (click)="onSendMessage()">Send</button> 
-            </div>
+            </div><br/>
           </div>
         </div>
       </div>

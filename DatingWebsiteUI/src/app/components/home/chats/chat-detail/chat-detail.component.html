@@ -8,13 +8,11 @@
                 <img *ngIf="mess.SenderAvatarPath" (click)="goToProfile(mess.SenderId)" class="avatar-chat" style="margin: 1%;" src="https://localhost:44394{{mess.SenderAvatarPath}}"/>
                 <img *ngIf="!mess.SenderAvatarPath" (click)="goToProfile(mess.SenderId)" class="avatar-chat" style="margin: 1%;" src="/assets/img/no-image.png"/>
             </td>
-            <td style="border-bottom: solid ">
-                <!-- <div *ngIf="user.IsOnline" style="border-radius:50%; width: 10px; height: 10px; background-color: lawngreen; margin:2%;"></div>
-                <div *ngIf="!user.IsOnline" style="border-radius:50%; width: 10px; height: 10px; background-color:tomato; margin:2%;"></div> -->
+            <td style="border-bottom: solid "> 
                 <label style="display: flex;">{{mess.SenderName}}&nbsp;&nbsp;<b style="font-size: 65%">{{this.datepipe.transform(mess.DateSend, 'MMMM d, h:mm a')}}</b></label><br/>
                 <div class="row" style="margin-top: -3%; max-width: 108%; margin-left: 0%;"> 
-                    <span *ngIf="!mess.IsNew" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</span> 
-                    <span *ngIf="mess.IsNew" onload="changeElement(new_mes)" id="new_mes" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</span> 
+                    <p *ngIf="!mess.IsNew" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
+                    <p *ngIf="mess.IsNew" onload="changeElement(new_mes)" id="new_mes" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
                 </div>
                 <button *ngIf="mess.FilePathes.length>0" (click)="OpenFiles=mess.FilePathes" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-paperclip"></i>Show attachment</button><br/>
             </td>        
@@ -24,14 +22,21 @@
 <div *ngIf="messages.length<1" > 
     <label class="text-center">No Message Yet</label>
 </div><br/>
-<div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%">
-    <textarea rows="12" placeholder="Enter message ..." cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none; height: 90px; width: 91%;"></textarea>
-    <button class="col-1" id="btn_send" (click)="onSendMessage()" onclick="document.getElementById('table_scroll').scrollTop = elem.scrollHeight"><i class="fas fa-envelope"></i></button> 
-</div>
-<div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%"> 
-    <!-- <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  -->
-    <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
-    <ngx-dropzone style="max-width: 91%; max-height: 57px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
+    <div *ngIf="!isBlock" class="row" style="width: 98.5%; margin-left: 2%;">
+        <div *ngIf="IsOpenEmoji" class="row" style="width: 100%; margin-left: 1%">
+            <div style="margin-top: 1%" class="container-chat">
+                <div *ngFor="let em of Emojies.Emoji" class="item" (click)="outgoingMessage.Text = outgoingMessage.Text + em">
+                    <p>{{em.toString()}}</p>
+                </div>
+            </div> 
+        </div>
+        <textarea rows="12" placeholder="Enter message ... &#x1F981;" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none; height: 90px; width: 91%;"></textarea>
+        <i *ngIf="!IsOpenEmoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 1%;" (click)="IsOpenEmoji=!IsOpenEmoji"></i>
+        <i *ngIf="IsOpenEmoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 15%;" (click)="IsOpenEmoji=!IsOpenEmoji"></i>
+        <button class="col-1" id="btn_send" (click)="onSendMessage()" onclick="document.getElementById('table_scroll').scrollTop = elem.scrollHeight"><i class="fas fa-envelope"></i></button> 
+    </div>
+<div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%">  
+    <ngx-dropzone style="max-width: 89.5%; max-height: 48px; margin-left: 1%;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
     <button class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
 </div>
 <div *ngIf="isBlock" style="margin-left: 2%;">
