@@ -1,7 +1,7 @@
 <div *ngIf="IsLoad">
   <div style="position: inherit" class="row">
       <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" style="max-width: 350px; max-height: 350px;" class="pre-image">
-      <div style="color:#ffff; margin-left:-5%;height: 50%; background-color: #2e3137;"><br/>
+      <div style="color:#ffff; margin-left:-5%;height: 50%; background-color: #2e3137; padding-top: 1%;"> 
         <label>&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;</label>{{userProfile.Views}}&nbsp;&nbsp;<br/>
         <label>&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;</label>{{userProfile.ReplyRate}}&nbsp;&nbsp;
       </div>

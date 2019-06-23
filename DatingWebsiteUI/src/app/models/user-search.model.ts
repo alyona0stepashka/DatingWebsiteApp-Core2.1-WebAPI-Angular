@@ -9,6 +9,7 @@ export class UserSearch {
     Language: number[] = Array();
     MainGoal: number[] = Array();
     Nationality: number[] = Array();
+    NetworkStatus: boolean = null;
     Sex: number[] = Array();
     Zodiac: number[] = Array();
 

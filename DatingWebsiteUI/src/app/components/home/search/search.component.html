@@ -10,113 +10,84 @@
   <div class="row" style="padding-top: 2%">
       <button class="btn btn-primary" style="width: 100%" (click)="onSearch()"><i class="fas fa-search"></i></button>
   </div>
-  <div class="row">
-    <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
-    <!-- <p class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">Age:   </p>  -->
-    <label>AgeFrom</label>
+  <div class="row form-group"> 
+    <label class="text-transform: uppercase; font-size: 0.9rem;">Age From</label>
     <input [(ngModel)]="searchData.AgeFrom" type="text" class="form-control form-control-sm" placeholder="AgeFrom" />
-    <label>AgeTo</label>
+    <label class="text-transform: uppercase; font-size: 0.9rem;">Age To</label>
     <input [(ngModel)]="searchData.AgeTo" placeholder="AgeTo" class="form-control form-control-sm" type="text" />
   </div>
-  <div class="row">
-
-    <!-- <mat-form-field>
-      <mat-label>Toppings</mat-label>
-      <mat-select [formControl]="toppings" multiple>
-        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <!-- <select class="selectpicker" multiple title="Choose one of the following...">
-      <option>Mustard</option>
-      <option>Ketchup</option>
-      <option>Relish</option>
-    </select> -->
- 
-
-    <!-- <select  class="form-control form-control-sm" title="Sex..."> -->
-    <!-- <p class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">Sex:   </p>  -->
-    <!-- <ng-select [(ngModel)]="searchData.Sex" [items]="staticInfo.Sexes" bindLabel="type"
-             placeholder="Sex..."></ng-select>  -->
-
-<label>Sex</label>
+  <div  class="row form-group">
+    <label>NetworkStatus</label>
+    <select [(ngModel)]="searchData.NetworkStatus"  class="form-control form-control-sm" title="Sex...">
+        <option [value]="true">Online</option>
+        <option [value]="false">Offline</option>
+    </select>
+    <!-- <input type="radio" [value]="true" [(ngModel)]="searchData.NetworkStatus"/><label style="font-size: 90%;">Online</label><br/>
+    <input type="radio" [value]="false" [(ngModel)]="searchData.NetworkStatus"/><label style="font-size: 90%;">Offline</label>  -->
+  </div>
+  <div class="row form-group"> 
+    <label>Sex</label>
     <select multiple [(ngModel)]="searchData.Sex"  class="form-control form-control-sm" title="Sex...">
              <option *ngFor="let item of staticInfo.Sexes" [value]="item.Id">{{item.Value}}</option>
          </select>
   </div>
-  <div class="row">
-    <!-- <p  class="my-menu-label" style="color:rgba(243, 243, 243, 0.394) ">BadHabits:   </p>  -->
+  <div class="row form-group">
     <label>BadHabit</label>
     <select multiple [(ngModel)]="searchData.BadHabit" class="form-control form-control-sm" title="BadHabits...">
       <option *ngFor="let item of staticInfo.BadHabits" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Education:   </p>  -->
+  <div class="row form-group">
     <label>Education</label>
     <select multiple [(ngModel)]="searchData.Education" class="form-control form-control-sm" title="Education...">
       <option *ngFor="let item of staticInfo.Educations" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">FamilyStatus:   </p>  -->
+  <div class="row form-group">
     <label>FamilyStatus</label>
     <select multiple [(ngModel)]="searchData.FamilyStatus" class="form-control form-control-sm" title="FamilyStatus...">
       <option *ngFor="let item of staticInfo.FamilyStatuses" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">FinanceStatus:   </p>  -->
+  <div class="row form-group">
     <label>FinanceStatus</label>
     <select multiple [(ngModel)]="searchData.FinanceStatus" class="form-control form-control-sm" title="FinanceStatus...">
       <option *ngFor="let item of staticInfo.FinanceStatuses" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Interests:   </p>  -->
-   
-<label>Interest</label>
+  <div class="row form-group"> 
+    <label>Interest</label>
     <select multiple [(ngModel)]="searchData.Interest" class="form-control form-control-sm" title="Interest...">
       <option *ngFor="let item of staticInfo.Interests" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Languages:   </p>  -->
+  <div class="row form-group">
     <label>Language</label>
     <select multiple [(ngModel)]="searchData.Language" class="form-control form-control-sm" title="Language...">
       <option *ngFor="let item of staticInfo.Languages" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">MainGoals:   </p>  -->
+  <div class="row form-group">
     <label>MainGoal</label>
     <select multiple [(ngModel)]="searchData.MainGoal" class="form-control form-control-sm" title="MainGoal...">
       <option *ngFor="let item of staticInfo.MainGoals" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Nationalities:   </p>  -->
+  <div class="row form-group">
     <label>Nationality</label>
     <select multiple [(ngModel)]="searchData.Nationality" class="form-control form-control-sm" title="Nationality...">
       <option *ngFor="let item of staticInfo.Nationalities" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row">
-    <!-- <p class="my-menu-label"  style="color:rgba(243, 243, 243, 0.394) ">Zodiacs:   </p>  -->
+  <div class="row form-group">
     <label>Zodiac</label>
     <select multiple [(ngModel)]="searchData.Zodiac" class="form-control form-control-sm" title="Zodiac...">
       <option *ngFor="let item of staticInfo.Zodiacs" [value]="item.Id">{{item.Value}}</option>
     </select>
   </div>
-  <div class="row" style="padding-top: 2%">
+  <div class="row form-group" style="padding-top: 2%">
     <button class="btn btn-primary" style="width: 100%" (click)="onSearch()"><i class="fas fa-search"></i></button>
-  </div>
-  <!-- <form (ngSubmit)="onSubmit()">  
-       <div class="form-group">
-          <label>Sex:</label> 
-          <input *ngFor="let z in zodiacs" type="checkbox" name="zodiacs">
-      </div>
-  </form> -->
+  </div> 
 </div>
 
 <!-- <img src="https://www.conweso.de/wp-content/uploads/2016/07/arrow-24916_1280.png" style="position: relative; transform: rotate(-120deg); top:-150px; left:-50px; max-height: 200px; max-width: 75px"> -->

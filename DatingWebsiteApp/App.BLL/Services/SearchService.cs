@@ -1,4 +1,5 @@
-﻿using App.BLL.Interfaces;
+﻿using App.BLL.Chat;
+using App.BLL.Interfaces;
 using App.BLL.ViewModels;
 using App.DAL.Interfaces;
 using App.Models;
@@ -37,6 +38,13 @@ namespace App.BLL.Services
                 var now_year = DateTime.Now.Year;
                 var ret_list = new List<UserTabVM>();
                 var user_list = _userManager.Users./*AsNoTracking().*/Where(m => m.IsAnonimus == false && m.Id != my_id && m.DateBirth>new DateTime(1900,1,1));
+
+                if (search.NetworkStatus != null)
+                {
+                    var conn = ChatHub.connects.Select(m=>m.UserId);
+                    user_list = search.NetworkStatus.Value ? user_list.Where(m => conn.Contains(m.Id))
+                                                           : user_list.Where(m => !conn.Contains(m.Id));
+                }
 
                 if (search.AgeFrom != null)
                 {
