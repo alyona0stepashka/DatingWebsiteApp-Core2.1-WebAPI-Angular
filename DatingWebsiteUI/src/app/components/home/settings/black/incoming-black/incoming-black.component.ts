@@ -37,16 +37,5 @@ export class IncomingBlackComponent implements OnInit {
 
   goToProfile(id: string) {
     this.router.navigate(['/home/profile/' + id]);
-  }
-
-  // addToBlackList(id: string) {
-  //   this.blackService.sendRequest(id).subscribe(
-  //     res => {
-  //       this.toastr.success('Added to BlackList', 'Sending request');
-  //     },
-  //     err => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
+  } 
 }

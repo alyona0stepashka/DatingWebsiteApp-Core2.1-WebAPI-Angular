@@ -46,41 +46,49 @@ export class IncomingFriendsComponent implements OnInit {
   deleteFriendRequest(id: string) {
     this.friendshipService.deleteRequest(id).subscribe(
       res => {
+        const index = this.userList.indexOf(this.userList.find(m => m.Id == id)); 
+        if (index > -1) {
+          this.userList.splice(index, 1);
+        }
         this.toastr.success('Success delete request', 'Sending request');
       },
       err => {
         console.log(err);
         this.toastr.error(err.error, 'Error');
       }
-    );
-    this.resetUserList();
+    ); 
   }
 
   confirmFriendRequest(id: string) {
     this.friendshipService.confirmRequest(id).subscribe(
       res => {
+        const index = this.userList.indexOf(this.userList.find(m => m.Id == id)); 
+        if (index > -1) {
+          this.userList.splice(index, 1);
+        }
         this.toastr.success('Success confirm request', 'Sending request');
       },
       err => {
         console.log(err);
         this.toastr.error(err.error, 'Error');
       }
-    );
-    this.resetUserList();
+    ); 
   }
 
   addToBlackList(id: string) {
     this.blackService.sendRequest(id).subscribe(
       res => {
+        const index = this.userList.indexOf(this.userList.find(m => m.Id == id)); 
+        if (index > -1) {
+          this.userList.splice(index, 1);
+        }
         this.toastr.success('Added to BlackList', 'Sending request');
       },
       err => {
         console.log(err);
         this.toastr.error(err.error, 'Error');
       }
-    );
-    //this.userList.indexOf()
-    this.resetUserList();
+    ); 
   }
 
 }

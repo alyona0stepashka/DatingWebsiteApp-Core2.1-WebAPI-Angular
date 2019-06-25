@@ -10,7 +10,7 @@
                                <img [src]="imageUrl" class="avatar"> 
                             </div>                            
                             <div class="col-10">
-                                <input type="file" formControlName="Photo" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." />
+                                <input Title="Your photo" type="file" formControlName="Photo" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control" placeholder="Photo..." />
                             </div>                             
                         </div>
                         <div class="form-group">
@@ -86,7 +86,7 @@
                             </select> 
                         </div>
                         <div class="form-group" style="width: 100%">
-                            <button type="submit" class="btn btn-primary" style="width: 100%">Save</button>
+                            <button Title="Save changes" type="submit" class="btn btn-primary" style="width: 100%">Save</button>
                         </div>
                     </fieldset>
                 </form>

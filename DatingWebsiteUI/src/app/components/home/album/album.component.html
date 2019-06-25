@@ -5,20 +5,20 @@
                 <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="row"> 
                     <div class="form-group col-5">
                         <label>Name</label>
-                        <input type="text" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
+                        <input Title="Name" type="text" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
                         <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
                             <div *ngIf="f.Name.errors.required">Name is required</div> 
                         </div>
                     </div>
                     <div class="form-group col-5">
                         <label>Description</label>
-                        <input type="text" formControlName="Description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }" />
+                        <input Title="Description" type="text" formControlName="Description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }" />
                         <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
                             <div *ngIf="f.Description.errors.required">Description is required</div> 
                         </div>
                     </div>
                     <div class="form-group col-2">
-                        <button class="btn btn-primary">Create Album</button>
+                        <button Title="Create album" class="btn btn-primary">Create Album</button>
                     </div>
                 </form>
             </div>
@@ -32,7 +32,7 @@
                 <div *ngFor="let album of albumList" class="item text-center" > 
                     <label>{{album.Name}}</label>  
                     <div>
-                        <button *ngIf="userId==0"  style="position: absolute;" (click)="onDeleteAlbum(album.Id)"><i class="fas fa-times"></i></button>
+                        <button Title="Delete album" *ngIf="userId==0"  style="position: absolute;" (click)="onDeleteAlbum(album.Id)"><i class="fas fa-times"></i></button>
                         <img (click)="openAlbum(album.Id)" *ngIf="album.FilePath" style="max-height: 100px; max-width: 100px;" src="https://localhost:44394{{album.FilePath}}"/>
                         <img (click)="openAlbum(album.Id)" *ngIf="!album.FilePath" style="max-height: 100px; max-width: 100px;" src="/assets/img/no-image.png"/>
                     </div>  

@@ -4,10 +4,9 @@
       <div *ngFor="let user of userList" class="item"> 
         <div class="row">
           <div class="col-sm-4 text-center row">  
-            <div class="col-sm-4 text-center"  style="margin: 0">
-              <button type="button" style="width: 100%" (click)="goToChat(user.Id)"><i class="fas fa-comment-dots"></i></button>
-              <button type="button" style="width: 100%" (click)="deleteFriendRequest(user.Id)"><i class="fas fa-user-minus"></i></button> 
-              <button type="button" style="width: 100%" (click)="addToBlackList(user.Id)"><i class="fas fa-lock"></i></button>
+            <div class="col-sm-4 text-center"  style="margin: 0"> 
+              <button Title="Remove from friends" type="button" style="width: 100%" (click)="deleteFriendRequest(user.Id)"><i class="fas fa-user-minus"></i></button> 
+              <button Title="Add to BlackList" type="button" style="width: 100%" (click)="addToBlackList(user.Id)"><i class="fas fa-lock"></i></button>
             </div> 
             <div class="col-sm-8 text-center" (click)="goToProfile(user.Id)">
               <img class="avatar" style="margin-top: 1%" src="https://localhost:44394{{user.PhotoPath}}" /><br/>

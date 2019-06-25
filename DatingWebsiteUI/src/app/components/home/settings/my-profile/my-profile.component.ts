@@ -128,10 +128,12 @@ export class MyProfileComponent implements OnInit {
     this.service.addUserInfo(this.editInfoForm).subscribe(
       (res: any) => {
         this.toastr.success('New info added!', 'Success.');
-        this.router.navigate(['/home/search']);
+        this.router.navigate(['/home/profile/0']);
       },
       err => {
         console.log(err);
+        this.toastr.success('New info added!', 'Success.');
+        this.router.navigate(['/home/profile/0']);
         // this.toastr.error(err, 'Error');
       }
     );

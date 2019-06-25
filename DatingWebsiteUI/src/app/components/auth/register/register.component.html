@@ -6,13 +6,13 @@
                   <div class="form-group">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
+                        <input Title="Name" type="text" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" />
                         <!-- <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
                             <div *ngIf="f.Name.errors.required">Name is required</div> 
                         </div> -->
                     </div>
                       <label>Email</label>
-                      <input type="text" formControlName="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                      <input Title="Email" type="text" formControlName="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
                       <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
                           <div *ngIf="f.Email.errors.required">Email is required</div>
                           <div *ngIf="f.Email.errors.Email">Email must be a valid email address</div>
@@ -20,7 +20,7 @@
                   </div>
                   <div class="form-group">
                       <label>Password</label>
-                      <input type="password" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+                      <input Title="Password" type="password" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
                       <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
                           <div *ngIf="f.Password.errors.required">Password is required</div>
                           <div *ngIf="f.Password.errors.minlength">Password must be at least 6 characters</div>

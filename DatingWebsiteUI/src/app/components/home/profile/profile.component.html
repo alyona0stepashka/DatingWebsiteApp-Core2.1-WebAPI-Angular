@@ -1,9 +1,9 @@
 <div *ngIf="IsLoad">
   <div style="position: inherit" class="row">
-      <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" style="max-width: 350px; max-height: 350px;" class="pre-image">
+      <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" class="pre-image">
       <div style="color:#ffff; margin-left:-5%;height: 50%; background-color: #2e3137; padding-top: 1%;"> 
-        <label>&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;</label>{{userProfile.Views}}&nbsp;&nbsp;<br/>
-        <label>&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;</label>{{userProfile.ReplyRate}}&nbsp;&nbsp;
+        <label  Title="Views per month">&nbsp;&nbsp;<i class="far fa-eye"></i>&nbsp;</label>{{userProfile.Views}}&nbsp;&nbsp;<br/>
+        <label Title="Reply Rate">&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;</label>{{userProfile.ReplyRate*100}}%&nbsp;&nbsp;
       </div>
   </div>
   <div class="jumbotron" style="height: auto; padding-top: 3%;">
@@ -14,17 +14,17 @@
         <div class="col-md-3 text-center" style="margin-left: 15px">
           <img src="https://localhost:44394{{userProfile.PhotoPath}}" (click)="open()" class="avatar" style="max-width: 215px; max-height: 215px;"><br/> 
           <div class="text-center" style="margin:5px 10px 5px 10px">
-            <button class="col-3" type="button" onclick="document.getElementById('id01').style.display='block'" [disabled]="(userId==0) || (userProfile.IsIBlack)"><i class="fas fa-comment-dots"></i></button>
-            <button class="col-3" type="button" (click)="goToAlbums(userProfile.Id)" [disabled]="userProfile.IsIBlack"><i class="fas fa-images"></i></button>
-            <button class="col-3" type="button" (click)="deleteFriendRequest(userProfile.Id)" [disabled]="(userId==0) || (userProfile.IsIBlack)" *ngIf="userProfile.IsFriend"><i class="fas fa-user-minus"></i></button>
-            <button class="col-3" type="button" (click)="sendFriendRequest(userProfile.Id)" [disabled]="(userId==0) || (userProfile.IsIBlack)" *ngIf="!userProfile.IsFriend"><i class="fas fa-user-plus"></i></button>
-            <button class="col-3" type="button" (click)="addToBlackList(userProfile.Id)" [disabled]="userId==0" *ngIf="!userProfile.IsBlack"><i class="fas fa-lock"></i></button>
-            <button class="col-3" type="button" (click)="removeFromBlackList(userProfile.Id)" [disabled]="userId==0" *ngIf="userProfile.IsBlack"><i class="fas fa-lock-open"></i></button>
+            <button Title="Send message" class="col-3" type="button" onclick="document.getElementById('id01').style.display='block'" [disabled]="(userId==0) || (userProfile.IsIBlack)"><i class="fas fa-comment-dots"></i></button>
+            <button Title="Go to user photo albums" class="col-3" type="button" (click)="goToAlbums(userProfile.Id)" [disabled]="userProfile.IsIBlack"><i class="fas fa-images"></i></button>
+            <button Title="Delete from friends" class="col-3" type="button" (click)="deleteFriendRequest(userProfile.Id)" [disabled]="(userId==0) || (userProfile.IsIBlack)" *ngIf="userProfile.IsFriend"><i class="fas fa-user-minus"></i></button>
+            <button Title="Add to friends" class="col-3" type="button" (click)="sendFriendRequest(userProfile.Id)" [disabled]="(userId==0) || (userProfile.IsIBlack)" *ngIf="!userProfile.IsFriend"><i class="fas fa-user-plus"></i></button>
+            <button Title="Add to BlackList" class="col-3" type="button" (click)="addToBlackList(userProfile.Id)" [disabled]="userId==0" *ngIf="!userProfile.IsBlack"><i class="fas fa-lock"></i></button>
+            <button Title="Remove from BlackList" class="col-3" type="button" (click)="removeFromBlackList(userProfile.Id)" [disabled]="userId==0" *ngIf="userProfile.IsBlack"><i class="fas fa-lock-open"></i></button>
             <br/><br/><br/>
           </div>
         </div>  
-        <div class="col-md-3 offset-md-1" *ngIf="!userProfile.IsIBlack">
-          <div><h2>{{userProfile.Name}}, {{userProfile.Age}}</h2></div>  
+        <div class="col-md-3 offset-md-1" *ngIf="!userProfile.IsIBlack"> 
+          <div><h2><i *ngIf="userProfile.IsAnonimus" title="Anonimus mode" class="fas fa-user-secret"></i>&nbsp;{{userProfile.Name}}, {{userProfile.Age}}</h2></div>  
           <div *ngIf="userProfile.Sex"><b>Sex: </b>{{userProfile.Sex.Value}}</div> 
           <div *ngIf="userProfile.MainGoal"><b>MainGoal: </b>: {{userProfile.MainGoal.Value}}</div> 
           <div *ngIf="userProfile.FamilyStatus"><b>FamilyStatus:</b> {{userProfile.FamilyStatus.Value}}</div> 
@@ -63,7 +63,7 @@
                   </div>
                 </div>
             </div> -->
-            <div  *ngIf="IsOpenEmoji">
+            <div *ngIf="IsOpenEmoji">
               <emoji-mart title="Pick your emoji…" emoji="point_up" set="emojione" (emojiClick)="addEmoji($event)"
               [style]="{ position: 'absolute', bottom: '150px', right: '-170px' }"
               [i18n]="{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }">
@@ -71,12 +71,12 @@
             </div>  
             <div class="row" style="width: 98%; margin-left: 1%;">
                 <textarea class="col-11" rows="12" cols="60" [(ngModel)]="messageText" style="resize: none"></textarea>
-                <i class="far fa-laugh"style="position: absolute; margin-left: 86%; margin-top: 1%; cursor: pointer; background-color: #ffff;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> 
-                <button class="col-1" (click)="onSendMessage()"><i class="fas fa-envelope"></i></button> 
+                <i Title="Emoji" class="far fa-laugh"style="position: absolute; margin-left: 86%; margin-top: 1%; cursor: pointer; background-color: #ffff;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> 
+                <button Title="Send message" class="col-1" (click)="onSendMessage()"><i class="fas fa-envelope"></i></button> 
             </div>
             <div class="row" style="width: 98%; margin-left: 1%; margin-bottom: -2%;">      
               <ngx-dropzone style="max-height: 50px;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
-              <button class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
+              <button Title="Clear images" class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
             </div><br/>
           </div>
         </div>

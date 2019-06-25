@@ -24,11 +24,7 @@ export class AlbumDetailComponent implements OnChanges {
   constructor(private toastr: ToastrService,
               private albumService: PhotoAlbumService,
               private lbLightbox: Lightbox,
-              public dropzone: NgxDropzoneModule) { }
-
-  // async ngOnInit() {
-  //   this.resetList();
-  // }
+              public dropzone: NgxDropzoneModule) { } 
 
   ngOnChanges() {
     this.resetList();
@@ -72,13 +68,11 @@ export class AlbumDetailComponent implements OnChanges {
     );
   } 
   
-  open(index: number): void {
-    // open lightbox
+  open(index: number): void { 
     this.lbLightbox.open(this.lbAlbums, index);
   }
 
-  close(): void {
-    // close lightbox programmatically
+  close(): void { 
     this.lbLightbox.close();
   }
 

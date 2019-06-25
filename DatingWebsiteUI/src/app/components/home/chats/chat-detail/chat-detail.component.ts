@@ -1,15 +1,10 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { AlbumDetails } from 'src/app/models/album-details.model';
-import { ToastrService } from 'ngx-toastr';
-import { PhotoAlbumService } from 'src/app/services/photo-album.service';
-import { Lightbox } from 'ngx-lightbox';
-import * as signalR from '@aspnet/signalr';
-import { HubConnection } from '@aspnet/signalr';
+import { Component, OnInit, Input, OnChanges, QueryList } from '@angular/core'; 
+import { ToastrService } from 'ngx-toastr'; 
+import { Lightbox } from 'ngx-lightbox'; 
 import { MessageTab } from 'src/app/models/message-tab.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { SignalRService } from 'src/app/services/signal-r.service';
-import { MessageSend } from 'src/app/models/message-send.model';
+import { SignalRService } from 'src/app/services/signal-r.service'; 
 import { DatePipe } from '@angular/common'; 
 import { Router } from '@angular/router';
 import { EmojiTab } from 'src/app/models/emoji-tab.model';
@@ -28,19 +23,12 @@ export class ChatDetailComponent implements OnChanges {
   incomingMessage: MessageTab = new MessageTab();
   public Emojies: EmojiTab = new EmojiTab();
   public IsOpenEmoji: boolean = false;
-  messageText = '';
-  // outgoingMessage = new MessageSend();
+  messageText = ''; 
   UploadFiles: File[] = new Array();
   OpenFiles: string[] = new Array();
   submitted = false;
   private message_images: any[] = new Array(); 
-  private baseURL = 'https://localhost:44394';
-
-  
-  // private _hubConnection: HubConnection | undefined;
-  // public async: any;
-  // message = '';
-  // messages: string[] = [];
+  private baseURL = 'https://localhost:44394'; 
 
   constructor(private toastr: ToastrService,
               private chatService: ChatService,
@@ -50,15 +38,10 @@ export class ChatDetailComponent implements OnChanges {
               public datepipe: DatePipe,
               private router: Router
               ) 
-  {
-    //this.signalRService.startConnection();
+  { 
     this.addSendListener();
     this.addSendMyselfListener(); 
-  }
-
-  // async ngOnInit() {
-  //   this.resetList();
-  // }
+  } 
 
   ngOnChanges() {
     this.resetList();
@@ -80,19 +63,55 @@ export class ChatDetailComponent implements OnChanges {
 
   public addSendListener() {
     this.signalRService.hubConnection.on('Send', (data) => {
-      this.incomingMessage = data as MessageTab; 
-      this.messages.unshift(this.incomingMessage);
-      // this.signalRService.soundNotify.load();
-      // this.signalRService.soundNotify.play();
+      var message = new MessageTab(); 
+      message.Id = data.id;
+      message.ChatId = data.chatId; 
+      message.SenderId = data.senderId; 
+      message.SenderAvatarPath = data.senderAvatarPath; 
+      message.SenderName = data.senderName; 
+      message.Text = data.text; 
+      message.FilePathes = data.filePathes; 
+      message.DateSend = data.dateSend; 
+      message.IsNew = false;
+
+      // this.incomingMessage = message;
+      this.messages.unshift(message); 
+    //  var m1 =[];
+    //  m1=  this.messages;
+    //  this.messages = m1;
+      // this.messages.splice(0,0,this.incomingMessage);
+      // this.messages = [...this.messages];
+      
       console.log(data);
     });
   }
   public addSendMyselfListener() {
     this.signalRService.hubConnection.on('SendMyself', (data) => {
-      this.incomingMessage = data as MessageTab; 
-      this.messages.unshift(this.incomingMessage);
+      var message = new MessageTab(); 
+      message.Id = data.id;
+      message.ChatId = data.chatId; 
+      message.SenderId = data.senderId; 
+      message.SenderAvatarPath = data.senderAvatarPath; 
+      message.SenderName = data.senderName; 
+      message.Text = data.text; 
+      message.FilePathes = data.filePathes; 
+      message.DateSend = data.dateSend; 
+      message.IsNew = false;
+
+      // this.incomingMessage = message;
+      this.messages.unshift(message);
+    //   var m1 =[];
+    //  m1=  this.messages;
+    //  this.messages = m1;
+      // this.messages.splice(0,0,this.incomingMessage);
+      // this.messages = [...this.messages];
+    
       console.log(data);
     });
+  }
+
+  public trackItem (index: number, item: MessageTab) {
+    return item.Id;
   }
 
   goToProfile(id: string) {
@@ -123,8 +142,7 @@ export class ChatDetailComponent implements OnChanges {
     this.UploadFiles = files;
   }
 
-  onSendMessage() {  
-    // this.outgoingMessage.ChatId = this.chatId; 
+  onSendMessage() { 
     var formData = new FormData();
     formData.append("ChatId", (this.chatId).toString());
     formData.append("ReceiverId", "0");
@@ -143,24 +161,13 @@ export class ChatDetailComponent implements OnChanges {
       }
     );
     this.messageText = '';
-
-    //   this.albumService.createAlbumPhoto(file, this.albumId).subscribe(
-    //   (res: any) => {
-    //       this.toastr.success('New photo created!', 'Creating successful.');
-    //       this.resetList();
-    //   },
-    //   err => {
-    //     console.log(err);
-    //     this.toastr.error('New photo created error!', 'Creating error.');
-    //   }
-    // ); 
   }
 
   onFilesRejected(files: File[]) {
     console.log(files);
   }
 
-  addEmoji(event){
+  addEmoji(event) {
     const { messageText } = this;
     const text = `${messageText}${event.emoji.native}`;
     this.messageText = text;

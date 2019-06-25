@@ -14,7 +14,7 @@
                     <p *ngIf="!mess.IsNew" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
                     <p *ngIf="mess.IsNew" onload="changeElement(new_mes)" id="new_mes" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
                 </div>
-                <button *ngIf="mess.FilePathes.length>0" (click)="OpenFiles=mess.FilePathes" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-paperclip"></i>Show attachment</button><br/>
+                <button Title="Show attachment" *ngIf="mess.FilePathes.length>0" (click)="OpenFiles=mess.FilePathes" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-paperclip"></i>Show attachment</button><br/>
             </td>        
         </tr> 
     </table>
@@ -37,13 +37,13 @@
             </emoji-mart>
         </div>        
         <textarea rows="12" placeholder="Enter message ... &#x1F981;" cols="60" [(ngModel)]="messageText" style="resize: none; height: 90px; width: 91%;"></textarea>
-        <i class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 1%; background-color: #ffff;" (click)="IsOpenEmoji=!IsOpenEmoji"></i>
+        <i Title="Emoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 1%; background-color: #ffff;" (click)="IsOpenEmoji=!IsOpenEmoji"></i>
         <!-- <i *ngIf="IsOpenEmoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 15%;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> -->
-        <button class="col-1" id="btn_send" (click)="onSendMessage()" onclick="document.getElementById('table_scroll').scrollTop = elem.scrollHeight"><i class="fas fa-envelope"></i></button> 
+        <button Title="Send message" class="col-1" id="btn_send" (click)="onSendMessage()" onclick="document.getElementById('table_scroll').scrollTop = elem.scrollHeight"><i class="fas fa-envelope"></i></button> 
     </div>
 <div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%">  
     <ngx-dropzone style="max-width: 89.5%; max-height: 48px; margin-left: 1%;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
-    <button class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
+    <button Title="Clear images" class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
 </div>
 <div *ngIf="isBlock" style="margin-left: 2%;">
     <label><i class="fas fa-user-lock"></i>You are in blackList</label> 

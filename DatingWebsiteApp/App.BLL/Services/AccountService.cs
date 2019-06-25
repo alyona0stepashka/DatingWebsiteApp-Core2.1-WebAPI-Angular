@@ -80,7 +80,7 @@ namespace App.BLL.Services
                     .AppendFormat("/api/account/email")
                     .AppendFormat($"?user_id={user.Id}&code={encode}");
 
-                //await _emailService.SendEmailAsync(user.Email, "Confirm your account",   !!!
+                //await _emailService.SendEmailAsync(user.Email, "Confirm your account",
                 //    $"Confirm the registration by clicking on the link: <a href='{callbackUrl}'>link</a>");
                 return user.Id;
             }
@@ -115,6 +115,10 @@ namespace App.BLL.Services
                 var user = await _userManager.FindByNameAsync(model.Email);
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
+                    if (!user.EmailConfirmed)
+                    {
+                        throw new Exception("Your Email not confirm");
+                    }
                     await _chatService.SetLastOnlineAsync(user.Id);
                     var options = new IdentityOptions();
 
@@ -156,28 +160,8 @@ namespace App.BLL.Services
                         string code = await _userManager.GeneratePasswordResetTokenAsync(user);
                         var result = await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
 
-                        if (result.Succeeded)
-                        {
-                            //var options = new IdentityOptions();
-
-                            //var tokenDescriptor = new SecurityTokenDescriptor
-                            //{
-                            //    Subject = new ClaimsIdentity(new Claim[]
-                            //    {
-                            //        new Claim("UserID", user.Id),
-                            //    }),
-                            //    Expires = DateTime.UtcNow.AddDays(1),
-                            //    SigningCredentials = new SigningCredentials(
-                            //            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettingsOption.JwT_Secret)),
-                            //            SecurityAlgorithms.HmacSha256Signature)
-                            //};
-                            //var tokenHandler = new JwtSecurityTokenHandler();
-                            //var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                            //var token = tokenHandler.WriteToken(securityToken);
-                            //return token;
-                        }
-                        else
-                        {
+                        if (!result.Succeeded)
+                        { 
                             throw new Exception("Change password fail");
                         }
                     }
@@ -197,6 +181,8 @@ namespace App.BLL.Services
                 {
                     throw new Exception("Edit user info fail");
                 }
+                //await _emailService.SendEmailAsync(user.Email, "Edit your account info",
+                //   $"Your Account Info has been updating.");
             }
             catch (Exception ex)
             {

@@ -28,11 +28,11 @@ export class HomeComponent implements OnInit {
 
   public addSendListener() {
     this.signalRService.hubConnection.on('Send', (data) => {
-      const mess = data as MessageTab;
-      if (mess.Text.length > 15) { 
-        mess.Text = mess.Text.substring(0, 14);
+      const mess = data;
+      if (mess.text.length > 15) { 
+        mess.text = mess.text.substring(0, 14) + '...';
       }
-      this.toastrService.info(mess.SenderName + ': ' + mess.Text, 'New Message');
+      this.toastrService.info(mess.senderName + ': ' + mess.text, 'New Message');
       this.signalRService.soundNotify.load();
       this.signalRService.soundNotify.play();
       console.log(data);

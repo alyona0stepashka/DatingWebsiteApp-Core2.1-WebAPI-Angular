@@ -6,6 +6,6 @@ export class MessageTab {
     SenderName = '';
     Text = '';
     FilePathes: string[] = new Array();
-    DateSend = null;
-    IsNew = false;
+    DateSend : any = null;
+    IsNew : boolean = false;
 }

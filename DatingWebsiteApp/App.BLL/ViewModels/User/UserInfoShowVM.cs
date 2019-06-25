@@ -72,6 +72,10 @@ namespace App.BLL.ViewModels
             IsOnline = ChatHub.connects.Any(m => m.UserId == user.Id) ? (DateTime?)null
                                                                       : user.DateLastOnline;
             Age = DateTime.Now.Year - user.DateBirth.Year;
+            if (DateTime.Now.DayOfYear < user.DateBirth.DayOfYear)
+            {
+                Age--;
+            }
             if (user.File != null)
             {
                 PhotoPath = user.File.Path;
@@ -79,7 +83,7 @@ namespace App.BLL.ViewModels
             DateBirth = user.DateBirth;
             if (user.Sex != null)
             {
-                Sex = new StaticBaseVM {Id=user.SexId.Value, Value = user.Sex.Value };
+                Sex = new StaticBaseVM { Id = user.SexId.Value, Value = user.Sex.Value };
             }
             if (user.MainGoal != null)
             {
@@ -164,31 +168,29 @@ namespace App.BLL.ViewModels
 
                     if (user.FriendshipsFrom != null)
                     {
-                        if (user.FriendshipsFrom.Where(m => m.UserToId == my_id/* && m.Status==true*/).Any())
+                        if (user.FriendshipsFrom.Where(m => m.UserToId == my_id).Any())
                         {
                             IsFriend = true;
-                        } 
-                    } 
+                        }
+                    }
                     if (user.FriendshipsTo != null)
                     {
-                        if (user.FriendshipsTo.Where(m => m.UserFromId == my_id/* && m.Status == true*/).Any())
+                        if (user.FriendshipsTo.Where(m => m.UserFromId == my_id).Any())
                         {
                             IsFriend = true;
-                        } 
+                        }
                     }
                 }
                 if (user.ProfileOwner != null)
                 {
-                    Views = user.ProfileOwner.Where(m=> m.LastVisit.Month == DateTime.Now.Month && m.LastVisit.Year == DateTime.Now.Year).Count();
+                    Views = user.ProfileOwner.Where(m => m.LastVisit.Month == DateTime.Now.Month && m.LastVisit.Year == DateTime.Now.Year).Count();
                 }
                 if (user.ChatMessages != null)
                 {
-                    var all = user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
-                    var answered = user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m=>m.ChatId).Distinct().Count();
-                    //var r = (double)(answered / all);
-                    //var r2 = 2 / 4;
-                    ReplyRate = all!=0 ? Math.Round((double)(answered / all), 2)
-                                       : 0;
+                    var all = (double)user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
+                    var answered = (double)user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m => m.ChatId).Distinct().Count(); 
+                    ReplyRate = all != 0 ? Math.Round((double)(answered / all), 2)
+                                         : 0;
                 }
 
             }

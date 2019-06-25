@@ -11,13 +11,13 @@
                         </div> 
                         <div *ngIf="userProfile.IsAnonimus" class="form-group" id="anon">
                             <label>IsAnonimus</label><br/>
-                            <input type="radio" [value]="true" formControlName="IsAnonimus" id="true" placeholder="IsAnonimus true ..." /><label for="true">true</label><br/>
-                            <input type="radio" [value]="false" formControlName="IsAnonimus" id="false" placeholder="IsAnonimus false ..." /><label for="false">false</label>
+                            <input Title="Turn on anonimus mode" type="radio" [value]="true" formControlName="IsAnonimus" id="true" placeholder="IsAnonimus true ..." /><label for="true">true</label><br/>
+                            <input Title="Turn off anonimus mode" type="radio" [value]="false" formControlName="IsAnonimus" id="false" placeholder="IsAnonimus false ..." /><label for="false">false</label>
                         </div> 
                         <div *ngIf="!userProfile.IsAnonimus" class="form-group" id="anon"> 
                             <label>&nbsp;<i class="fas fa-user-secret"></i>&nbsp;IsAnonimus</label><br/>
-                            <input type="radio" [value]="true" formControlName="IsAnonimus" id="true" placeholder="IsAnonimus true ..." /><label for="true">true</label><br/>
-                            <input type="radio" [value]="false" checked formControlName="IsAnonimus" id="false" placeholder="IsAnonimus false ..." /><label for="false">false</label>
+                            <input Title="Turn on anonimus mode" type="radio" [value]="true" formControlName="IsAnonimus" id="true" placeholder="IsAnonimus true ..." /><label for="true">true</label><br/>
+                            <input Title="Turn off anonimus mode" type="radio" [value]="false" checked formControlName="IsAnonimus" id="false" placeholder="IsAnonimus false ..." /><label for="false">false</label>
                         </div>
                         <fieldset>
                             <legend><h2>&nbsp;<i class="fas fa-key"></i>&nbsp;Change Password</h2></legend>
@@ -31,7 +31,7 @@
                         </div> 
                         </fieldset><br/>
                         <div class="form-group" style="width: 100%">
-                            <button type="submit" class="btn btn-primary" style="width: 100%">Save</button>
+                            <button Title="Save changes" type="submit" class="btn btn-primary" style="width: 100%">Save</button>
                         </div> 
                     </fieldset>
                 </form>

@@ -34,7 +34,7 @@ namespace App.WebAPI.Controllers
                 {
                     throw new Exception("Register fail");
                 }                    
-                return Ok(user_id);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -73,7 +73,7 @@ namespace App.WebAPI.Controllers
                     throw new Exception("UserId and Code are required");
                 } 
                 await _accountService.ConfirmEmailAsync(user_id, code);
-                return Ok();
+                return Redirect("http://localhost:4200/auth/login");
             }
             catch (Exception ex)
             {

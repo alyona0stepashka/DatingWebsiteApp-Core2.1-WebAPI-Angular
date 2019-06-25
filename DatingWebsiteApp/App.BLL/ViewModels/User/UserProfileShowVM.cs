@@ -9,6 +9,8 @@ namespace App.BLL.ViewModels
     {
         public string Id { get; set; }
 
+        public bool IsAnonimus { get; set; }
+
         public string Name { get; set; }
 
         public string PhotoPath { get; set; }
@@ -44,7 +46,8 @@ namespace App.BLL.ViewModels
         public UserProfileShowVM(ApplicationUser user, double? replyRate, int? views)
         {
             Id = user.Id;
-            Name = user.Name; 
+            Name = user.Name;
+            IsAnonimus = user.IsAnonimus;
             if (user.File != null)
             {
                 PhotoPath = user.File.Path;

@@ -3,26 +3,36 @@ using System.Collections.Generic;
 using System.Text;
 using App.Models;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace App.BLL.ViewModels
 {
     public class ChatMessageVM
     {
+        [JsonProperty(nameof(Id))]
         public int Id { get; set; }
+        [JsonProperty(nameof(ChatId))]
 
         public int ChatId { get; set; }
+        [JsonProperty(nameof(SenderId))]
 
         public string SenderId { get; set; }
+        [JsonProperty(nameof(SenderAvatarPath))]
 
         public string SenderAvatarPath { get; set; }
+        [JsonProperty(nameof(SenderName))]
 
         public string SenderName { get; set; }
+        [JsonProperty(nameof(Text))]
 
         public string Text { get; set; }
+        [JsonProperty(nameof(FilePathes))]
 
         public List<string> FilePathes { get; set; }
+        [JsonProperty(nameof(DateSend))]
 
         public DateTime DateSend { get; set; }
+        [JsonProperty(nameof(IsNew))]
 
         public bool IsNew { get; set; }
 

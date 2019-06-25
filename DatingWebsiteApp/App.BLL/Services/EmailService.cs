@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using MimeKit;
+using System.Net;
 
 namespace App.BLL.Services
 {
@@ -35,7 +36,8 @@ namespace App.BLL.Services
 
                 using (var client = new SmtpClient())
                 {
-                    await client.ConnectAsync("smtp.mail.ru", 587, false);
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    await client.ConnectAsync("smtp.mail.ru", 587, MailKit.Security.SecureSocketOptions.Auto);
                     await client.AuthenticateAsync("messendertest@mail.ru", "15975310895623Vladimir!");
                     await client.SendAsync(emailMessage);
 

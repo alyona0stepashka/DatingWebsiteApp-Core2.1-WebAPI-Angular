@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { AlbumTab } from 'src/app/models/album-tab.model'; 
-import { ToastrService } from 'ngx-toastr';
-import { PhotoAlbumService } from 'src/app/services/photo-album.service'; 
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
-import * as signalR from '@aspnet/signalr';
+import { Component, OnInit } from '@angular/core'; 
+import { ToastrService } from 'ngx-toastr'; 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ChatService } from 'src/app/services/chat.service';
 import { ChatTab } from 'src/app/models/chat-tab.model';
 import { DatePipe } from '@angular/common';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { MessageTab } from 'src/app/models/message-tab.model';
+//import { timer } from 'rxjs/observable/timer';
 
 @Component({
   selector: 'app-chats',
@@ -23,8 +20,7 @@ export class ChatsComponent implements OnInit {
     Description: ['', [Validators.required]]
   });
  
-  chatList: ChatTab[] = new Array();
-  // resList: ChatTab[] = new Array();
+  chatList: ChatTab[] = new Array(); 
   incomingMessage: MessageTab = new MessageTab();
   imageUrl = '/assets/img/no-image.png';
   submitted = false;
@@ -35,8 +31,7 @@ export class ChatsComponent implements OnInit {
 
   constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
-              private chatService: ChatService,
-              private activateRoute: ActivatedRoute,
+              private chatService: ChatService, 
               public signalRService: SignalRService,
               public datepipe: DatePipe
               ) { }
@@ -51,11 +46,8 @@ export class ChatsComponent implements OnInit {
     this.chatService.getMyChats().subscribe(
       res => {
         this.chatList = res as ChatTab[];
-        this.chatList.sort(m=>m.LastMessageDateTime);
-        this.chatList.reverse();
-        // this.resList.forEach(chat => {
-        //   this.chatList.unshift(chat);
-        // });
+        this.chatList.sort(m => m.LastMessageDateTime);
+        this.chatList.reverse(); 
       },
       err => {
         console.log(err);
@@ -65,19 +57,17 @@ export class ChatsComponent implements OnInit {
   }
   
   public addSendListener() {
-    this.signalRService.hubConnection.on('Send', (data) => {
-      this.incomingMessage = data as MessageTab;
-
-      let new_chat = new ChatTab();
-      new_chat.Id = this.incomingMessage.ChatId;
-      if (this.incomingMessage.Text.length<15){
-        new_chat.LastMessage = this.incomingMessage.Text;
+    this.signalRService.hubConnection.on('Send', (data) => { 
+      let new_chat = new ChatTab(); 
+      new_chat.Id = data.chatId;
+      if (data.text.length < 15){
+        new_chat.LastMessage = data.text;
       } else {
-        new_chat.LastMessage = this.incomingMessage.Text.substring(0, 14);
+        new_chat.LastMessage = data.text.substring(0, 14) + '...';
       }
-      new_chat.LastMessageDateTime = this.incomingMessage.DateSend;
-      new_chat.LastSenderAvatarPath = this.incomingMessage.SenderAvatarPath;
-      new_chat.Name = this.incomingMessage.SenderName;
+      new_chat.LastMessageDateTime = data.dateSend;
+      new_chat.LastSenderAvatarPath = data.senderAvatarPath;
+      new_chat.Name = data.senderName;
       new_chat.IsBlock = false;
       new_chat.HasNew = true;
 
@@ -85,25 +75,10 @@ export class ChatsComponent implements OnInit {
       if (index > -1) {
         this.chatList.splice(index, 1);
       }
-      this.chatList.unshift(new_chat);
-      // this.resetList();
-      // this.signalRService.soundNotify.load();
-      // this.signalRService.soundNotify.play();
+      this.chatList.unshift(new_chat); 
       console.log(data);
     });
-  }
-
-  // onSubmit() {
-  //   this.albumService.createAlbum(this.createForm).subscribe(
-  //     res => {
-  //       this.toastr.success('New album created!', 'Creating successful.');
-  //       this.resetList();
-  //     },
-  //     err => {
-  //       console.log(err);
-  //     }
-  //   );
-  // }
+  } 
 
   onClearHistory(id: number) {
     this.chatService.clearChatHistory(id).subscribe(

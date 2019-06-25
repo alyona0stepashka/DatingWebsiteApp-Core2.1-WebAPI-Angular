@@ -38,12 +38,13 @@ export class RegisterComponent implements OnInit {
     }
 
     this.service.register(this.registerForm).subscribe(
-      (res: any) => {
-        this.userId = res as string;
-        this.resetForm();
+      (res: any) => { 
+        // this.userId = res as string;
+        // this.resetForm();
         this.toastr.success('New user created!', 'Registration successful.');
+        this.router.navigate(['/auth/login']);
         // this.router.navigate(['/auth/first/' + this.userId]); 
-        this.router.navigate(['/auth/login/' + this.userId]);
+        // this.router.navigate(['/auth/login/' + this.userId]);
       },
       err => {
         console.log(err);

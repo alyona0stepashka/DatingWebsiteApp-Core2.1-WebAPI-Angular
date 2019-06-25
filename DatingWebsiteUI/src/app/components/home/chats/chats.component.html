@@ -54,59 +54,7 @@
                         </div>
                     </td>
                 </tr>
-            </table>
-
-
-
-
-            <!-- <div class="container" style="margin-right: 0; margin-left: 5%;">
-                <div *ngFor="let chat of chatList" class="item text-center" > 
-                    <div *ngIf="!chat.HasNew" class="row">
-                        <i class="fas fa-times" style="position: absolute; margin-left: 3%; margin-top: -2%;" (click)="onClearHistory(chat.Id)"></i>
-                        <div class="col-3 text-center" (click)="openChat(chat.Id)">
-                            <img *ngIf="chat.ChatIconPath" class="avatar-chat" src="https://localhost:44394{{chat.ChatIconPath}}"/>
-                            <img *ngIf="!chat.ChatIconPath" class="avatar-chat" src="/assets/img/no-image.png"/>
-                        </div>
-                        <div class="col-9" (click)="openChat(chat.Id)">
-                            <label style="display: flex;">{{chat.Name}}</label> 
-                            <div class="row" style="margin-top: -3%; max-width: 108%; margin-left: 0%;">
-                                <div class="col-2 text-center">
-                                    <img *ngIf="chat.LastSenderAvatarPath" class="avatar" src="https://localhost:44394{{chat.LastSenderAvatarPath}}"/>
-                                    <img *ngIf="!chat.LastSenderAvatarPath" class="avatar" src="/assets/img/no-image.png"/>
-                                </div>
-                                <div class="col-7" style="text-align: -webkit-auto;">
-                                    <b style="font-size: 80%">{{chat.LastMessage}}</b>
-                                </div>
-                                <div class="col-3" style="padding-left: 0;">
-                                    <b style="font-size: 65%">{{this.datepipe.transform(chat.LastMessageDateTime, 'h:mm a')}}</b>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="chat.HasNew" class="row" style="background-color: #62758694;">
-                        <i class="fas fa-times" style="position: absolute; margin-left: 3%; margin-top: -2%;" (click)="onClearHistory(chat.Id)"></i>
-                        <div class="col-3 text-center" (click)="openChat(chat.Id)">
-                            <img *ngIf="chat.ChatIconPath" class="avatar-chat" src="https://localhost:44394{{chat.ChatIconPath}}"/>
-                            <img *ngIf="!chat.ChatIconPath" class="avatar-chat" src="/assets/img/no-image.png"/>
-                        </div>
-                        <div class="col-9" (click)="openChat(chat.Id)">
-                            <label style="display: flex;">{{chat.Name}}</label> 
-                            <div class="row" style="margin-top: -3%; max-width: 108%; margin-left: 0%;">
-                                <div class="col-2 text-center">
-                                    <img *ngIf="chat.LastSenderAvatarPath" class="avatar" src="https://localhost:44394{{chat.LastSenderAvatarPath}}"/>
-                                    <img *ngIf="!chat.LastSenderAvatarPath" class="avatar" src="/assets/img/no-image.png"/>
-                                </div>
-                                <div class="col-7" style="text-align: -webkit-auto;">
-                                    <b style="font-size: 80%">{{chat.LastMessage}}</b>
-                                </div>
-                                <div class="col-3" style="padding-left: 0;">
-                                    <b style="font-size: 65%">{{this.datepipe.transform(chat.LastMessageDateTime, 'h:mm a')}}</b>
-                                </div>
-                            </div>
-                        </div>
-                    </div>    
-                </div>  
-            </div> -->
+            </table> 
         </div>
         <div *ngIf="isOpen" class="col-8" style="padding-left: 0; background-color: #d6d6d6; padding-bottom: 1%;">
             <app-chat-detail [chatId]="chatId" [isOnline]="isOnline" [isBlock]="isBlock"></app-chat-detail> 

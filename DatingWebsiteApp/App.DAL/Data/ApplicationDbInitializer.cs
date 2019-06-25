@@ -213,9 +213,9 @@ namespace App.DAL.Data
             {
                 var new_user = new ApplicationUser
                 {
-                    Email = "user@mail.ru",
-                    UserName = "user@mail.ru",
-                    Name = "TestUser",
+                    Email = "user1@mail.ru",
+                    UserName = "user1@mail.ru",
+                    Name = "Girl",
                     EmailConfirmed = true,
                     FileId = photo_no_image.Id,
                     SexId = sex_id,
@@ -238,7 +238,7 @@ namespace App.DAL.Data
                 {
                     Email = "user2@mail.ru",
                     UserName = "user2@mail.ru",
-                    Name = "TestUser2",
+                    Name = "Boy",
                     EmailConfirmed = true,
                     FileId = photo_no_image.Id,
                     SexId = sex_id,
@@ -255,8 +255,7 @@ namespace App.DAL.Data
                         FinanceStatusId = fin_id,
                         NationalityId = nat_id,
                         ZodiacId = zodiac_id
-                    },
-                   // PhotoAlbums = new List<PhotoAlbum> { new PhotoAlbum { Name="Page Photo", Description=DateTime.Now.ToString()} }
+                    }, 
                 };
                 await userManager.CreateAsync(new_user, "Parol_01");
                 await userManager.CreateAsync(new_user2, "Parol_01");
