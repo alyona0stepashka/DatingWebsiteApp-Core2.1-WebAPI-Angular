@@ -102,7 +102,15 @@ export class ChatsComponent implements OnInit {
         this.chatList.splice(index, 1);
       }
       this.chatList.unshift(new_chat); 
-      console.log(data);
+      
+      if (this.chatId == new_chat.Id && this.isOpen){
+        (async () => {  
+          await this.delay(2500); 
+          document.getElementById(this.chatId.toString()).style.backgroundColor = '#62758600'; 
+        })();
+      }
+
+
     });
   }
 
@@ -137,7 +145,6 @@ export class ChatsComponent implements OnInit {
       (async () => {  
         await this.delay(2500); 
         document.getElementById(id.toString()).style.backgroundColor = '#62758600'; 
-        debugger;
       })();
 
 

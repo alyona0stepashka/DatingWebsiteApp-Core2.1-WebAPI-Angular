@@ -51,8 +51,7 @@ export class ChatDetailComponent implements OnChanges {
       const new_mes = this.messages.filter(m=>m.IsNew);
       new_mes.forEach(m => { 
         document.getElementById(m.Id.toString()).style.backgroundColor = 'slategrey'; 
-      });
-      debugger;
+      }); 
     })();
   }
 
@@ -156,6 +155,26 @@ export class ChatDetailComponent implements OnChanges {
   }
 
   onSendMessage() { 
+
+    // if (this.messageText.length>0 && this.UploadFiles.length>0) { 
+    //   var formData = new FormData();
+    //   formData.append("ChatId", (this.chatId).toString());
+    //   formData.append("ReceiverId", "0");
+    //   formData.append("Text", this.messageText);
+    //   this.UploadFiles.forEach(file => {
+    //     formData.append("UploadFiles", file);
+    //   }); 
+    //   this.chatService.sendMessage(formData).subscribe(
+    //     res => { 
+    //     },
+    //     err => {
+    //       console.log(err);
+    //       this.toastr.error(err.error, 'Error');
+    //     }
+    //   );
+    //   this.messageText = '';
+    // }
+
     var formData = new FormData();
     formData.append("ChatId", (this.chatId).toString());
     formData.append("ReceiverId", "0");

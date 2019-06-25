@@ -172,6 +172,29 @@ export class ProfileComponent implements OnInit {
   }
 
   onSendMessage() {
+    // if (this.messageText.length>0 && this.UploadFiles.length>0) { 
+    //   var formData = new FormData();
+    //   formData.append("ChatId", "0");
+    //   formData.append("ReceiverId", (this.userId).toString());
+    //   formData.append("Text", this.messageText);
+    //   this.UploadFiles.forEach(file => {
+    //     formData.append("UploadFiles", file);
+    //   });
+
+    //   this.chatService.sendMessage(formData).subscribe(
+    //     res => { 
+    //     },
+    //     err => {
+    //       console.log(err);
+    //       this.toastr.error(err.error, 'Error');
+    //     }
+    //   );
+    //   this.messageText = '';
+    // }
+
+
+
+
     // this.UploadFiles.forEach(file => {
     //   const reader = new FileReader();
     //   reader.readAsDataURL(file);
