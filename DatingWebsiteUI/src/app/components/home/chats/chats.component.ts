@@ -27,7 +27,7 @@ export class ChatsComponent implements OnInit {
   isOpen = false;
   isBlock = false;
   isOnline: any;
-  chatId: number = null;
+  chatId: number = null; 
 
   constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
@@ -39,6 +39,7 @@ export class ChatsComponent implements OnInit {
   async ngOnInit() {
     this.resetList();
     this.addSendListener();
+    this.addSendMyselfListener(); 
   }
 
   resetList() {
@@ -79,6 +80,31 @@ export class ChatsComponent implements OnInit {
       console.log(data);
     });
   } 
+  
+  public addSendMyselfListener() {
+    this.signalRService.hubConnection.on('Send', (data) => { 
+      let new_chat = new ChatTab(); 
+      new_chat.Id = data.chatId;
+      if (data.text.length < 15){
+        new_chat.LastMessage = data.text;
+      } else {
+        new_chat.LastMessage = data.text.substring(0, 14) + '...';
+      }
+      new_chat.LastMessageDateTime = data.dateSend;
+      new_chat.LastSenderAvatarPath = data.senderAvatarPath;
+      new_chat.Name = data.senderName;
+      new_chat.IsBlock = false;
+      const old_chat = this.chatList.find(m => m.Id == new_chat.Id);
+      new_chat.HasNew = old_chat.HasNew;
+
+      const index = this.chatList.indexOf(old_chat);
+      if (index > -1) {
+        this.chatList.splice(index, 1);
+      }
+      this.chatList.unshift(new_chat); 
+      console.log(data);
+    });
+  }
 
   onClearHistory(id: number) {
     this.chatService.clearChatHistory(id).subscribe(
@@ -93,6 +119,10 @@ export class ChatsComponent implements OnInit {
       }
     );
   }
+  
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 
   openChat(id: number) {
     if (this.chatId == id){
@@ -103,8 +133,14 @@ export class ChatsComponent implements OnInit {
       let ch = this.chatList.find(m => m.Id == id);
       this.isBlock = ch.IsBlock;
       this.isOnline = ch.IsOnline;
-      this.isOpen = true;
-      console.log(id); 
+      this.isOpen = true;  
+      (async () => {  
+        await this.delay(2500); 
+        document.getElementById(id.toString()).style.backgroundColor = '#62758600'; 
+        debugger;
+      })();
+
+
     }
   }
 

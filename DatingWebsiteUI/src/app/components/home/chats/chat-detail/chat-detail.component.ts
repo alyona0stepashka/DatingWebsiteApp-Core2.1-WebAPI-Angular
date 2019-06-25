@@ -23,7 +23,7 @@ export class ChatDetailComponent implements OnChanges {
   incomingMessage: MessageTab = new MessageTab();
   public Emojies: EmojiTab = new EmojiTab();
   public IsOpenEmoji: boolean = false;
-  messageText = ''; 
+  messageText = '';
   UploadFiles: File[] = new Array();
   OpenFiles: string[] = new Array();
   submitted = false;
@@ -45,6 +45,19 @@ export class ChatDetailComponent implements OnChanges {
 
   ngOnChanges() {
     this.resetList();
+
+    (async () => {  
+      await this.delay(2500);
+      const new_mes = this.messages.filter(m=>m.IsNew);
+      new_mes.forEach(m => { 
+        document.getElementById(m.Id.toString()).style.backgroundColor = 'slategrey'; 
+      });
+      debugger;
+    })();
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
   resetList() {

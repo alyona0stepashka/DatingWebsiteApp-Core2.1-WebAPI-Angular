@@ -1,6 +1,7 @@
 ﻿using App.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace App.BLL.ViewModels
@@ -43,7 +44,7 @@ namespace App.BLL.ViewModels
 
         public int ViewsCount { get; set; }
 
-        public UserProfileShowVM(ApplicationUser user, double? replyRate, int? views)
+        public UserProfileShowVM(ApplicationUser user)
         {
             Id = user.Id;
             Name = user.Name;
@@ -115,13 +116,16 @@ namespace App.BLL.ViewModels
                     }
                 }
             }
-            if (replyRate != null)
+            if (user.ProfileOwner != null)
             {
-                ReplyRate = replyRate.Value;
+                ViewsCount = user.ProfileOwner.Where(m => m.LastVisit.Month == DateTime.Now.Month && m.LastVisit.Year == DateTime.Now.Year).Count();
             }
-            if (views != null)
+            if (user.ChatMessages != null)
             {
-                views = views.Value;
+                var all = (double)user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
+                var answered = (double)user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m => m.ChatId).Distinct().Count();
+                ReplyRate = all != 0 ? Math.Round((double)(answered / all), 2)
+                                     : 0;
             }
         }
         public UserProfileShowVM()

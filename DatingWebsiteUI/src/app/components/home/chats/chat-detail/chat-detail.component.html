@@ -1,6 +1,5 @@
-
-        <span *ngIf="isOnline" style="float:right; font-size: 80%; color:darkgrey; margin-right: 3%;">last seen {{this.datepipe.transform(isOnline, 'MMMM d, h:mm a')}}</span>
-        <span *ngIf="isOnline == null" style="float:right; font-size: 80%; color:darkgrey; margin-right: 3%;">online</span><br/>
+<span *ngIf="isOnline" style="float:right; font-size: 80%; color:darkgrey; margin-right: 3%;">last seen {{this.datepipe.transform(isOnline, 'MMMM d, h:mm a')}}</span>
+<span *ngIf="isOnline == null" style="float:right; font-size: 80%; color:darkgrey; margin-right: 3%;">online</span><br/>
 <div id="table_scroll" style="max-height: 500px; overflow: auto; margin-right: -2%;"> 
     <table *ngIf="messages.length>0" style="margin: 2%; width: 96%; background-color: slategrey; border-bottom-style: solid"> 
         <tr *ngFor="let mess of messages"> 
@@ -11,8 +10,8 @@
             <td style="border-bottom: solid "> 
                 <label style="display: flex;">{{mess.SenderName}}&nbsp;&nbsp;<b style="font-size: 65%">{{this.datepipe.transform(mess.DateSend, 'MMMM d, h:mm a')}}</b></label><br/>
                 <div class="row" style="margin-top: -3%; max-width: 108%; margin-left: 0%;"> 
-                    <p *ngIf="!mess.IsNew" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
-                    <p *ngIf="mess.IsNew" onload="changeElement(new_mes)" id="new_mes" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
+                    <p id="{{mess.Id}}" *ngIf="!mess.IsNew" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line;">{{mess.Text}}</p> 
+                    <p id="{{mess.Id}}" *ngIf="mess.IsNew" onload="changeElement(new_mes)" id="new_mes" style="font-size: 100%; width: 90%; color:#ffff; word-wrap: break-word; margin-right: 10px; word-break: break-all; white-space: pre-line; background-color: #8d9cacc7;">{{mess.Text}}</p> 
                 </div>
                 <button Title="Show attachment" *ngIf="mess.FilePathes.length>0" (click)="OpenFiles=mess.FilePathes" onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-paperclip"></i>Show attachment</button><br/>
             </td>        
@@ -37,7 +36,7 @@
             </emoji-mart>
         </div>        
         <textarea rows="12" placeholder="Enter message ... &#x1F981;" cols="60" [(ngModel)]="messageText" style="resize: none; height: 90px; width: 91%;"></textarea>
-        <i Title="Emoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 1%; background-color: #ffff;" (click)="IsOpenEmoji=!IsOpenEmoji"></i>
+        <i Title="Emoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 1%; background-color: #ffff; cursor: pointer;" (click)="IsOpenEmoji=!IsOpenEmoji"></i>
         <!-- <i *ngIf="IsOpenEmoji" class="far fa-laugh"style="position: absolute; margin-left: 85%; margin-top: 15%;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> -->
         <button Title="Send message" class="col-1" id="btn_send" (click)="onSendMessage()" onclick="document.getElementById('table_scroll').scrollTop = elem.scrollHeight"><i class="fas fa-envelope"></i></button> 
     </div>
@@ -62,7 +61,7 @@
         </div>
     </div>
 </div> 
- <script>
+<script>
  function changeElement(id) {
   var el = document.getElementById(id); 
   var bgcol = el.css( "background-color" );

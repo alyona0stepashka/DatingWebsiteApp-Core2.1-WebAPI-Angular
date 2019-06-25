@@ -117,7 +117,7 @@ namespace App.BLL.Services
                 {
                     if (!user.EmailConfirmed)
                     {
-                        throw new Exception("Your Email not confirm");
+                       //throw new Exception("Your Email not confirm");
                     }
                     await _chatService.SetLastOnlineAsync(user.Id);
                     var options = new IdentityOptions();

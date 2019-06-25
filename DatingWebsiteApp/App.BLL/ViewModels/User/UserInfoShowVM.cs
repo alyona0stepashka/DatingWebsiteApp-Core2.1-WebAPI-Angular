@@ -187,7 +187,8 @@ namespace App.BLL.ViewModels
                 }
                 if (user.ChatMessages != null)
                 {
-                    var all = (double)user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
+                   // var all = (double)user.ChatMessages.Select(m => m.ChatId).Distinct().Count();
+                    var all = (double)user.ChatsTo.Count();
                     var answered = (double)user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m => m.ChatId).Distinct().Count(); 
                     ReplyRate = all != 0 ? Math.Round((double)(answered / all), 2)
                                          : 0;
