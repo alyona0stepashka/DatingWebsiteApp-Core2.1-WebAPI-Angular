@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ namespace App.BLL.Services
             _db = uow;
             _userManager = userManager;
             _fileService = fileService;
+            _hub = hub;
         }
 
         public async Task<ChatRoom> GetDbChatAsync(int chat_id)
@@ -63,26 +65,32 @@ namespace App.BLL.Services
             {
                 Connect receiver = null;
                 var caller = ChatHub.connects.Find(m => m.UserId == me_id);
-                ChatMessage db_message = new ChatMessage();                
+                ChatMessage db_message = new ChatMessage();
 
                 if (message.ReceiverId != "0" && message.ChatId == 0)
-                {                    
+                {
                     var isChatExist = IsChatExist(me_id, message.ReceiverId);
                     message.ChatId = !isChatExist ? (await CreateChatAsync(me_id, message.ReceiverId)).Id
-                                                  : GetChatIdByUsersAsync(me_id, message.ReceiverId); 
-                    db_message = await SendMessageAsync(message, me_id); 
+                                                  : GetChatIdByUsersAsync(me_id, message.ReceiverId);
+                    db_message = await SendMessageAsync(message, me_id);
                 }
                 else if (message.ReceiverId == "0" && message.ChatId != 0)
-                { 
-                    db_message = await SendMessageAsync(message, me_id);  
-                    message.ReceiverId = await GetChatReceiverIdAsync(message.ChatId, me_id); 
+                {
+                    db_message = await SendMessageAsync(message, me_id);
+                    message.ReceiverId = await GetChatReceiverIdAsync(message.ChatId, me_id);
                 }
                 receiver = ChatHub.connects.Find(m => m.UserId == message.ReceiverId);
-                db_message = await _db.ChatMessages.GetByIdAsync(db_message.Id);
-                await _hub.Clients.Client(caller.ConnectionId).SendAsync("SendMyself", new ChatMessageVM(db_message)); 
+                Expression<Func<ChatMessage, object>>[] condition = new Expression<Func<ChatMessage, object>>[]{
+                x => x.UserSender,
+                x=>x.Files
+                };
+                db_message = await _db.ChatMessages.GetByIdAsync(db_message.Id, condition);
+                var chatMessageVM = new ChatMessageVM(db_message);
+                await _hub.Clients.Client(caller.ConnectionId).SendAsync("SendMyself", chatMessageVM);
                 if (receiver != null)
                 {
-                    await _hub.Clients.Client(receiver.ConnectionId).SendAsync("Send", new ChatMessageVM(db_message));
+                    
+                    await _hub.Clients.Client(receiver.ConnectionId).SendAsync("Send", chatMessageVM);
                 }
 
             }

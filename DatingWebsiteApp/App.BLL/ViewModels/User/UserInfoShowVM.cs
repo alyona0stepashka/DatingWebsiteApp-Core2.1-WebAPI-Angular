@@ -187,7 +187,7 @@ namespace App.BLL.ViewModels
                     var answered = user.ChatMessages.Where(m => m.Chat.UserFromId != user.Id).Select(m=>m.ChatId).Distinct().Count();
                     //var r = (double)(answered / all);
                     //var r2 = 2 / 4;
-                    ReplyRate = all!=0 ? (double)(answered / all)
+                    ReplyRate = all!=0 ? Math.Round((double)(answered / all), 2)
                                        : 0;
                 }
 

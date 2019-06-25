@@ -56,16 +56,22 @@
         <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:650px"> 
           <div class="w3-center"><br>
             <i class="fas fa-times" style="margin-top: -3%; float: right; margin-right: 1%; cursor: pointer;" onclick="document.getElementById('id01').style.display='none'"></i>
-            <div *ngIf="IsOpenEmoji" class="row" style="width: 100%; margin-left: 1%; margin-top: -1%;">
+            <!-- <div *ngIf="IsOpenEmoji" class="row" style="width: 100%; margin-left: 1%; margin-top: -1%;">
                 <div style="margin-top: 1%" class="container-chat">
                   <div *ngFor="let em of Emojies.Emoji" class="item" (click)="outgoingMessage.Text = outgoingMessage.Text + em">
                       {{em}}
                   </div>
                 </div>
-            </div>
+            </div> -->
+            <div  *ngIf="IsOpenEmoji">
+              <emoji-mart title="Pick your emoji…" emoji="point_up" set="emojione" (emojiClick)="addEmoji($event)"
+              [style]="{ position: 'absolute', bottom: '150px', right: '-170px' }"
+              [i18n]="{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }">
+              </emoji-mart>
+            </div>  
             <div class="row" style="width: 98%; margin-left: 1%;">
-                <textarea class="col-11" rows="12" cols="60" [(ngModel)]="outgoingMessage.Text" style="resize: none"></textarea>
-                <i class="far fa-laugh"style="position: absolute; margin-left: 86%; margin-top: 1%; cursor: pointer;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> 
+                <textarea class="col-11" rows="12" cols="60" [(ngModel)]="messageText" style="resize: none"></textarea>
+                <i class="far fa-laugh"style="position: absolute; margin-left: 86%; margin-top: 1%; cursor: pointer; background-color: #ffff;" (click)="IsOpenEmoji=!IsOpenEmoji"></i> 
                 <button class="col-1" (click)="onSendMessage()"><i class="fas fa-envelope"></i></button> 
             </div>
             <div class="row" style="width: 98%; margin-left: 1%; margin-bottom: -2%;">      

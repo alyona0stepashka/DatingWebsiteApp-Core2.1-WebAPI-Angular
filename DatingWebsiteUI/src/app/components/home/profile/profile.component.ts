@@ -12,6 +12,7 @@ import { MessageSend } from 'src/app/models/message-send.model';
 import { ChatService } from 'src/app/services/chat.service';
 import { DatePipe } from '@angular/common'; 
 import { EmojiTab } from 'src/app/models/emoji-tab.model';
+import { MessageTab } from 'src/app/models/message-tab.model';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,9 @@ export class ProfileComponent implements OnInit {
   public Emojies: EmojiTab = new EmojiTab();
   public IsOpenEmoji: boolean = false;
   public userProfile = new UserProfile(); 
-  public outgoingMessage = new MessageSend();
+  incomingMessage: MessageTab = new MessageTab();
+  messageText = '';
+  // public outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   _albums: any[] = new Array();
   light_image_path = '/assets/img/no-image.png';
@@ -178,7 +181,7 @@ export class ProfileComponent implements OnInit {
     var formData = new FormData();
     formData.append("ChatId", "0");
     formData.append("ReceiverId", (this.userId).toString());
-    formData.append("Text", this.outgoingMessage.Text);
+    formData.append("Text", this.messageText);
     this.UploadFiles.forEach(file => {
       formData.append("UploadFiles", file);
     });
@@ -191,11 +194,17 @@ export class ProfileComponent implements OnInit {
         this.toastr.error(err.error, 'Error');
       }
     );
-    this.outgoingMessage.Text = '';
+    this.messageText = '';
   }
 
   onFilesRejected(files: File[]) {
     console.log(files);
+  }
+  
+  addEmoji(event){
+    const { messageText } = this;
+    const text = `${messageText}${event.emoji.native}`;
+    this.messageText = text;
   }
 
 }

@@ -7,6 +7,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxGalleryModule } from 'ngx-gallery';
 
 import { DatePipe } from '@angular/common';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 // import { MatAutocompleteModule } from '@angular/material/autocomplete';
 // import { MatCheckboxModule } from '@angular/material/checkbox';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -93,6 +94,7 @@ import 'hammerjs';
     LightboxModule,
     NgxDropzoneModule,
     NgxGalleryModule,
+    PickerModule,
     ToastrModule.forRoot()
   ],
   providers: [

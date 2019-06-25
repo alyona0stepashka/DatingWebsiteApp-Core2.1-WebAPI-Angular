@@ -18,6 +18,7 @@ namespace App.DAL.Repositories
         {
             _db = context;
         }
+
         public IQueryable<TEntity> Includes(params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _db.Set<TEntity>().AsQueryable();
@@ -29,6 +30,19 @@ namespace App.DAL.Repositories
 
             return query;
         }
+
+        public async Task<TEntity> GetByIdAsync(int id, params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _db.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(e => e.Id == id);
+        }
+
         public async Task<TEntity> GetByIdAsync(int id)
         {
             return await _db.Set<TEntity>()

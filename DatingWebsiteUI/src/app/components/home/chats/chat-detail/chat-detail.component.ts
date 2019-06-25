@@ -25,9 +25,11 @@ export class ChatDetailComponent implements OnChanges {
   @Input() isBlock: boolean;
 
   messages: MessageTab[] = new Array();
+  incomingMessage: MessageTab = new MessageTab();
   public Emojies: EmojiTab = new EmojiTab();
   public IsOpenEmoji: boolean = false;
-  outgoingMessage = new MessageSend();
+  messageText = '';
+  // outgoingMessage = new MessageSend();
   UploadFiles: File[] = new Array();
   OpenFiles: string[] = new Array();
   submitted = false;
@@ -78,16 +80,17 @@ export class ChatDetailComponent implements OnChanges {
 
   public addSendListener() {
     this.signalRService.hubConnection.on('Send', (data) => {
-      this.signalRService.incomingMessage = data as MessageTab;
-      this.messages.unshift(this.signalRService.incomingMessage);
-      this.signalRService.soundNotify.play();
+      this.incomingMessage = data as MessageTab; 
+      this.messages.unshift(this.incomingMessage);
+      // this.signalRService.soundNotify.load();
+      // this.signalRService.soundNotify.play();
       console.log(data);
     });
   }
   public addSendMyselfListener() {
     this.signalRService.hubConnection.on('SendMyself', (data) => {
-      this.signalRService.incomingMessage = data as MessageTab;
-      this.messages.unshift(this.signalRService.incomingMessage);
+      this.incomingMessage = data as MessageTab; 
+      this.messages.unshift(this.incomingMessage);
       console.log(data);
     });
   }
@@ -121,11 +124,11 @@ export class ChatDetailComponent implements OnChanges {
   }
 
   onSendMessage() {  
-    this.outgoingMessage.ChatId = this.chatId; 
+    // this.outgoingMessage.ChatId = this.chatId; 
     var formData = new FormData();
     formData.append("ChatId", (this.chatId).toString());
     formData.append("ReceiverId", "0");
-    formData.append("Text", this.outgoingMessage.Text);
+    formData.append("Text", this.messageText);
     this.UploadFiles.forEach(file => {
       formData.append("UploadFiles", file);
     });
@@ -139,7 +142,7 @@ export class ChatDetailComponent implements OnChanges {
         this.toastr.error(err.error, 'Error');
       }
     );
-    this.outgoingMessage.Text = '';
+    this.messageText = '';
 
     //   this.albumService.createAlbumPhoto(file, this.albumId).subscribe(
     //   (res: any) => {
@@ -155,6 +158,12 @@ export class ChatDetailComponent implements OnChanges {
 
   onFilesRejected(files: File[]) {
     console.log(files);
+  }
+
+  addEmoji(event){
+    const { messageText } = this;
+    const text = `${messageText}${event.emoji.native}`;
+    this.messageText = text;
   }
 
 }

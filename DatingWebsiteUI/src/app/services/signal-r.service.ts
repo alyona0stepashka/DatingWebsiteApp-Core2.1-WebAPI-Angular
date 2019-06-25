@@ -28,7 +28,7 @@ export class SignalRService {
   constructor(private http: HttpClient) { }
   public hubConnection: signalR.HubConnection;
 
-  public incomingMessage = new MessageTab();
+  // public incomingMessage = new MessageTab();
  // public outgoing_message: MessageSend;
   public soundNotify = new Audio('../../assets/sounds/message.mp3');
 

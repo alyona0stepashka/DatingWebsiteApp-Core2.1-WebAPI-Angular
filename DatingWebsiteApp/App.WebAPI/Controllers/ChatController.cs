@@ -94,12 +94,11 @@ namespace App.WebAPI.Controllers
                 var me_id = User.Claims.First(c => c.Type == "UserID").Value; 
                 var message = new ChatMessageSendVM { ChatId = Convert.ToInt32(formData["ChatId"]), ReceiverId = formData["ReceiverId"], Text = formData["Text"], UploadFiles = formData.Files };
                 await _chatService.SendSignalRService(message, me_id);
-                return Ok();
-                
+                return Ok();                
             }
             catch (Exception ex)
             {
-                return BadRequest("dd");
+                return BadRequest(ex.Message);
             }
         }
     }

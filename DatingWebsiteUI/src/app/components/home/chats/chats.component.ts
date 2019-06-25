@@ -25,6 +25,7 @@ export class ChatsComponent implements OnInit {
  
   chatList: ChatTab[] = new Array();
   // resList: ChatTab[] = new Array();
+  incomingMessage: MessageTab = new MessageTab();
   imageUrl = '/assets/img/no-image.png';
   submitted = false;
   isOpen = false;
@@ -65,24 +66,29 @@ export class ChatsComponent implements OnInit {
   
   public addSendListener() {
     this.signalRService.hubConnection.on('Send', (data) => {
-      this.signalRService.incomingMessage = data as MessageTab;
+      this.incomingMessage = data as MessageTab;
 
       let new_chat = new ChatTab();
-      new_chat.Id = this.signalRService.incomingMessage.ChatId;
-      if (this.signalRService.incomingMessage.Text.length<15){
-        new_chat.LastMessage = this.signalRService.incomingMessage.Text;
+      new_chat.Id = this.incomingMessage.ChatId;
+      if (this.incomingMessage.Text.length<15){
+        new_chat.LastMessage = this.incomingMessage.Text;
       } else {
-        new_chat.LastMessage = this.signalRService.incomingMessage.Text.substring(0, 14);
+        new_chat.LastMessage = this.incomingMessage.Text.substring(0, 14);
       }
-      new_chat.LastMessageDateTime = this.signalRService.incomingMessage.DateSend;
-      new_chat.LastSenderAvatarPath = this.signalRService.incomingMessage.SenderAvatarPath;
-      new_chat.Name = this.signalRService.incomingMessage.SenderName;
+      new_chat.LastMessageDateTime = this.incomingMessage.DateSend;
+      new_chat.LastSenderAvatarPath = this.incomingMessage.SenderAvatarPath;
+      new_chat.Name = this.incomingMessage.SenderName;
       new_chat.IsBlock = false;
       new_chat.HasNew = true;
 
+      const index = this.chatList.indexOf(this.chatList.find(m => m.Id == new_chat.Id));
+      if (index > -1) {
+        this.chatList.splice(index, 1);
+      }
       this.chatList.unshift(new_chat);
       // this.resetList();
-      this.signalRService.soundNotify.play();
+      // this.signalRService.soundNotify.load();
+      // this.signalRService.soundNotify.play();
       console.log(data);
     });
   }
