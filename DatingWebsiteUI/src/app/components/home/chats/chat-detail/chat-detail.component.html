@@ -42,7 +42,7 @@
     </div>
 <div *ngIf="!isBlock" class="row" style="width: 100%; margin-left: 1%">  
     <ngx-dropzone style="max-width: 89.5%; max-height: 48px; margin-left: 1%;" class="col-11" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
-    <button Title="Clear images" class="col-1" (click)="dropzone.reset()" ><i class="fas fa-trash-alt"></i></button> 
+    <button Title="Clear images" class="col-1" (click)="dropzone.reset(); onClearFiles();" ><i class="fas fa-trash-alt"></i></button> 
 </div>
 <div *ngIf="isBlock" style="margin-left: 2%;">
     <label><i class="fas fa-user-lock"></i>You are in blackList</label> 

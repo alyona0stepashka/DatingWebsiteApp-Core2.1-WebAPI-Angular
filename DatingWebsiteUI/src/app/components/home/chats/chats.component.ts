@@ -27,7 +27,8 @@ export class ChatsComponent implements OnInit {
   isOpen = false;
   isBlock = false;
   isOnline: any;
-  chatId: number = null; 
+  chatId: number = null;
+  ChatAvatar = ''; 
 
   constructor(private toastr: ToastrService,
               private formBuilder: FormBuilder,
@@ -141,6 +142,7 @@ export class ChatsComponent implements OnInit {
       let ch = this.chatList.find(m => m.Id == id);
       this.isBlock = ch.IsBlock;
       this.isOnline = ch.IsOnline;
+      this.ChatAvatar = ch.ChatIconPath;
       this.isOpen = true;  
       (async () => {  
         await this.delay(2500); 

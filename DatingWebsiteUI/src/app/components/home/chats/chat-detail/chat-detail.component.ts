@@ -18,6 +18,7 @@ export class ChatDetailComponent implements OnChanges {
   @Input() chatId: number;
   @Input() isOnline: any = null;
   @Input() isBlock: boolean;
+  @Input() ChatAvatar = '';
 
   messages: MessageTab[] = new Array();
   incomingMessage: MessageTab = new MessageTab();
@@ -48,7 +49,7 @@ export class ChatDetailComponent implements OnChanges {
 
     (async () => {  
       await this.delay(2500);
-      const new_mes = this.messages.filter(m=>m.IsNew);
+      const new_mes = this.messages.filter(m => m.IsNew && m.SenderAvatarPath == this.ChatAvatar);
       new_mes.forEach(m => { 
         document.getElementById(m.Id.toString()).style.backgroundColor = 'slategrey'; 
       }); 
@@ -57,6 +58,10 @@ export class ChatDetailComponent implements OnChanges {
 
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  onClearFiles() {
+    this.UploadFiles = new Array();
   }
 
   resetList() {
@@ -193,6 +198,7 @@ export class ChatDetailComponent implements OnChanges {
       }
     );
     this.messageText = '';
+    this.UploadFiles = new Array();
   }
 
   onFilesRejected(files: File[]) {

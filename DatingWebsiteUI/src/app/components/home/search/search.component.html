@@ -19,6 +19,7 @@
   <div  class="row form-group">
     <label>NetworkStatus</label>
     <select [(ngModel)]="searchData.NetworkStatus"  class="form-control form-control-sm" title="Sex...">
+        <option [value]="null">All</option>
         <option [value]="true">Online</option>
         <option [value]="false">Offline</option>
     </select>

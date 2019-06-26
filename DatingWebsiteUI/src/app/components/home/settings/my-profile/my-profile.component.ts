@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StaticService } from 'src/app/services/static.service';
 import { Static } from 'src/app/models/static.model';
 import { UserProfile } from 'src/app/models/user-profile.model';
+import { DatePipe } from '@angular/common'; 
 
 @Component({
   selector: 'app-my-profile',
@@ -18,6 +19,7 @@ export class MyProfileComponent implements OnInit {
               private service: UserService,
               private formBuilder: FormBuilder,
               private toastr: ToastrService,
+              public datepipe: DatePipe,
               private staticService: StaticService) { }
 
   UploadFile: File = null;
