@@ -1,6 +1,6 @@
 
 <br/>
-<div *ngIf="userId==0" class="row" style="width: 100%; margin-left: 1%; max-height: 46%;"> 
+<div *ngIf="userId==0" class="row" style="width: 100%; margin-left: 1%; max-height: 67%;"> 
     <!-- <input type="file" #Image accept="image/*" (change)="uploadPhoto($event.target.files)" class="form-control col-sm-6" placeholder="Photo..." />  -->
     <!-- <img [src]="imageUrl" style="max-height: 100px; max-width: 100px" class="col-sm-6"> -->
     <ngx-dropzone style="height: auto; max-height: 120px;" class="col-10" #dropzone [multiple]="true" [accept]="'image/*'" [maxFileSize]="5242880" [showPreviews]="true" (filesAdded)="onFilesAdded($event)" (filesRejected)="onFilesRejected($event)"></ngx-dropzone>
