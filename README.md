@@ -1,4 +1,5 @@
 # DatingWebsiteApp-Core2.1-WebAPI-Angular
+<i>MySql, .NET Core 2.1 WebAPI, Angular 7, SignalR, EF Core, Code First, MailKit, JWT, Swagger, LazyLoading</i>
 <br/>
 
 <img src="https://sun9-45.userapi.com/c857136/v857136119/137794/jhPGCHFSxWU.jpg"/>
